@@ -121,6 +121,7 @@ background-clip: text;
 -webkit-text-fill-color: transparent;
 text-fill-color: transparent;
 text-shadow: 0 0 10px rgba(189, 0, 255, 0.5);
+/* Animación eliminada */
 margin: 0;
 display: inline-block;
 line-height: 1.1;
@@ -886,6 +887,32 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 min-height: 80px;
+}
+.footer-brand {
+display: inline-flex;
+gap: 4px;
+align-items: center;
+margin-bottom: 0.2rem;
+/* Animación eliminada */
+}
+.footer-nexus {
+color: #bd00ff;
+font-family: 'Orbitron', sans-serif;
+font-weight: 900;
+font-size: 0.85rem;
+text-shadow: 0 0 8px rgba(189, 0, 255, 0.6);
+}
+.footer-zone {
+color: #00ff41;
+font-family: 'Orbitron', sans-serif;
+font-weight: 900;
+font-size: 0.85rem;
+text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+.footer-separator {
+color: #888;
+margin: 0 8px;
+font-size: 0.85rem;
 }
 .footer-credit {
 color: #888;
@@ -1777,6 +1804,10 @@ Emite: <div id='sonic_dj' class="cyber-glitch" data-text="" style="color: #00ff4
 </a>
 </div>
 <div class="copyright">
+<span class="footer-brand">
+<span class="footer-nexus">NEXUS</span><span class="footer-zone">ZONE</span>
+</span>
+<span class="footer-separator">|</span>
 <span class="footer-credit">BY DOBBY</span>
 </div>
 </footer>
