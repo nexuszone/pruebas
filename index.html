@@ -20,7 +20,8 @@ min-height: 100vh;
 display: flex;
 flex-direction: column;
 position: relative;
-touch-action: manipulation;
+touch-action: pan-y pinch-zoom;
+overscroll-behavior-y: contain;
 }
 /* ============================================ */
 /* IMAGEN DE FONDO */
@@ -39,6 +40,7 @@ background-repeat: no-repeat;
 pointer-events: none;
 filter: brightness(0.35) contrast(0.9);
 opacity: 0.5;
+will-change: transform;
 }
 .background-image::after {
 content: '';
@@ -65,6 +67,7 @@ linear-gradient(90deg, rgba(120, 120, 120, 0.15) 1px, transparent 1px);
 background-size: 40px 40px;
 animation: gridRandomMove 30s linear infinite;
 pointer-events: none;
+will-change: background-position;
 }
 @keyframes gridRandomMove {
 0% { background-position: 0 0; }
@@ -82,6 +85,7 @@ padding: 1rem 1.5rem;
 text-align: center;
 position: relative;
 z-index: 10;
+flex-shrink: 0;
 }
 .header-content {
 display: flex;
@@ -149,6 +153,7 @@ position: relative;
 z-index: 10;
 transition: background 0.05s ease, box-shadow 0.05s ease;
 box-shadow: 0 0 0 rgba(139, 139, 139, 0);
+flex-shrink: 0;
 }
 /* Contenido principal */
 .main-container {
@@ -158,6 +163,8 @@ padding: clamp(1rem, 3vw, 2rem);
 gap: clamp(1rem, 2vw, 2rem);
 position: relative;
 z-index: 1;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
 }
 .player-section {
 flex: 1;
@@ -754,6 +761,7 @@ transform-origin: bottom;
 position: relative;
 transition: height 0.03s ease-out;
 flex: 1;
+will-change: height, box-shadow, background;
 }
 .equalizer-container::after {
 content: '';
@@ -886,6 +894,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 min-height: 80px;
+flex-shrink: 0;
 }
 .footer-brand {
 display: inline-flex;
@@ -980,6 +989,7 @@ transition: right 0.3s ease-out;
 display: flex;
 flex-direction: column;
 font-family: 'Orbitron', sans-serif;
+-webkit-overflow-scrolling: touch;
 }
 .chat-panel.visible {
 right: 0;
@@ -1045,6 +1055,7 @@ background: transparent;
 position: relative;
 z-index: 0;
 display: block;
+touch-action: auto;
 }
 .chat-overlay {
 position: fixed;
@@ -1081,6 +1092,7 @@ display: flex;
 flex-direction: column;
 font-family: 'Orbitron', sans-serif;
 overflow: hidden;
+-webkit-overflow-scrolling: touch;
 }
 .staff-panel.visible {
 right: 0;
@@ -1133,6 +1145,7 @@ display: grid;
 grid-template-columns: repeat(2, 1fr);
 gap: 1.5rem;
 align-content: start;
+-webkit-overflow-scrolling: touch;
 }
 .staff-photo {
 width: 100%;
@@ -1839,7 +1852,7 @@ Emite: <div id='sonic_dj' class="cyber-glitch" data-text="" style="color: #00ff4
 <div class="chat-iframe-container">
 <script>
 const num = Math.floor(Math.random() * 1000);
-document.write(`<iframe src="https://chat.chatzona.org/index.html#nick=nexus_user${num}&channel=Nexus_Zone" width="100%" height="100%" frameborder="0" loading="lazy"></iframe>`);
+document.write(`<iframe src="https://chat.chatzona.org/index.html#nick=nexus_user${num}&channel=Nexus_Zone" width="100%" height="100%" frameborder="0" loading="lazy" allow="microphone"></iframe>`);
 </script>
 </div>
 </div>
@@ -1897,6 +1910,8 @@ let lastBeatTime = 0;
 const beatThreshold = 180;
 const colorChangeThreshold = 3;
 let beatCount = 0;
+let visualizerFrameCount = 0;
+const isMobile = window.innerWidth <= 768;
 audio.volume = 1.0;
 volumeSlider.value = 1.0;
 audio.crossOrigin = 'anonymous';
@@ -1934,11 +1949,15 @@ chatPanel.classList.remove('hidden');
 chatPanel.classList.add('visible');
 chatOverlay.classList.add('active');
 setTimeout(adjustChatIframeForMobile, 300);
+// Permitir scroll en el body cuando el chat está cerrado
+document.body.style.overflow = 'hidden';
 } else {
 chatPanel.classList.remove('visible');
 chatPanel.classList.add('hidden');
 chatOverlay.classList.remove('active');
 chatPanel.style.height = '';
+// Restaurar scroll en el body
+document.body.style.overflow = '';
 }
 }
 function initChatListeners() {
@@ -1989,6 +2008,7 @@ if (isStaffVisible) {
 staffPanel.classList.remove('hidden');
 staffPanel.classList.add('visible');
 staffOverlay.classList.add('active');
+document.body.style.overflow = 'hidden';
 if (!staffLoaded) {
 loadStaffImages();
 staffLoaded = true;
@@ -1997,6 +2017,7 @@ staffLoaded = true;
 staffPanel.classList.remove('visible');
 staffPanel.classList.add('hidden');
 staffOverlay.classList.remove('active');
+document.body.style.overflow = '';
 }
 }
 function initStaffListeners() {
@@ -2205,6 +2226,13 @@ ledBottom.style.boxShadow = '0 0 0 rgba(139, 139, 139, 0)';
 function visualize() {
 if (!isVisualizing || !analyzer || !isPlaying) {
 stopVisualizer();
+return;
+}
+// Optimización para móviles: reducir la frecuencia de actualización
+visualizerFrameCount++;
+const skipFrames = isMobile ? 2 : 0;
+if (skipFrames > 0 && visualizerFrameCount % skipFrames !== 0) {
+animationId = requestAnimationFrame(visualize);
 return;
 }
 analyzer.getByteFrequencyData(dataArray);
