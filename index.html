@@ -678,11 +678,11 @@ rgba(0, 255, 65, 0.2) 0%,
 rgba(0, 255, 65, 0.4) 50%,
 rgba(0, 255, 65, 0.2) 100%);
 transform: rotate(45deg);
-opacity: 0;
+opacity: 0.3;
 transition: opacity 0.3s;
 }
 .play-btn:hover::before {
-opacity: 0.3;
+opacity: 0.5;
 }
 .play-btn:hover {
 transform: translateY(-2px);
@@ -2257,6 +2257,7 @@ animationId = requestAnimationFrame(visualize);
 }
 function togglePlayPause() {
 if (!isPlaying) {
+// PLAY - Iniciar reproducción
 if (audio.src !== streamUrl) {
 audio.src = streamUrl;
 }
@@ -2280,7 +2281,7 @@ setupAudioGraph();
 }
 audio.play().then(() => {
 isPlaying = true;
-playPauseBtn.innerHTML = '❚❚';
+playPauseBtn.innerHTML = '■'; // Cambiar a icono de STOP
 playPauseBtn.classList.add('playing');
 startTapeAnimation();
 if (analyzer) {
@@ -2300,13 +2301,15 @@ errorMsg += error.message;
 alert(errorMsg);
 });
 } else {
+// STOP - Detener completamente la reproducción
 audio.pause();
+audio.src = ''; // Resetear la fuente de audio
 isPlaying = false;
-playPauseBtn.innerHTML = '▶';
+playPauseBtn.innerHTML = '▶'; // Cambiar a icono de PLAY
 playPauseBtn.classList.remove('playing');
 stopTapeAnimation();
 stopVisualizer();
-console.log("⏸ Reproducción pausada");
+console.log("⏹ Reproducción detenida completamente");
 }
 }
 function changeVolume() {
