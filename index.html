@@ -657,7 +657,7 @@ justify-content: center;
 align-items: center;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 1.3rem;
+font-size: 1.1rem;
 color: #00ff41;
 text-shadow: 0 0 8px rgba(0, 255, 65, 0.8);
 box-shadow:
@@ -665,24 +665,6 @@ box-shadow:
 inset 0 0 10px rgba(0, 0, 0, 0.5);
 transition: all 0.2s ease;
 z-index: 10;
-}
-.play-btn::before {
-content: '';
-position: absolute;
-top: -50%;
-left: -50%;
-width: 200%;
-height: 200%;
-background: linear-gradient(45deg,
-rgba(0, 255, 65, 0.2) 0%,
-rgba(0, 255, 65, 0.4) 50%,
-rgba(0, 255, 65, 0.2) 100%);
-transform: rotate(45deg);
-opacity: 0.3;
-transition: opacity 0.3s;
-}
-.play-btn:hover::before {
-opacity: 0.5;
 }
 .play-btn:hover {
 transform: translateY(-2px);
@@ -1935,14 +1917,12 @@ chatPanel.classList.remove('hidden');
 chatPanel.classList.add('visible');
 chatOverlay.classList.add('active');
 setTimeout(adjustChatIframeForMobile, 300);
-// Permitir scroll en el body cuando el chat está cerrado
 document.body.style.overflow = 'hidden';
 } else {
 chatPanel.classList.remove('visible');
 chatPanel.classList.add('hidden');
 chatOverlay.classList.remove('active');
 chatPanel.style.height = '';
-// Restaurar scroll en el body
 document.body.style.overflow = '';
 }
 }
@@ -2214,7 +2194,6 @@ if (!isVisualizing || !analyzer || !isPlaying) {
 stopVisualizer();
 return;
 }
-// Optimización para móviles: reducir la frecuencia de actualización
 visualizerFrameCount++;
 const skipFrames = isMobile ? 2 : 0;
 if (skipFrames > 0 && visualizerFrameCount % skipFrames !== 0) {
@@ -2257,7 +2236,6 @@ animationId = requestAnimationFrame(visualize);
 }
 function togglePlayPause() {
 if (!isPlaying) {
-// PLAY - Iniciar reproducción
 if (audio.src !== streamUrl) {
 audio.src = streamUrl;
 }
@@ -2281,7 +2259,7 @@ setupAudioGraph();
 }
 audio.play().then(() => {
 isPlaying = true;
-playPauseBtn.innerHTML = '■'; // Cambiar a icono de STOP
+playPauseBtn.innerHTML = '■';
 playPauseBtn.classList.add('playing');
 startTapeAnimation();
 if (analyzer) {
@@ -2301,11 +2279,10 @@ errorMsg += error.message;
 alert(errorMsg);
 });
 } else {
-// STOP - Detener completamente la reproducción
 audio.pause();
-audio.src = ''; // Resetear la fuente de audio
+audio.src = '';
 isPlaying = false;
-playPauseBtn.innerHTML = '▶'; // Cambiar a icono de PLAY
+playPauseBtn.innerHTML = '▶';
 playPauseBtn.classList.remove('playing');
 stopTapeAnimation();
 stopVisualizer();
