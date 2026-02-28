@@ -302,7 +302,7 @@ padding: 0 5px;
 letter-spacing: 1.5px;
 }
 /* ============================================ */
-/* EFECTO GLITCH CYBERPUNK */
+/* EFECTO GLITCH CYBERPUNK - ACTUALIZADO CASTLE */
 /* ============================================ */
 :root {
 --pink-neon: #bd00ff;
@@ -353,47 +353,47 @@ animation: glitch-chaos 1s 1, title-glow 2.5s ease-in-out infinite alternate;
 }
 @keyframes glitch-shift-1 {
 0%, 100% { clip-path: inset(2px 0 11px 0); transform: translate(0, 0) rotate(0); }
-6%  { clip-path: inset(0px 0 15px 0); transform: translate(-3px, 2px) rotate(1deg); }
-12% { clip-path: inset(6px 0 6px 0); transform: translate(3px, -2px) rotate(-1deg) scaleX(1.02); }
-18% { clip-path: inset(1px 0 13px 0); transform: translate(-2px, 3px) rotate(1.5deg); }
-24% { clip-path: inset(4px 0 9px 0); transform: translate(2px, -1px) skewX(1.5deg); }
-30% { clip-path: inset(3px 0 10px 0); transform: translate(-2px, 1px) scaleX(0.98); }
+6%  { clip-path: inset(0px 0 15px 0); transform: translate(-5px, 3px) rotate(1.5deg); }
+12% { clip-path: inset(6px 0 6px 0); transform: translate(5px, -3px) rotate(-1.2deg) scaleX(1.03); }
+18% { clip-path: inset(1px 0 13px 0); transform: translate(-4px, 4px) rotate(2deg); }
+24% { clip-path: inset(4px 0 9px 0); transform: translate(4px, -2px) skewX(2deg); }
+30% { clip-path: inset(3px 0 10px 0); transform: translate(-3px, 1px) scaleX(0.97); }
 }
 @keyframes glitch-shift-2 {
 0%, 100% { clip-path: inset(10px 0 3px 0); transform: translate(0, 0) rotate(0); }
-10% { clip-path: inset(6px 0 7px 0); transform: translate(3px, -3px) rotate(-1.5deg) scaleY(1.03); }
-20% { clip-path: inset(14px 0 -1px 0); transform: translate(-3px, 2px) rotate(1.2deg); }
-30% { clip-path: inset(4px 0 9px 0); transform: translate(-2px, -3px) skewY(2deg); }
-40% { clip-path: inset(12px 0 1px 0); transform: translate(2px, 1px) scaleX(1.03); }
-50% { clip-path: inset(8px 0 5px 0); transform: translate(0, -1px); }
+10% { clip-path: inset(6px 0 7px 0); transform: translate(5px, -4px) rotate(-2deg) scaleY(1.05); }
+20% { clip-path: inset(14px 0 -1px 0); transform: translate(-5px, 3px) rotate(1.8deg); }
+30% { clip-path: inset(4px 0 9px 0); transform: translate(-3px, -4px) skewY(3deg); }
+40% { clip-path: inset(12px 0 1px 0); transform: translate(4px, 2px) scaleX(1.04); }
+50% { clip-path: inset(8px 0 5px 0); transform: translate(0, -2px); }
 }
 @keyframes glitch-flash {
 0%   { text-shadow: 0 0 8px var(--pink-neon), 0 0 15px var(--green-neon); opacity: 1; }
-15%  { text-shadow: 0 0 24px var(--green-neon), 0 0 38px var(--pink-neon); }
-30%  { text-shadow: 0 0 28px var(--pink-neon), 0 0 42px var(--green-neon); }
-45%  { text-shadow: 0 0 0 transparent; opacity: 0.3; }
-60%  { text-shadow: 0 0 30px var(--green-neon), 0 0 46px var(--pink-neon); opacity: 1; }
-100% { text-shadow: 0 0 8px var(--pink-neon), 0 0 15px var(--green-neon); opacity: 1; }
+15%  { text-shadow: 0 0 24px rgba(0, 255, 255, 1.0), 0 0 38px rgba(0, 247, 255, 1.0); }
+30%  { text-shadow: 0 0 28px rgba(255, 0, 200, 0.9), 0 0 42px rgba(5, 255, 160, 0.8); }
+45%  { text-shadow: 0 0 0 transparent; opacity: 0.2; }
+60%  { text-shadow: 0 0 30px rgba(0, 255, 255, 1.0), 0 0 46px rgba(255, 0, 200, 0.8); opacity: 1; }
+100% { text-shadow: none; opacity: 1; }
 }
 @keyframes glitch-pulse {
-0%   { text-shadow: 0 0 8px var(--pink-neon), 0 0 15px var(--green-neon); }
-25%  { text-shadow: 0 0 26px var(--green-neon), 0 0 40px var(--pink-neon); }
-50%  { text-shadow: 0 0 0 transparent; opacity: 0.2; }
-75%  { text-shadow: 0 0 32px var(--pink-neon), 0 0 50px var(--green-neon); }
-100% { text-shadow: 0 0 8px var(--pink-neon), 0 0 15px var(--green-neon); opacity: 1; }
+0%   { text-shadow: 0 0 10px var(--pink-neon); }
+25%  { text-shadow: 0 0 26px rgba(0, 255, 255, 1.0), 0 0 40px rgba(0, 247, 255, 0.95); }
+50%  { text-shadow: 0 0 0 transparent; opacity: 0.1; }
+75%  { text-shadow: 0 0 32px rgba(5, 255, 160, 0.9), 0 0 50px rgba(255, 0, 200, 0.7); }
+100% { text-shadow: none; opacity: 1; }
 }
 @keyframes glitch-chaos {
-0%   { text-shadow: 0 0 8px var(--pink-neon), 0 0 15px var(--green-neon); transform: translate(0,0) rotate(0); }
-10%  { text-shadow: 0 0 28px var(--green-neon); transform: translate(-3px, 1px) rotate(1.5deg); }
-20%  { text-shadow: 0 0 0 transparent; opacity: 0.1; transform: translate(0,0); }
-30%  { text-shadow: 0 0 34px var(--pink-neon); transform: translate(3px, -2px) skewX(3deg); }
-40%  { text-shadow: 0 0 0 transparent; opacity: 0.15; }
-50%  { text-shadow: 0 0 40px var(--green-neon); transform: translate(-2px, 3px) scaleX(1.04); }
-60%  { text-shadow: 0 0 0 transparent; opacity: 0.1; }
-70%  { text-shadow: 0 0 36px var(--pink-neon); transform: translate(1px, -1px) rotate(-2deg); }
-80%  { text-shadow: 0 0 0 transparent; opacity: 0.25; }
-90%  { text-shadow: 0 0 30px var(--green-neon); }
-100% { text-shadow: 0 0 8px var(--pink-neon), 0 0 15px var(--green-neon); transform: translate(0,0) rotate(0); opacity: 1; }
+0%   { text-shadow: 0 0 10px var(--pink-neon); transform: translate(0,0) rotate(0); }
+10%  { text-shadow: 0 0 28px rgba(0, 255, 255, 1.0); transform: translate(-4px, 2px) rotate(2deg); }
+20%  { text-shadow: 0 0 0 transparent; opacity: 0.05; transform: translate(0,0); }
+30%  { text-shadow: 0 0 34px rgba(255, 0, 200, 0.9); transform: translate(5px, -3px) skewX(4deg); }
+40%  { text-shadow: 0 0 0 transparent; opacity: 0.1; }
+50%  { text-shadow: 0 0 40px rgba(5, 255, 160, 0.95); transform: translate(-3px, 4px) scaleX(1.05); }
+60%  { text-shadow: 0 0 0 transparent; opacity: 0.05; }
+70%  { text-shadow: 0 0 36px rgba(0, 247, 255, 1.0); transform: translate(2px, -2px) rotate(-3deg); }
+80%  { text-shadow: 0 0 0 transparent; opacity: 0.2; }
+90%  { text-shadow: 0 0 30px rgba(0, 255, 255, 0.9); }
+100% { text-shadow: none; transform: translate(0,0) rotate(0); opacity: 1; }
 }
 @keyframes title-glow {
 from { text-shadow: 0 0 8px rgba(189, 0, 255, 0.9), 0 0 15px rgba(0, 255, 65, 0.7); }
@@ -1851,6 +1851,62 @@ const colorChangeThreshold = 3;
 let beatCount = 0;
 let visualizerFrameCount = 0;
 const isMobile = window.innerWidth <= 768;
+
+// ============================================
+// GLITCH SYSTEM - CASTLE CONFIGURATION
+// ============================================
+let lastGlitchTime = 0;
+let periodicGlitchInterval = null;
+let randomGlitchInterval = null;
+
+function triggerGlitch(element) {
+  if (!element || !element.classList.contains('cyber-glitch')) return;
+  const now = Date.now();
+  if ((now - lastGlitchTime) < 3000) return;
+  lastGlitchTime = now;
+
+  const text = element.textContent.trim() || element.getAttribute('data-text') || '';
+  element.setAttribute('data-text', text);
+
+  const r = Math.random();
+  let effect = 'pulse';
+  if (r < 0.3) effect = 'flash';
+  else if (r < 0.4) effect = 'chaos';
+
+  element.classList.add(effect);
+  setTimeout(() => element.classList.remove(effect), 1000);
+}
+
+function startPeriodicGlitch() {
+  if (periodicGlitchInterval) clearInterval(periodicGlitchInterval);
+  periodicGlitchInterval = setInterval(() => {
+    if (isPlaying) {
+      triggerGlitch(sonicTitle);
+      triggerGlitch(sonicDj);
+    }
+  }, 15000);
+}
+
+function startRandomGlitch() {
+  if (randomGlitchInterval) clearTimeout(randomGlitchInterval);
+  const next = 5000 + Math.random() * 7000;
+  randomGlitchInterval = setTimeout(() => {
+    if (isPlaying) {
+      triggerGlitch(sonicTitle);
+      triggerGlitch(sonicDj);
+      startRandomGlitch();
+    }
+  }, next);
+}
+
+function stopAllGlitches() {
+  if (periodicGlitchInterval) clearInterval(periodicGlitchInterval);
+  if (randomGlitchInterval) clearTimeout(randomGlitchInterval);
+  periodicGlitchInterval = null;
+  randomGlitchInterval = null;
+}
+// ============================================
+
 audio.volume = 1.0;
 volumeSlider.value = 1.0;
 audio.crossOrigin = 'anonymous';
@@ -1975,17 +2031,6 @@ if (element && element.classList.contains('cyber-glitch')) {
 element.setAttribute('data-text', element.textContent.trim());
 }
 }
-function triggerRandomGlitch(element) {
-if (!element || !element.classList.contains('cyber-glitch')) return;
-const effects = ['flash', 'pulse', 'chaos'];
-const randomEffect = effects[Math.floor(Math.random() * effects.length)];
-element.classList.remove('flash', 'pulse', 'chaos');
-void element.offsetWidth;
-element.classList.add(randomEffect);
-setTimeout(() => {
-element.classList.remove(randomEffect);
-}, 1000);
-}
 function sanitizeDjName(djName) {
 return djName.toLowerCase()
 .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -2018,9 +2063,6 @@ function setupGlitchObservers() {
 if (sonicTitle) {
 const titleObserver = new MutationObserver(() => {
 updateGlitchDataText(sonicTitle);
-if (Math.random() < 0.3) {
-triggerRandomGlitch(sonicTitle);
-}
 });
 titleObserver.observe(sonicTitle, { childList: true, characterData: true, subtree: true });
 updateGlitchDataText(sonicTitle);
@@ -2029,9 +2071,6 @@ if (sonicDj) {
 const djObserver = new MutationObserver(() => {
 updateGlitchDataText(sonicDj);
 checkAndUpdateDjImage();
-if (Math.random() < 0.3) {
-triggerRandomGlitch(sonicDj);
-}
 });
 djObserver.observe(sonicDj, { childList: true, characterData: true, subtree: true });
 updateGlitchDataText(sonicDj);
@@ -2214,6 +2253,9 @@ if (analyzer) {
 startVisualizer();
 console.log("✓ Visualizador iniciado - Ecualizador activo");
 }
+// ✅ INICIAR GLITCHES CASTLE
+startPeriodicGlitch();
+startRandomGlitch();
 }).catch(error => {
 console.error("✗ Error de reproducción:", error);
 let errorMsg = 'Error al reproducir: ';
@@ -2234,6 +2276,8 @@ playPauseBtn.innerHTML = '▶';
 playPauseBtn.classList.remove('playing');
 stopTapeAnimation();
 stopVisualizer();
+// ✅ DETENER GLITCHES
+stopAllGlitches();
 console.log("⏹ Reproducción detenida completamente");
 }
 }
@@ -2278,6 +2322,7 @@ playPauseBtn.innerHTML = '▶';
 playPauseBtn.classList.remove('playing');
 stopTapeAnimation();
 stopVisualizer();
+stopAllGlitches();
 console.log("⏹ Reproducción finalizada");
 });
 audio.addEventListener('pause', () => {
@@ -2287,6 +2332,7 @@ playPauseBtn.innerHTML = '▶';
 playPauseBtn.classList.remove('playing');
 stopTapeAnimation();
 stopVisualizer();
+stopAllGlitches();
 }
 });
 audio.addEventListener('error', (e) => {
@@ -2297,6 +2343,7 @@ isPlaying = false;
 playPauseBtn.innerHTML = '▶';
 playPauseBtn.classList.remove('playing');
 stopTapeAnimation();
+stopAllGlitches();
 alert('Error crítico en el stream. Verifica tu conexión o intenta más tarde.');
 }
 });
