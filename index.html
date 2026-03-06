@@ -72,7 +72,7 @@ pointer-events: none;
 /* ============================================ */
 header {
 background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-padding: 1rem 1.5rem;
+padding: clamp(0.5rem, 2vw, 1.5rem);
 text-align: center;
 position: relative;
 z-index: 10;
@@ -88,13 +88,13 @@ position: relative;
 }
 .header-logo {
 position: absolute;
-left: 1.5rem;
+left: clamp(0.5rem, 2vw, 1.5rem);
 top: 50%;
 transform: translateY(-50%);
-height: 100%;
-max-height: 100px;
+height: auto;
+max-height: clamp(45px, 10vw, 100px);
 width: auto;
-max-width: 200px;
+max-width: clamp(100px, 20vw, 200px);
 object-fit: contain;
 z-index: 11;
 filter: drop-shadow(0 0 8px rgba(189, 0, 255, 0.6));
@@ -107,7 +107,7 @@ transform: translateY(-50%) scale(1.05);
 h1 {
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: clamp(1.3rem, 3.5vw, 2.5rem);
+font-size: clamp(1.2rem, 4vw, 2.5rem);
 letter-spacing: 3px;
 text-transform: uppercase;
 background: linear-gradient(to right, #bd00ff, #00ff41);
@@ -123,7 +123,7 @@ line-height: 1.1;
 .header-subtitle {
 font-family: 'Orbitron', sans-serif;
 font-weight: 700;
-font-size: clamp(0.7rem, 1.5vw, 1rem);
+font-size: clamp(0.6rem, 1.5vw, 1rem);
 letter-spacing: 2px;
 text-transform: uppercase;
 background: linear-gradient(to right, #00ff41, #00cc33);
@@ -138,7 +138,7 @@ line-height: 1.1;
 }
 .led-strip-top,
 .led-strip-bottom {
-height: 8px;
+height: clamp(6px, 1.5vw, 8px);
 background: #8b8b8b;
 position: relative;
 z-index: 10;
@@ -150,18 +150,22 @@ flex-shrink: 0;
 .main-container {
 display: flex;
 flex: 1;
-padding: clamp(1rem, 3vw, 2rem);
-gap: clamp(1rem, 2vw, 2rem);
+padding: clamp(0.8rem, 3vw, 2rem);
+gap: clamp(0.8rem, 2vw, 2rem);
 position: relative;
 z-index: 1;
 overflow-y: auto;
 -webkit-overflow-scrolling: touch;
+flex-wrap: wrap;
+justify-content: center;
 }
 .player-section {
 flex: 1;
+min-width: 280px;
+max-width: 600px;
 background: transparent;
 border-radius: 10px;
-padding: clamp(1rem, 2vw, 2rem);
+padding: clamp(0.8rem, 2vw, 2rem);
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -169,9 +173,11 @@ align-items: center;
 }
 .dj-section {
 flex: 1;
+min-width: 280px;
+max-width: 450px;
 background: transparent;
 border-radius: 10px;
-padding: clamp(1rem, 2vw, 2rem);
+padding: clamp(0.8rem, 2vw, 2rem);
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -180,7 +186,7 @@ align-items: center;
 .section-title {
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: clamp(1rem, 1.8vw, 1.4rem);
+font-size: clamp(1rem, 2vw, 1.4rem);
 margin-bottom: 1.5rem;
 text-align: center;
 text-transform: uppercase;
@@ -196,14 +202,14 @@ padding-bottom: 0.5rem;
 }
 /* Cassette Player */
 .cassette-player {
-width: 95%;
+width: 100%;
 max-width: 575px;
 height: auto;
-min-height: 340px;
+min-height: clamp(260px, 50vw, 340px);
 background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
 border: 3px solid #8b8b8b;
 border-radius: 20px;
-padding: 1.5rem;
+padding: clamp(1rem, 2vw, 1.5rem);
 position: relative;
 overflow: hidden;
 display: flex;
@@ -224,8 +230,8 @@ opacity: 0.8;
 /* ============================================ */
 .cassette-screw {
 position: absolute;
-width: 20px;
-height: 20px;
+width: clamp(15px, 3vw, 20px);
+height: clamp(15px, 3vw, 20px);
 border-radius: 50%;
 background: radial-gradient(circle at 30% 30%, rgba(85, 85, 85, 0.5) 0%, rgba(42, 42, 42, 0.4) 40%, rgba(26, 26, 26, 0.3) 70%, rgba(10, 10, 10, 0.2) 100%);
 border: 2px solid rgba(102, 102, 102, 0.5);
@@ -241,27 +247,27 @@ position: absolute;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
-width: 10px;
-height: 3px;
+width: clamp(8px, 2vw, 10px);
+height: clamp(2px, 0.5vw, 3px);
 background: rgba(51, 51, 51, 0.6);
 border-radius: 1px;
 box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 .cassette-screw.top-left {
-top: 12px;
-left: 12px;
+top: clamp(10px, 2vw, 12px);
+left: clamp(10px, 2vw, 12px);
 }
 .cassette-screw.top-right {
-top: 12px;
-right: 12px;
+top: clamp(10px, 2vw, 12px);
+right: clamp(10px, 2vw, 12px);
 }
 .cassette-screw.bottom-left {
-bottom: 12px;
-left: 12px;
+bottom: clamp(10px, 2vw, 12px);
+left: clamp(10px, 2vw, 12px);
 }
 .cassette-screw.bottom-right {
-bottom: 12px;
-right: 12px;
+bottom: clamp(10px, 2vw, 12px);
+right: clamp(10px, 2vw, 12px);
 }
 /* Fondo difuminado de la portada */
 .album-art-bg {
@@ -283,7 +289,7 @@ height: 100%;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-gap: 15px;
+gap: clamp(10px, 2vw, 15px);
 }
 .song-info {
 width: 100%;
@@ -292,7 +298,7 @@ margin-bottom: 5px;
 color: #00ff41;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: clamp(1rem, 1.8vw, 1.4rem);
+font-size: clamp(0.9rem, 2vw, 1.4rem);
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.8), 0 0 20px rgba(189, 0, 255, 0.7);
 min-height: 30px;
 display: flex;
@@ -403,7 +409,7 @@ to { text-shadow: 0 0 12px rgba(189, 0, 255, 1), 0 0 25px rgba(0, 255, 65, 0.9),
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
 word-break: break-word;
-font-size: clamp(1rem, 1.8vw, 1.4rem);
+font-size: clamp(0.9rem, 2vw, 1.4rem);
 text-align: center;
 letter-spacing: 1.5px;
 }
@@ -411,7 +417,7 @@ letter-spacing: 1.5px;
 text-transform: none !important;
 }
 /* ============================================ */
-/* CONTENEDOR DE CARRETES Y CONTROLES (50% TRANSPARENTE) */
+/* CONTENEDOR DE CARRETES Y CONTROLES */
 /* ============================================ */
 .cassette-tapes {
 display: flex;
@@ -419,12 +425,11 @@ justify-content: center;
 align-items: center;
 flex-shrink: 0;
 position: relative;
-height: 140px;
+height: clamp(90px, 25vw, 140px);
 margin-top: 5px;
 width: 100%;
-padding: 0 10px;
-gap: 25px;
-/* 50% transparente */
+padding: 0 clamp(5px, 2vw, 10px);
+gap: clamp(8px, 3vw, 25px);
 background: rgba(0, 0, 0, 0.5);
 border-radius: 80px;
 border: 2px solid rgba(139, 139, 139, 0.3);
@@ -434,14 +439,13 @@ inset 0 0 15px rgba(0, 0, 0, 0.3),
 margin-left: auto;
 margin-right: auto;
 max-width: 420px;
-/* PREVENIR DESBORDAMIENTO */
 overflow: hidden;
 flex-wrap: nowrap;
 }
 .tape-reel {
-width: 85px;
-height: 85px;
-border: 4px solid #8b8b8b;
+width: clamp(58px, 15vw, 85px);
+height: clamp(58px, 15vw, 85px);
+border: clamp(3px, 1vw, 4px) solid #8b8b8b;
 border-radius: 50%;
 background: radial-gradient(circle at center,
 #333 0%,
@@ -460,9 +464,8 @@ inset 0 0 10px rgba(0, 0, 0, 0.8),
 animation: subtleSpin 15s linear infinite;
 flex-shrink: 0;
 aspect-ratio: 1 / 1;
-/* PREVENIR DESBORDAMIENTO */
-min-width: 85px;
-max-width: 85px;
+min-width: clamp(58px, 15vw, 85px);
+max-width: clamp(58px, 15vw, 85px);
 }
 @keyframes subtleSpin {
 0% { transform: rotate(0deg); }
@@ -471,9 +474,9 @@ max-width: 85px;
 .tape-reel::before {
 content: '';
 position: absolute;
-width: 60px;
-height: 60px;
-border: 3px solid #8b8b8b;
+width: 70%;
+height: 70%;
+border: clamp(2px, 0.8vw, 3px) solid #8b8b8b;
 border-radius: 50%;
 background: radial-gradient(circle at center,
 #444 0%,
@@ -486,9 +489,9 @@ inset 0 0 8px rgba(0, 0, 0, 0.7),
 .tape-reel::after {
 content: '';
 position: absolute;
-width: 28px;
-height: 28px;
-border: 2px solid #8b8b8b;
+width: 33%;
+height: 33%;
+border: clamp(1.5px, 0.5vw, 2px) solid #8b8b8b;
 border-radius: 50%;
 background: #555;
 box-shadow:
@@ -498,8 +501,8 @@ z-index: 2;
 }
 .tape-reel span {
 position: absolute;
-width: 8px;
-height: 25px;
+width: clamp(4px, 1vw, 8px);
+height: clamp(15px, 4vw, 25px);
 background: #8b8b8b;
 border-radius: 4px;
 z-index: 1;
@@ -598,10 +601,10 @@ animation: fastSpin 4s linear infinite;
 100% { transform: rotate(720deg); }
 }
 .cassette-center {
-width: 170px;
-height: 118px;
+width: clamp(110px, 30vw, 170px);
+height: clamp(80px, 22vw, 118px);
 background: #1a1a1a;
-border: 3px solid #8b8b8b;
+border: clamp(2px, 0.8vw, 3px) solid #8b8b8b;
 border-radius: 8px;
 position: relative;
 display: flex;
@@ -614,9 +617,8 @@ box-shadow:
 inset 0 0 15px rgba(0, 0, 0, 0.7),
 0 0 8px rgba(139, 139, 139, 0.4);
 overflow: hidden;
-/* PREVENIR DESBORDAMIENTO */
-min-width: 170px;
-max-width: 170px;
+min-width: clamp(110px, 30vw, 170px);
+max-width: clamp(110px, 30vw, 170px);
 }
 .cassette-center::before {
 content: '';
@@ -644,10 +646,10 @@ z-index: 6;
 padding: 5px 0;
 }
 .play-btn {
-width: 85px;
-height: 33px;
+width: clamp(52px, 12vw, 85px);
+height: clamp(21px, 5vw, 33px);
 background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-border: 3px solid #00ff41;
+border: clamp(2px, 0.8vw, 3px) solid #00ff41;
 border-radius: 6px;
 cursor: pointer;
 position: relative;
@@ -657,7 +659,7 @@ justify-content: center;
 align-items: center;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 1.1rem;
+font-size: clamp(0.9rem, 2vw, 1.1rem);
 color: #00ff41;
 text-shadow: 0 0 8px rgba(0, 255, 65, 0.8);
 box-shadow:
@@ -710,7 +712,7 @@ padding-bottom: 8px;
 }
 .equalizer-container {
 width: 100%;
-height: 28px;
+height: clamp(17px, 5vw, 28px);
 display: flex;
 justify-content: space-between;
 align-items: flex-end;
@@ -720,7 +722,7 @@ gap: 4px;
 padding: 0 5px;
 }
 .bar {
-width: 6px;
+width: clamp(4px, 1vw, 6px);
 height: 2px;
 background: linear-gradient(to top, #00ff41, #bd00ff);
 border-radius: 2px 2px 0 0;
@@ -750,12 +752,12 @@ opacity: 0.7;
 /* Volume Control */
 .volume-control {
 width: 100%;
-max-width: 402.5px;
+max-width: 100%;
 margin: 0 auto;
 flex-shrink: 0;
 z-index: 3;
 background: rgba(20, 20, 20, 0.85);
-padding: 12px;
+padding: clamp(10px, 2vw, 12px);
 border-radius: 10px;
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
@@ -767,7 +769,7 @@ margin-bottom: 8px;
 color: #00ff41;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 0.85rem;
+font-size: clamp(0.75rem, 1.5vw, 0.85rem);
 text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
 }
 .volume-slider {
@@ -794,11 +796,10 @@ inset 0 0 5px rgba(0, 0, 0, 0.5);
 border: 2px solid #000;
 }
 /* ============================================ */
-/* IMAGEN DEL DJ - NUEVO ESTILO */
+/* IMAGEN DEL DJ */
 /* ============================================ */
 #dj-profile-img {
-width: 100%;
-max-width: 412.125px;
+width: clamp(177px, 40vw, 412px);
 height: auto;
 aspect-ratio: 1 / 1;
 border-radius: 50%;
@@ -811,6 +812,7 @@ box-shadow:
 animation: dj-breathing 3s ease-in-out infinite;
 display: block;
 margin: 0 auto;
+max-width: 100%;
 }
 @keyframes dj-breathing {
 0%, 100% {
@@ -829,7 +831,7 @@ box-shadow:
 }
 }
 #sonic_dj.cyber-glitch {
-font-size: clamp(1rem, 1.8vw, 1.4rem);
+font-size: clamp(0.9rem, 2vw, 1.4rem);
 margin-left: 10px;
 display: inline-block;
 vertical-align: middle;
@@ -837,7 +839,7 @@ vertical-align: middle;
 /* Pie de página */
 footer {
 background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-padding: 0.3rem;
+padding: clamp(0.2rem, 1vw, 0.3rem);
 text-align: center;
 position: relative;
 overflow: hidden;
@@ -846,7 +848,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-min-height: 80px;
+min-height: clamp(70px, 15vh, 80px);
 flex-shrink: 0;
 }
 .footer-brand {
@@ -854,43 +856,45 @@ display: inline-flex;
 gap: 4px;
 align-items: center;
 margin-bottom: 0.2rem;
+flex-wrap: wrap;
+justify-content: center;
 }
 .footer-nexus {
 color: #bd00ff;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 0.85rem;
+font-size: clamp(0.75rem, 1.5vw, 0.85rem);
 text-shadow: 0 0 8px rgba(189, 0, 255, 0.6);
 }
 .footer-zone {
 color: #00ff41;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 0.85rem;
+font-size: clamp(0.75rem, 1.5vw, 0.85rem);
 text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
 }
 .footer-separator {
 color: #888;
 margin: 0 8px;
-font-size: 0.85rem;
+font-size: clamp(0.75rem, 1.5vw, 0.85rem);
 }
 .footer-credit {
 color: #888;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 0.85rem;
+font-size: clamp(0.75rem, 1.5vw, 0.85rem);
 }
 .social-links {
 display: flex;
 justify-content: center;
-gap: 1.2rem;
+gap: clamp(0.8rem, 2vw, 1.2rem);
 margin-bottom: 0.2rem;
 flex-wrap: wrap;
 }
 .social-link {
 display: inline-flex;
-width: 35px;
-height: 35px;
+width: clamp(32px, 7vw, 35px);
+height: clamp(32px, 7vw, 35px);
 border-radius: 50%;
 background: linear-gradient(135deg, #00ff41, #bd00ff);
 align-items: center;
@@ -899,7 +903,7 @@ text-decoration: none;
 color: white;
 font-family: 'Orbitron', sans-serif;
 font-weight: 900;
-font-size: 1.1rem;
+font-size: clamp(1rem, 2vw, 1.1rem);
 transition: all 0.3s ease;
 box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
 cursor: pointer;
@@ -921,7 +925,7 @@ fill: #0f0f0f;
 color: #666;
 font-family: 'Orbitron', sans-serif;
 font-weight: 400;
-font-size: 0.6rem;
+font-size: clamp(0.6rem, 1.2vw, 0.7rem);
 margin-top: 0.2rem;
 }
 /* ============================================ */
@@ -930,8 +934,9 @@ margin-top: 0.2rem;
 .chat-panel {
 position: fixed;
 top: 0;
-right: -50vw;
-width: 50vw;
+right: -100%;
+width: 100%;
+max-width: 50vw;
 height: 100vh;
 height: 100dvh;
 background: #0a0a0a;
@@ -958,7 +963,7 @@ flex-shrink: 0;
 }
 .chat-header h3 {
 color: #00ff41;
-font-size: clamp(1rem, 1.5vw, 1.1rem);
+font-size: clamp(1rem, 2vw, 1.1rem);
 text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
 margin: 0;
 }
@@ -1032,8 +1037,9 @@ visibility: visible;
 .staff-panel {
 position: fixed;
 top: 0;
-right: -50vw;
-width: 50vw;
+right: -100%;
+width: 100%;
+max-width: 50vw;
 height: 100vh;
 height: 100dvh;
 background: #0a0a0a;
@@ -1064,7 +1070,7 @@ flex-shrink: 0;
 }
 .staff-header h3 {
 color: #bd00ff;
-font-size: clamp(1rem, 1.5vw, 1.1rem);
+font-size: clamp(1rem, 2vw, 1.1rem);
 text-shadow: 0 0 8px rgba(189, 0, 255, 0.6);
 margin: 0;
 }
@@ -1095,7 +1101,7 @@ flex: 1;
 overflow-y: auto;
 padding: 1.5rem;
 display: grid;
-grid-template-columns: repeat(2, 1fr);
+grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 gap: 1.5rem;
 align-content: start;
 -webkit-overflow-scrolling: touch;
@@ -1140,543 +1146,47 @@ opacity: 1;
 visibility: visible;
 }
 /* ============================================ */
-/* RESPONSIVE */
+/* RESPONSIVE - SOLO 2 BREAKPOINTS PRINCIPALES */
 /* ============================================ */
-@media (min-width: 2560px) {
-.cassette-player { max-width: 650px !important; }
-.header-logo { max-height: 120px; max-width: 250px; }
-}
-@media (min-width: 1920px) and (max-width: 2559px) {
-.cassette-player { max-width: 600px !important; }
-.header-logo { max-height: 110px; max-width: 230px; }
-}
-@media (max-width: 1920px) and (min-width: 1601px) and (max-height: 1080px) {
-header { padding: 0.8rem 1.2rem; }
-h1 { font-size: clamp(1.2rem, 3vw, 2.2rem); }
-.header-subtitle { font-size: clamp(0.65rem, 1.3vw, 0.9rem); }
-.main-container { padding: 1.5rem; gap: 1.5rem; }
-.player-section, .dj-section { padding: 1.2rem; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); margin-bottom: 1.2rem; }
-.cassette-player { max-width: 560px; min-height: 330px; padding: 1.3rem; }
-.cassette-tapes { height: 135px; gap: 23px; padding: 0 9px; }
-.tape-reel { width: 82px; height: 82px; min-width: 82px; max-width: 82px; }
-.tape-reel::before { width: 58px; height: 58px; }
-.tape-reel::after { width: 27px; height: 27px; }
-.tape-reel span { width: 7.5px; height: 24px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(22px, -5px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(22px, -5px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(22px, -5px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(22px, -5px); }
-.cassette-center { width: 165px; height: 115px; min-width: 165px; max-width: 165px; }
-.play-btn { width: 82px; height: 32px; font-size: 1.25rem; }
-.equalizer-container { height: 27px; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 29px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.volume-control { padding: 11px; }
-.volume-label { font-size: 0.85rem; margin-bottom: 7px; }
-#dj-profile-img { max-width: 380px; }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.3rem; min-height: 80px; }
-.social-link { width: 35px; height: 35px; font-size: 1.1rem; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.led-strip-top, .led-strip-bottom { height: 7px; }
-.cassette-screw { width: 19px; height: 19px; }
-.header-logo { max-height: 100px; max-width: 200px; left: 1.2rem; }
-}
-@media (max-width: 1600px) and (min-width: 1441px) and (max-height: 900px) {
-header { padding: 0.8rem 1.1rem; }
-h1 { font-size: clamp(1.2rem, 3vw, 2rem); }
-.header-subtitle { font-size: clamp(0.65rem, 1.3vw, 0.85rem); }
-.main-container { padding: 1.3rem; gap: 1.3rem; }
-.player-section, .dj-section { padding: 1.1rem; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); margin-bottom: 1.1rem; }
-.cassette-player { max-width: 530px; min-height: 320px; padding: 1.2rem; }
-.cassette-tapes { height: 130px; gap: 22px; padding: 0 9px; }
-.tape-reel { width: 80px; height: 80px; min-width: 80px; max-width: 80px; }
-.tape-reel::before { width: 56px; height: 56px; }
-.tape-reel::after { width: 26px; height: 26px; }
-.tape-reel span { width: 7px; height: 23px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(21px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(21px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(21px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(21px, -4px); }
-.cassette-center { width: 160px; height: 112px; min-width: 160px; max-width: 160px; }
-.play-btn { width: 80px; height: 31px; font-size: 1.2rem; }
-.equalizer-container { height: 26px; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 28px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.volume-control { padding: 11px; }
-.volume-label { font-size: 0.85rem; margin-bottom: 7px; }
-#dj-profile-img { max-width: 350px; }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.3rem; min-height: 80px; }
-.social-link { width: 35px; height: 35px; font-size: 1.1rem; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.led-strip-top, .led-strip-bottom { height: 7px; }
-.cassette-screw { width: 19px; height: 19px; }
-.header-logo { max-height: 95px; max-width: 190px; left: 1.1rem; }
-}
-@media (max-width: 1536px) and (min-width: 1401px) and (max-height: 864px) {
-header { padding: 0.8rem 1.1rem; }
-h1 { font-size: clamp(1.2rem, 3vw, 1.9rem); }
-.header-subtitle { font-size: clamp(0.65rem, 1.3vw, 0.85rem); }
-.main-container { padding: 1.2rem; gap: 1.2rem; }
-.player-section, .dj-section { padding: 1rem; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); margin-bottom: 1.1rem; }
-.cassette-player { max-width: 515px; min-height: 315px; padding: 1.1rem; }
-.cassette-tapes { height: 128px; gap: 21px; padding: 0 8px; }
-.tape-reel { width: 78px; height: 78px; min-width: 78px; max-width: 78px; }
-.tape-reel::before { width: 55px; height: 55px; }
-.tape-reel::after { width: 25px; height: 25px; }
-.tape-reel span { width: 7px; height: 23px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(21px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(21px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(21px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(21px, -4px); }
-.cassette-center { width: 158px; height: 110px; min-width: 158px; max-width: 158px; }
-.play-btn { width: 78px; height: 31px; font-size: 1.2rem; }
-.equalizer-container { height: 26px; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 28px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.volume-control { padding: 10px; }
-.volume-label { font-size: 0.85rem; margin-bottom: 7px; }
-#dj-profile-img { max-width: 340px; }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.3rem; min-height: 80px; }
-.social-link { width: 35px; height: 35px; font-size: 1.1rem; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.led-strip-top, .led-strip-bottom { height: 7px; }
-.cassette-screw { width: 18px; height: 18px; }
-.header-logo { max-height: 90px; max-width: 180px; left: 1.1rem; }
-}
-@media (max-width: 1440px) and (min-width: 1367px) and (max-height: 900px) {
-header { padding: 0.8rem 1rem; }
-h1 { font-size: clamp(1.2rem, 3vw, 1.8rem); }
-.header-subtitle { font-size: clamp(0.65rem, 1.3vw, 0.8rem); }
-.main-container { padding: 1.2rem; gap: 1.2rem; }
-.player-section, .dj-section { padding: 1rem; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); margin-bottom: 1rem; }
-.cassette-player { max-width: 510px; min-height: 310px; padding: 1.1rem; }
-.cassette-tapes { height: 125px; gap: 21px; padding: 0 8px; }
-.tape-reel { width: 77px; height: 77px; min-width: 77px; max-width: 77px; }
-.tape-reel::before { width: 54px; height: 54px; }
-.tape-reel::after { width: 25px; height: 25px; }
-.tape-reel span { width: 7px; height: 22px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(20px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(20px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(20px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(20px, -4px); }
-.cassette-center { width: 155px; height: 108px; min-width: 155px; max-width: 155px; }
-.play-btn { width: 77px; height: 30px; font-size: 1.18rem; }
-.equalizer-container { height: 25px; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 27px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.volume-control { padding: 10px; }
-.volume-label { font-size: 0.85rem; margin-bottom: 7px; }
-#dj-profile-img { max-width: 330px; }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.3rem; min-height: 80px; }
-.social-link { width: 35px; height: 35px; font-size: 1.1rem; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.led-strip-top, .led-strip-bottom { height: 7px; }
-.cassette-screw { width: 18px; height: 18px; }
-.header-logo { max-height: 85px; max-width: 170px; left: 1rem; }
-}
-@media (max-width: 1366px) and (min-width: 1281px) and (max-height: 768px) {
-header { padding: 0.7rem 1rem; }
-h1 { font-size: clamp(1.1rem, 2.8vw, 1.7rem); }
-.header-subtitle { font-size: clamp(0.6rem, 1.2vw, 0.75rem); }
-.main-container { padding: 1rem; gap: 1rem; }
-.player-section, .dj-section { padding: 0.8rem; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); margin-bottom: 1rem; }
-.cassette-player { max-width: 500px; min-height: 300px; padding: 1rem; }
-.cassette-tapes { height: 120px; margin-top: 3px; gap: 20px; padding: 0 8px; }
-.tape-reel { width: 75px; height: 75px; min-width: 75px; max-width: 75px; }
-.tape-reel::before { width: 52px; height: 52px; }
-.tape-reel::after { width: 24px; height: 24px; }
-.tape-reel span { width: 7px; height: 22px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(20px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(20px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(20px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(20px, -4px); }
-.cassette-center { width: 150px; height: 105px; min-width: 150px; max-width: 150px; }
-.play-btn { width: 75px; height: 30px; font-size: 1.2rem; }
-.equalizer-container { height: 24px; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 26px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.volume-control { padding: 10px; }
-.volume-label { font-size: 0.85rem; margin-bottom: 6px; }
-#dj-profile-img { max-width: 280px; }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.3rem; min-height: 80px; }
-.social-link { width: 35px; height: 35px; font-size: 1.1rem; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.led-strip-top, .led-strip-bottom { height: 6px; }
-.cassette-screw { width: 18px; height: 18px; }
-.header-logo { max-height: 80px; max-width: 160px; left: 1rem; }
-}
-@media (max-width: 1280px) and (min-width: 1025px) and (max-height: 720px) {
-header { padding: 0.7rem 0.9rem; }
-h1 { font-size: clamp(1.1rem, 2.8vw, 1.6rem); }
-.header-subtitle { font-size: clamp(0.6rem, 1.2vw, 0.7rem); }
-.main-container { padding: 0.9rem; gap: 0.9rem; }
-.player-section, .dj-section { padding: 0.7rem; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); margin-bottom: 0.9rem; }
-.cassette-player { max-width: 480px; min-height: 290px; padding: 0.9rem; }
-.cassette-tapes { height: 115px; margin-top: 2px; gap: 18px; padding: 0 7px; }
-.tape-reel { width: 72px; height: 72px; min-width: 72px; max-width: 72px; }
-.tape-reel::before { width: 50px; height: 50px; }
-.tape-reel::after { width: 23px; height: 23px; }
-.tape-reel span { width: 6.5px; height: 21px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(19px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(19px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(19px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(19px, -4px); }
-.cassette-center { width: 145px; height: 102px; min-width: 145px; max-width: 145px; }
-.play-btn { width: 72px; height: 29px; font-size: 1.15rem; }
-.equalizer-container { height: 23px; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 25px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.volume-control { padding: 9px; }
-.volume-label { font-size: 0.85rem; margin-bottom: 6px; }
-#dj-profile-img { max-width: 260px; }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.3rem; min-height: 80px; }
-.social-link { width: 35px; height: 35px; font-size: 1.1rem; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.led-strip-top, .led-strip-bottom { height: 6px; }
-.cassette-screw { width: 17px; height: 17px; }
-.header-logo { max-height: 75px; max-width: 150px; left: 0.9rem; }
-}
-@media (min-width: 1025px) and (max-width: 1366px) {
-.cassette-player { max-width: 500px; min-height: 300px; }
-}
-@media (min-width: 769px) and (max-width: 1024px) {
-header { padding: 0.8rem 1rem; }
-h1 { font-size: clamp(1.2rem, 3vw, 1.9rem); }
-.header-subtitle { font-size: clamp(0.65rem, 1.3vw, 0.85rem); }
-.main-container { padding: 1.5rem; gap: 1.5rem; }
-.cassette-player { max-width: 450px; min-height: 280px; }
-#dj-profile-img { max-width: 300px; }
-.section-title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.tape-reel { width: 70px; height: 70px; min-width: 70px; max-width: 70px; }
-.cassette-center { width: 140px; height: 100px; min-width: 140px; max-width: 140px; }
-.play-btn { width: 70px; height: 28px; font-size: 1.1rem; }
-.cassette-screw { width: 17px; height: 17px; }
-.header-logo { max-height: 70px; max-width: 140px; left: 1rem; }
-}
-@media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
-header { padding: 0.7rem 1rem; }
-h1 { font-size: clamp(1.1rem, 2.8vw, 1.7rem); }
-.header-subtitle { font-size: clamp(0.6rem, 1.2vw, 0.75rem); }
-.main-container {
-flex-direction: column;
-padding: 1rem;
-gap: 1rem;
-}
-.player-section, .dj-section { padding: 1rem; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 28px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.cassette-player {
-width: 100%;
-max-width: 100%;
-height: auto;
-min-height: 310px;
-padding: 1.2rem;
-}
-.cassette-tapes {
-height: auto;
-min-height: 120px;
-margin-top: 3px;
-padding: 0 8px;
-gap: 10px;
-}
-.tape-reel {
-width: 72px;
-height: 72px;
-min-width: 72px;
-max-width: 72px;
-min-height: 72px;
-max-height: 72px;
-}
-.tape-reel::before { width: 50px; height: 50px; }
-.tape-reel::after { width: 23px; height: 23px; }
-.tape-reel span { width: 6px; height: 20px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(19px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(19px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(19px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(19px, -4px); }
-.cassette-center { width: 145px; height: 100px; min-width: 145px; max-width: 145px; }
-.play-btn { width: 70px; height: 28px; font-size: 1.15rem; border-width: 2.5px; }
-.equalizer-container { height: 23px; }
-.bar { width: 5px; }
-.volume-label { font-size: 0.85rem; }
-#dj-profile-img {
-width: 349.6125px !important;
-height: 349.6125px !important;
-}
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.social-links { gap: 1rem; }
-footer { padding: 0.3rem; min-height: 80px; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.chat-panel {
-width: 100vw;
-right: -100vw;
-height: 100dvh;
-height: -webkit-fill-available;
-}
-.chat-panel.visible { right: 0; }
-.chat-header h3 { font-size: 1rem; }
-.chat-close-btn { width: 28px; height: 28px; font-size: 1.1rem; }
-.chat-iframe-container { padding-bottom: 60px; }
+@media (max-width: 768px) {
+.chat-panel,
 .staff-panel {
 width: 100vw;
 right: -100vw;
+max-width: 100%;
 }
-.staff-grid {
-grid-template-columns: 1fr;
-gap: 1rem;
-padding: 1rem;
-}
-.cassette-screw { width: 17px; height: 17px; }
-.header-logo { max-height: 70px; max-width: 140px; left: 1rem; }
-}
-@media (max-width: 768px) {
-header { padding: 0.7rem 1rem; }
-h1 { font-size: clamp(1.1rem, 2.8vw, 1.7rem); }
-.header-subtitle { font-size: clamp(0.6rem, 1.2vw, 0.75rem); }
 .main-container {
 flex-direction: column;
-padding: 1rem;
-gap: 1rem;
 }
-.player-section, .dj-section { padding: 1rem; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 28px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.cassette-player {
-width: 100%;
+.player-section,
+.dj-section {
 max-width: 100%;
-height: auto;
-min-height: 310px;
-padding: 1.2rem;
 }
-.cassette-tapes {
-height: auto;
-min-height: 120px;
-margin-top: 3px;
-padding: 0 8px;
-gap: 10px;
-}
-.tape-reel {
-width: 72px;
-height: 72px;
-min-width: 72px;
-max-width: 72px;
-min-height: 72px;
-max-height: 72px;
-}
-.tape-reel::before { width: 50px; height: 50px; }
-.tape-reel::after { width: 23px; height: 23px; }
-.tape-reel span { width: 6px; height: 20px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(19px, -4px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(19px, -4px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(19px, -4px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(19px, -4px); }
-.cassette-center { width: 145px; height: 100px; min-width: 145px; max-width: 145px; }
-.play-btn { width: 70px; height: 28px; font-size: 1.15rem; border-width: 2.5px; }
-.equalizer-container { height: 23px; }
-.bar { width: 5px; }
-.volume-label { font-size: 0.85rem; }
 #dj-profile-img {
-width: 349.6125px !important;
-height: 349.6125px !important;
-/* Animación desactivada en móvil */
 animation: none !important;
-/* Resplandor estático */
 box-shadow:
 -10px 0 20px rgba(189, 0, 255, 0.5),
 10px 0 20px rgba(0, 255, 65, 0.5),
 0 0 25px rgba(139, 139, 139, 0.3) !important;
 }
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.social-links { gap: 1rem; }
-footer { padding: 0.3rem; min-height: 80px; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.85rem; }
-.chat-panel {
-width: 100vw;
-right: -100vw;
-height: 100dvh;
-height: -webkit-fill-available;
-}
-.chat-panel.visible { right: 0; }
-.chat-header h3 { font-size: 1rem; }
-.chat-close-btn { width: 28px; height: 28px; font-size: 1.1rem; }
-.chat-iframe-container { padding-bottom: 60px; }
-.staff-panel {
-width: 100vw;
-right: -100vw;
-}
 .staff-grid {
-grid-template-columns: 1fr;
+grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 gap: 1rem;
 padding: 1rem;
 }
-.cassette-screw { width: 17px; height: 17px; }
-.header-logo { max-height: 70px; max-width: 140px; left: 1rem; }
 }
+
 @media (max-width: 480px) {
-header { padding: 0.6rem 0.8rem; }
-h1 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
-.header-subtitle { font-size: clamp(0.55rem, 1.1vw, 0.7rem); }
-.player-section, .dj-section { padding: 0.8rem; }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 25px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.cassette-player {
-width: 100%;
-max-width: 100%;
-height: auto;
-min-height: 285px;
-padding: 1rem 0.8rem;
+.social-link {
+width: 32px;
+height: 32px;
+font-size: 1rem;
 }
-.cassette-tapes {
-height: auto;
-min-height: 105px;
-margin-top: 2px;
-padding: 0 5px;
-gap: 8px;
-}
-.tape-reel {
-width: 65px;
-height: 65px;
-min-width: 65px;
-max-width: 65px;
-min-height: 65px;
-max-height: 65px;
-}
-.tape-reel::before { width: 44px; height: 44px; }
-.tape-reel::after { width: 20px; height: 20px; }
-.tape-reel span { width: 5px; height: 18px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(17px, -3px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(17px, -3px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(17px, -3px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(17px, -3px); }
-.cassette-center { width: 130px; height: 90px; min-width: 130px; max-width: 130px; }
-.play-btn { width: 62px; height: 25px; font-size: 1rem; border-width: 2px; }
-.equalizer-container { height: 20px; }
-.bar { width: 4.5px; }
-.volume-label { font-size: 0.85rem; }
-.volume-control { max-width: 100%; padding: 10px; }
-#dj-profile-img {
-width: 235.125px !important;
-height: 235.125px !important;
-/* Animación desactivada en móvil */
-animation: none !important;
-/* Resplandor estático */
-box-shadow:
--8px 0 15px rgba(189, 0, 255, 0.5),
-8px 0 15px rgba(0, 255, 65, 0.5),
-0 0 20px rgba(139, 139, 139, 0.3) !important;
-}
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.social-links { gap: 0.8rem; }
-.social-link { width: 32px; height: 32px; font-size: 1rem; }
-.footer-brand { flex-wrap: wrap; justify-content: center; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.8rem; }
-footer { padding: 0.25rem; min-height: 75px; }
-.chat-iframe-container { padding-bottom: 55px; }
 .staff-grid {
+grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
 gap: 0.8rem;
 padding: 0.8rem;
 }
-.cassette-screw { width: 16px; height: 16px; }
-.header-logo { max-height: 55px; max-width: 120px; left: 0.8rem; }
-}
-@media (max-width: 400px) {
-.cassette-player {
-padding: 0.9rem 0.7rem;
-}
-.cassette-tapes {
-height: auto;
-min-height: 95px;
-margin-top: 1px;
-padding: 0 4px;
-gap: 6px;
-}
-.tape-reel {
-width: 60px;
-height: 60px;
-min-width: 60px;
-max-width: 60px;
-min-height: 60px;
-max-height: 60px;
-}
-.tape-reel::before { width: 40px; height: 40px; }
-.tape-reel::after { width: 18px; height: 18px; }
-.tape-reel span { width: 4.5px; height: 16px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(16px, -3px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(16px, -3px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(16px, -3px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(16px, -3px); }
-.cassette-center { width: 120px; height: 85px; min-width: 120px; max-width: 120px; }
-.play-btn { width: 58px; height: 24px; font-size: 0.95rem; border-width: 2px; }
-.equalizer-container { height: 18px; }
-.cassette-screw { width: 15px; height: 15px; }
-.header-logo { max-height: 50px; max-width: 110px; left: 0.7rem; }
-}
-@media (max-width: 320px) {
-header { padding: 0.5rem 0.6rem; }
-h1 { font-size: clamp(0.95rem, 2.3vw, 1.3rem); }
-.header-subtitle { font-size: clamp(0.5rem, 1vw, 0.65rem); }
-.song-info { font-size: clamp(1rem, 1.8vw, 1.4rem); min-height: 22px; }
-#sonic_title { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-.cassette-player {
-height: auto;
-min-height: 260px;
-padding: 0.8rem 0.6rem;
-}
-.cassette-tapes {
-height: auto;
-min-height: 90px;
-margin-top: 1px;
-padding: 0 3px;
-gap: 6px;
-}
-.tape-reel {
-width: 58px;
-height: 58px;
-min-width: 58px;
-max-width: 58px;
-min-height: 58px;
-max-height: 58px;
-}
-.tape-reel::before { width: 38px; height: 38px; }
-.tape-reel::after { width: 17px; height: 17px; }
-.tape-reel span { width: 4px; height: 15px; }
-.tape-reel span:nth-child(1) { transform: rotate(45deg) translate(15px, -2px); }
-.tape-reel span:nth-child(2) { transform: rotate(135deg) translate(15px, -2px); }
-.tape-reel span:nth-child(3) { transform: rotate(225deg) translate(15px, -2px); }
-.tape-reel span:nth-child(4) { transform: rotate(315deg) translate(15px, -2px); }
-.cassette-center { width: 110px; height: 80px; min-width: 110px; max-width: 110px; }
-.play-btn { width: 52px; height: 21px; font-size: 0.9rem; border-width: 1.5px; }
-.equalizer-container { height: 17px; }
-.bar { width: 4px; }
-.volume-label { font-size: 0.85rem; }
-#dj-profile-img {
-width: 177.5625px !important;
-height: 177.5625px !important;
-/* Animación desactivada en móvil */
-animation: none !important;
-/* Resplandor estático */
-box-shadow:
--6px 0 12px rgba(189, 0, 255, 0.5),
-6px 0 12px rgba(0, 255, 65, 0.5),
-0 0 15px rgba(139, 139, 139, 0.3) !important;
-}
-#sonic_dj.cyber-glitch { font-size: clamp(1rem, 1.8vw, 1.4rem); }
-footer { padding: 0.2rem; min-height: 70px; }
-.footer-nexus, .footer-zone, .footer-credit, .footer-separator { font-size: 0.75rem; }
-.cassette-screw { width: 15px; height: 15px; }
-.header-logo { max-height: 45px; max-width: 100px; left: 0.6rem; }
 }
 </style>
 </head>
@@ -2252,17 +1762,15 @@ tapeRight.classList.remove('animated');
 playPauseBtn.addEventListener('click', togglePlayPause);
 volumeSlider.addEventListener('input', changeVolume);
 updateVolumeDisplay();
-
 /* ===================================================== */
 /* ✅ OPTIMIZADO: Solo actualiza visuales, NO recarga script */
 /* ===================================================== */
 setInterval(function() {
-    // Solo actualizamos la portada y la imagen del DJ
-    updateAlbumArtBackground();
-    checkAndUpdateDjImage();
-    // Ya NO se recarga el script sonic_js
+// Solo actualizamos la portada y la imagen del DJ
+updateAlbumArtBackground();
+checkAndUpdateDjImage();
+// Ya NO se recarga el script sonic_js
 }, 10000);
-
 window.addEventListener('load', function() {
 updateAlbumArtBackground();
 setupGlitchObservers();
