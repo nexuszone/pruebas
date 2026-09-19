@@ -229,7 +229,7 @@
       filter: drop-shadow(0 0 8px var(--telegram-blue));
     }
 
-    /* BOTÓN INSTALAR APP SIN RELLENO, SÓLO LUZ NEÓN */
+    /* BOTÓN INSTALAR A LA IZQUIERDA, SIN RELLENO SÓLIDO EN HOVER */
     .btn-install-pwa {
       display: none;
       align-items: center;
@@ -943,8 +943,15 @@
       </div>
     </div>
     
-    <!-- Botones de Redes Sociales (TikTok con diseño corregido) y Botón de Instalar App -->
+    <!-- Botón Instalar a la izquierda de las redes sociales -->
     <div class="header-actions">
+      <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
+        <svg viewBox="0 0 24 24">
+          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+        </svg>
+        <span>Instalar</span>
+      </button>
+
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
           <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
@@ -956,13 +963,6 @@
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
         </svg>
       </a>
-
-      <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
-        <svg viewBox="0 0 24 24">
-          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
-        </svg>
-        <span>Instalar</span>
-      </button>
     </div>
   </header>
 
@@ -1246,46 +1246,54 @@
     djObserver.observe(sonicDj, { childList: true, characterData: true, subtree: true });
 
     // ----------------------------------------------------
-    // CONTROL DE CARÁTULA DE FONDO ANTIPARPADEO (GITHUB FIX)
+    // SINCRONIZACIÓN ROBUSTA DE CARÁTULA (PC & MÓVIL)
     // ----------------------------------------------------
-    let artDebounceTimer = null;
-
     function applyBackgroundCover(url) {
       if (!url) return;
       let cleanUrl = url.replace(/^url\(["']?/, '').replace(/["']?\)$/, '').trim();
       if (!cleanUrl) return;
 
-      // Ignora parámetros temporales de caché o refresh de GitHub Pages para evitar bucles
       let cleanUrlBase = cleanUrl.split('?')[0];
       let currentBase = currentCoverUrl.split('?')[0];
 
       if (cleanUrlBase === currentBase) return;
 
-      clearTimeout(artDebounceTimer);
-      artDebounceTimer = setTimeout(() => {
-        currentCoverUrl = cleanUrl;
-        const tempImg = new Image();
-        tempImg.onload = () => {
-          playerBgArt.style.backgroundImage = `url('${cleanUrl}')`;
-        };
-        tempImg.src = cleanUrl;
-      }, 400); // Retardo antirrebote para estabilizar eventos recurrentes de red
+      currentCoverUrl = cleanUrl;
+      const tempImg = new Image();
+      tempImg.onload = () => {
+        playerBgArt.style.backgroundImage = `url('${cleanUrl}')`;
+      };
+      tempImg.src = cleanUrl;
     }
 
     function checkSonicArt() {
+      // 1. Revisar widget DOM de SonicPanel
       const imgElem = sonicArtFull.querySelector("img");
       if (imgElem && imgElem.src) {
         applyBackgroundCover(imgElem.src);
+        return;
       } else if (sonicArtFull.style.backgroundImage) {
         applyBackgroundCover(sonicArtFull.style.backgroundImage);
+        return;
       }
+
+      // 2. Búsqueda directa en la API del servidor si el DOM no responde instantáneamente en PC
+      fetch("https://mars.streamerr.co/8434/stats?json=1")
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.arturl) {
+            applyBackgroundCover(data.arturl);
+          }
+        }).catch(() => {});
     }
 
     const artObserver = new MutationObserver(() => {
       checkSonicArt();
     });
-    // Observa exclusivamente cambios estructurales en los hijos y no atributos menores de renderizado
-    artObserver.observe(sonicArtFull, { childList: true, subtree: true });
+    artObserver.observe(sonicArtFull, { childList: true, subtree: true, attributes: true });
+
+    // Polling de respaldo cada 4s para sincronizar la carátula garantizado en PC
+    setInterval(checkSonicArt, 4000);
 
     tabChat.addEventListener("click", () => {
       tabChat.classList.add("active");
@@ -1570,6 +1578,9 @@
           const data = await res.json();
           if (data.songtitle) {
             updateSongDisplay(data.songtitle);
+          }
+          if (data.arturl) {
+            applyBackgroundCover(data.arturl);
           }
         }
       } catch (_) {}
