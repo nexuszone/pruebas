@@ -176,10 +176,11 @@
       100% { left: 160%; opacity: 0; }
     }
 
+    /* ACCIONES DE CABECERA (REDES SOCIALES E INSTALACIÓN) */
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .social-btn {
@@ -229,6 +230,55 @@
     .social-telegram:hover svg, .social-telegram:active svg {
       transform: scale(1.1);
       filter: drop-shadow(0 0 8px var(--telegram-blue));
+    }
+
+    /* BOTÓN INSTALAR APP ESTILO NEÓN */
+    .btn-install-pwa {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(176, 38, 255, 0.2), rgba(0, 255, 102, 0.15));
+      border: 1px solid rgba(0, 255, 102, 0.5);
+      color: var(--neon-green);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+    }
+
+    .btn-install-pwa svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-install-pwa:hover, .btn-install-pwa:active {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-green));
+      color: #08090d;
+      border-color: #ffffff;
+      box-shadow: 0 0 18px var(--green-glow), 0 0 12px var(--purple-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-install-pwa:hover svg {
+      transform: translateY(2px);
+    }
+
+    @media (max-width: 480px) {
+      .btn-install-pwa span {
+        display: none;
+      }
+      .btn-install-pwa {
+        padding: 0 10px;
+      }
     }
 
     .workspace {
@@ -843,7 +893,6 @@
 
   <header class="header-bar">
     <div class="brand">
-      <!-- LOGO CASSETTE NEÓN VECTORIAL (MITAD MORADO / MITAD VERDE) -->
       <svg class="brand-cassette-svg" viewBox="0 0 76 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="cassetteBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -896,7 +945,7 @@
       </div>
     </div>
     
-    <!-- Botones de Redes Sociales: TikTok y Telegram -->
+    <!-- Botones de Redes Sociales y Botón de Instalar App -->
     <div class="header-actions">
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
@@ -909,15 +958,20 @@
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
         </svg>
       </a>
+
+      <!-- Botón bonito para Instalar App -->
+      <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar App">
+        <svg viewBox="0 0 24 24">
+          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+        </svg>
+        <span>Instalar</span>
+      </button>
     </div>
   </header>
 
   <main class="workspace">
     <section class="player-deck" id="playerDeck">
-      <!-- Capa de fondo desenfocada conectada a la carátula de SonicPanel -->
       <div class="player-bg-art" id="playerBgArt"></div>
-
-      <!-- Widget oculto para que SonicPanel descargue la carátula del álbum -->
       <div id='sonic_art_full' style="display: none;"></div>
 
       <div class="deck-top">
@@ -925,23 +979,19 @@
           <img src="djs/nexusdj.webp" id="coverImg" class="cover-img" alt="Foto del DJ">
         </div>
         
-        <!-- Título de la canción -->
         <div class="title-marquee-container" id="marqueeContainer">
           <div id='sonic_title' style="display: none;"></div>
           <div id='display_title'>Cargando emisión...</div>
         </div>
 
-        <!-- Nombre del Artista -->
         <div class="meta-artist" id="trackArtist">Nexus Zone Radio</div>
 
-        <!-- Sección Emitiendo y DJ debajo del artista -->
         <div class="meta-dj-row">
           <span class="emit-label">Emitiendo:</span>
           <div id='sonic_dj' style="display: none;"></div>
           <span id='display_dj'>NeXusDj</span>
         </div>
 
-        <!-- Fila del País y Bandera del DJ debajo del DJ -->
         <div class="dj-country-row" id="djCountryRow">
           <img src="https://flagcdn.com/24x18/es.png" class="dj-flag-img" id="djFlagImg" alt="Bandera" style="display: inline-block;">
           <span id="djCountryName">España</span>
@@ -1000,7 +1050,6 @@
 
       <div class="tab-view-container">
         <div class="view-content active" id="viewChat">
-          <!-- ChatZona Webchat Oficial con tema nocturno nativo -->
           <iframe 
             src="https://chat.chatzona.org/index.html?theme=night#channel=Nexus_Zone" 
             class="chat-iframe"
@@ -1054,6 +1103,47 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
+    }
+
+    // ----------------------------------------------------
+    // CONTROL DEL BOTÓN DE INSTALACIÓN PWA
+    // ----------------------------------------------------
+    let deferredPrompt = null;
+    const btnInstallPwa = document.getElementById("btnInstallPwa");
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      btnInstallPwa.style.display = "inline-flex";
+    });
+
+    btnInstallPwa.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          btnInstallPwa.style.display = 'none';
+        }
+        deferredPrompt = null;
+      } else {
+        // En navegadores o dispositivos donde beforeinstallprompt no se dispara automáticamente (ej: Safari en iOS o Chrome en PC)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          alert("Para instalar en iPhone/iPad:\nPulsa el botón Compartir de Safari y selecciona 'Añadir a la pantalla de inicio'.");
+        } else {
+          alert("Para instalar esta aplicación:\nAbre el menú de opciones de tu navegador (los tres puntos arriba a la derecha) y pulsa en 'Instalar app' o 'Añadir a pantalla de inicio'.");
+        }
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      btnInstallPwa.style.display = 'none';
+      deferredPrompt = null;
+    });
+
+    // Ocultar si ya se está ejecutando como app instalada
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+      btnInstallPwa.style.display = 'none';
     }
 
     const STREAM_URL = "https://mars.streamerr.co/8434/stream";
