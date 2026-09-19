@@ -9,14 +9,14 @@
   <!-- Enlace al Manifest para Instalación como App -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- Configuración PWA e iconos SVG en línea -->
+  <!-- Configuración PWA e iconos -->
   <meta name="theme-color" content="#08090d">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="NeXus ZonE">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='neonBi' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='50%25' stop-color='%23b026ff'/%3E%3Cstop offset='50%25' stop-color='%2300ff66'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2308090d'/%3E%3Crect x='6' y='14' width='52' height='36' rx='6' fill='%2312141c' stroke='url(%23neonBi)' stroke-width='2.5'/%3E%3Crect x='13' y='19' width='38' height='17' rx='3' fill='%231c202d' stroke='url(%23neonBi)' stroke-width='1.5'/%3E%3Ccircle cx='23' cy='27.5' r='5' fill='%2308090d' stroke='%23b026ff' stroke-width='2'/%3E%3Ccircle cx='41' cy='27.5' r='5' fill='%2308090d' stroke='%2300ff66' stroke-width='2'/%3E%3Cpolygon points='16,50 20,42 44,42 48,50' fill='%230d0f17' stroke='url(%23neonBi)' stroke-width='1.5'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='neonBi' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='50%25' stop-color='%23b026ff'/%3E%3Cstop offset='50%25' stop-color='%2300ff66'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2308090d'/%3E%3Crect x='6' y='14' width='52' height='36' rx='6' fill='%2312141c' stroke='url(%23neonBi)' stroke-width='2.5'/%3E%3Crect x='13' y='19' width='38' height='17' rx='3' fill='%231c202d' stroke='url(%23neonBi)' stroke-width='1.5'/%3E%3Ccircle cx='23' cy='27.5' r='5' fill='%2308090d' stroke='%23b026ff' stroke-width='2'/%3E%3Ccircle cx='41' cy='27.5' r='5' fill='%2308090d' stroke='%2300ff66' stroke-width='2'/%3E%3Cpolygon points='16,50 20,42 44,42 48,50' fill='%230d0f17' stroke='url(%23neonBi)' stroke-width='1.5'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +99,7 @@
       gap: 12px;
     }
 
+    /* CASSETTE SVG BICOLOR NEÓN */
     .brand-cassette-svg {
       width: 40px;
       height: 28px;
@@ -231,9 +232,9 @@
       filter: drop-shadow(0 0 8px var(--telegram-blue));
     }
 
-    /* BOTÓN INSTALAR APP NATIVO */
+    /* BOTÓN INSTALAR APP NATIVO VISIBLE SIEMPRE */
     .btn-install-pwa {
-      display: none; /* Se activa automáticamente cuando el navegador valida PWA */
+      display: inline-flex;
       align-items: center;
       gap: 6px;
       height: 36px;
@@ -892,6 +893,7 @@
 
   <header class="header-bar">
     <div class="brand">
+      <!-- Cassette SVG Neón Bicolor -->
       <svg class="brand-cassette-svg" viewBox="0 0 76 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="cassetteBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -958,7 +960,6 @@
         </svg>
       </a>
 
-      <!-- Botón nativo idéntico al de SKZ Radio -->
       <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
         <svg viewBox="0 0 24 24">
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
@@ -1095,39 +1096,36 @@
   <audio id="audioSource" preload="none" crossorigin="anonymous"></audio>
 
   <script>
-    // ----------------------------------------------------
-    // REGISTRO DE SERVICE WORKER PARA APP INSTALABLE
-    // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
 
-    // ----------------------------------------------------
-    // INSTALACIÓN NATIVA DIRECTA (EXACTO A SKZ RADIO)
-    // ----------------------------------------------------
     let deferredPrompt = null;
     const btnInstallPwa = document.getElementById("btnInstallPwa");
 
     window.addEventListener('beforeinstallprompt', (e) => {
-      // Evita que el navegador muestre su banner genérico feo
       e.preventDefault();
-      // Guarda el evento nativo del navegador
       deferredPrompt = e;
-      // Hace visible el botón estilizado en el encabezado
       btnInstallPwa.style.display = "inline-flex";
     });
 
     btnInstallPwa.addEventListener('click', async () => {
       if (deferredPrompt) {
-        // Lanza exactamente la ventana nativa de instalación del sistema
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           btnInstallPwa.style.display = 'none';
         }
         deferredPrompt = null;
+      } else {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          alert("Para instalar en iPhone/iPad:\nPulsa el botón Compartir de Safari y selecciona 'Añadir a la pantalla de inicio'.");
+        } else {
+          alert("Para instalar esta aplicación:\nAbre el menú de opciones de tu navegador (los tres puntos arriba a la derecha) y pulsa en 'Instalar app' o 'Añadir a pantalla de inicio'.");
+        }
       }
     });
 
@@ -1136,7 +1134,6 @@
       deferredPrompt = null;
     });
 
-    // Si ya está ejecutándose como aplicación instalada, no se muestra
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
       btnInstallPwa.style.display = 'none';
     }
@@ -1180,9 +1177,6 @@
     let currentCoverUrl = "";
     let djMap = {};
 
-    // ----------------------------------------------------
-    // CARGAR MAPEO DE DJS Y REDES DESDE djs.json
-    // ----------------------------------------------------
     async function loadDjMap() {
       try {
         const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1205,9 +1199,6 @@
     }
     loadDjMap();
 
-    // ----------------------------------------------------
-    // PROCESAMIENTO EXCLUSIVO DE IMAGEN Y DATOS DEL DJ
-    // ----------------------------------------------------
     function processDjUpdate(rawDj) {
       if (!rawDj) rawDj = "no dj";
       
@@ -1265,9 +1256,6 @@
     });
     djObserver.observe(sonicDj, { childList: true, characterData: true, subtree: true });
 
-    // ----------------------------------------------------
-    // CONTROL DE CARÁTULA DE FONDO (SIN PARPADEOS)
-    // ----------------------------------------------------
     function applyBackgroundCover(url) {
       if (!url) return;
       let cleanUrl = url.replace(/^url\(["']?/, '').replace(/["']?\)$/, '').trim();
@@ -1309,9 +1297,6 @@
       viewChat.classList.remove("active");
     });
 
-    // ----------------------------------------------------
-    // ECUALIZADOR FFT REAL (MORADO NEÓN Y VERDE NEÓN)
-    // ----------------------------------------------------
     const canvas = document.getElementById("equalizerCanvas");
     const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
     let audioCtx = null;
@@ -1474,9 +1459,6 @@
     window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
     resizeCanvas();
 
-    // ----------------------------------------------------
-    // REPRODUCCIÓN STREAMING DIRECTO
-    // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
       initAudioContext();
 
@@ -1509,9 +1491,6 @@
       }
     }
 
-    // ----------------------------------------------------
-    // VOLUMEN
-    // ----------------------------------------------------
     function updateVolumeVisual(val) {
       audio.volume = val;
       const pct = Math.round(val * 100);
@@ -1532,9 +1511,6 @@
       updateVolumeVisual(1);
     });
 
-    // ----------------------------------------------------
-    // ANIMACIÓN DE DESPLAZAMIENTO FLUIDO (IDA Y VUELTA)
-    // ----------------------------------------------------
     function recalculateMarquee() {
       displayTitle.classList.remove("marquee-active");
       displayTitle.style.transform = "translateX(0)";
@@ -1555,9 +1531,6 @@
 
     window.addEventListener("resize", recalculateMarquee, { passive: true });
 
-    // ----------------------------------------------------
-    // SEPARACIÓN RIGUROSA: ARTISTA Y CANCIÓN
-    // ----------------------------------------------------
     function updateSongDisplay(rawString) {
       if (!rawString) return;
       const raw = rawString.trim();
