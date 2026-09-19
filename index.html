@@ -176,7 +176,6 @@
       100% { left: 160%; opacity: 0; }
     }
 
-    /* ACCIONES DE CABECERA (REDES SOCIALES E INSTALACIÓN) */
     .header-actions {
       display: flex;
       align-items: center;
@@ -232,16 +231,16 @@
       filter: drop-shadow(0 0 8px var(--telegram-blue));
     }
 
-    /* BOTÓN INSTALAR APP ESTILO NEÓN */
+    /* BOTÓN INSTALAR APP NATIVO */
     .btn-install-pwa {
-      display: inline-flex;
+      display: none; /* Se activa automáticamente cuando el navegador valida PWA */
       align-items: center;
       gap: 6px;
       height: 36px;
       padding: 0 12px;
       border-radius: 12px;
-      background: linear-gradient(135deg, rgba(176, 38, 255, 0.2), rgba(0, 255, 102, 0.15));
-      border: 1px solid rgba(0, 255, 102, 0.5);
+      background: linear-gradient(135deg, rgba(176, 38, 255, 0.25), rgba(0, 255, 102, 0.2));
+      border: 1px solid var(--neon-green);
       color: var(--neon-green);
       font-family: inherit;
       font-size: 11px;
@@ -250,7 +249,7 @@
       cursor: pointer;
       text-transform: uppercase;
       transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+      box-shadow: 0 0 12px rgba(0, 255, 102, 0.25);
     }
 
     .btn-install-pwa svg {
@@ -264,7 +263,7 @@
       background: linear-gradient(135deg, var(--neon-purple), var(--neon-green));
       color: #08090d;
       border-color: #ffffff;
-      box-shadow: 0 0 18px var(--green-glow), 0 0 12px var(--purple-glow);
+      box-shadow: 0 0 18px var(--green-glow), 0 0 14px var(--purple-glow);
       transform: translateY(-2px);
     }
 
@@ -959,8 +958,8 @@
         </svg>
       </a>
 
-      <!-- Botón bonito para Instalar App -->
-      <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar App">
+      <!-- Botón nativo idéntico al de SKZ Radio -->
+      <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
         <svg viewBox="0 0 24 24">
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
         </svg>
@@ -1106,33 +1105,29 @@
     }
 
     // ----------------------------------------------------
-    // CONTROL DEL BOTÓN DE INSTALACIÓN PWA
+    // INSTALACIÓN NATIVA DIRECTA (EXACTO A SKZ RADIO)
     // ----------------------------------------------------
     let deferredPrompt = null;
     const btnInstallPwa = document.getElementById("btnInstallPwa");
 
     window.addEventListener('beforeinstallprompt', (e) => {
+      // Evita que el navegador muestre su banner genérico feo
       e.preventDefault();
+      // Guarda el evento nativo del navegador
       deferredPrompt = e;
+      // Hace visible el botón estilizado en el encabezado
       btnInstallPwa.style.display = "inline-flex";
     });
 
     btnInstallPwa.addEventListener('click', async () => {
       if (deferredPrompt) {
+        // Lanza exactamente la ventana nativa de instalación del sistema
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           btnInstallPwa.style.display = 'none';
         }
         deferredPrompt = null;
-      } else {
-        // En navegadores o dispositivos donde beforeinstallprompt no se dispara automáticamente (ej: Safari en iOS o Chrome en PC)
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-          alert("Para instalar en iPhone/iPad:\nPulsa el botón Compartir de Safari y selecciona 'Añadir a la pantalla de inicio'.");
-        } else {
-          alert("Para instalar esta aplicación:\nAbre el menú de opciones de tu navegador (los tres puntos arriba a la derecha) y pulsa en 'Instalar app' o 'Añadir a pantalla de inicio'.");
-        }
       }
     });
 
@@ -1141,7 +1136,7 @@
       deferredPrompt = null;
     });
 
-    // Ocultar si ya se está ejecutando como app instalada
+    // Si ya está ejecutándose como aplicación instalada, no se muestra
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
       btnInstallPwa.style.display = 'none';
     }
