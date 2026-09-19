@@ -1,14 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 50" width="512" height="512">
   <defs>
     <linearGradient id="neonBi" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="49.5%" stop-color="#b026ff"/>
       <stop offset="50.5%" stop-color="#00ff66"/>
     </linearGradient>
+    <linearGradient id="cassetteBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="49.5%" stop-color="#140d21"/>
+      <stop offset="50.5%" stop-color="#0a1c12"/>
+    </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#08090d"/>
-  <rect x="6" y="14" width="52" height="36" rx="6" fill="#12141c" stroke="url(#neonBi)" stroke-width="2.5"/>
-  <rect x="13" y="19" width="38" height="17" rx="3" fill="#1c202d" stroke="url(#neonBi)" stroke-width="1.5"/>
-  <circle cx="23" cy="27.5" r="5" fill="#08090d" stroke="#b026ff" stroke-width="2"/>
-  <circle cx="41" cy="27.5" r="5" fill="#08090d" stroke="#00ff66" stroke-width="2"/>
-  <polygon points="16,50 20,42 44,42 48,50" fill="#0d0f17" stroke="url(#neonBi)" stroke-width="1.5"/>
+  <rect x="2" y="2" width="72" height="46" rx="6" fill="url(#cassetteBody)" stroke="url(#neonBi)" stroke-width="2.5"/>
+  <circle cx="6" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="70" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="6" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="70" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <rect x="11" y="7" width="54" height="24" rx="3.5" fill="#08090d" stroke="url(#neonBi)" stroke-width="1.4"/>
+  <rect x="22" y="12" width="32" height="14" rx="2.5" fill="#12141c" stroke="url(#neonBi)" stroke-width="1"/>
+  <circle cx="30" cy="19" r="4.5" fill="none" stroke="#b026ff" stroke-width="1.5"/>
+  <circle cx="30" cy="19" r="1.8" fill="#b026ff"/>
+  <circle cx="46" cy="19" r="4.5" fill="none" stroke="#00ff66" stroke-width="1.5"/>
+  <circle cx="46" cy="19" r="1.8" fill="#00ff66"/>
+  <polygon points="17,47 23,37 53,37 59,47" fill="#08090d" stroke="url(#neonBi)" stroke-width="1.5"/>
+  <circle cx="27" cy="42" r="1.8" fill="#b026ff"/>
+  <circle cx="38" cy="42" r="1.4" fill="#ffffff" opacity="0.4"/>
+  <circle cx="49" cy="42" r="1.8" fill="#00ff66"/>
 </svg>

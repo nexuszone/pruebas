@@ -6,10 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>NeXus ZonE Radio</title>
 
-  <!-- Enlace al Manifest para Instalación como App -->
+  <!-- PWA Manifest & Icons -->
   <link rel="manifest" href="manifest.json">
-
-  <!-- Configuración PWA e iconos -->
   <meta name="theme-color" content="#08090d">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -99,7 +97,6 @@
       gap: 12px;
     }
 
-    /* CASSETTE SVG BICOLOR NEÓN */
     .brand-cassette-svg {
       width: 40px;
       height: 28px;
@@ -232,9 +229,9 @@
       filter: drop-shadow(0 0 8px var(--telegram-blue));
     }
 
-    /* BOTÓN INSTALAR APP NATIVO VISIBLE SIEMPRE */
+    /* BOTÓN INSTALAR APP NATIVO */
     .btn-install-pwa {
-      display: inline-flex;
+      display: none;
       align-items: center;
       gap: 6px;
       height: 36px;
@@ -960,6 +957,7 @@
         </svg>
       </a>
 
+      <!-- Botón de instalación nativo -->
       <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
         <svg viewBox="0 0 24 24">
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
@@ -1096,12 +1094,14 @@
   <audio id="audioSource" preload="none" crossorigin="anonymous"></audio>
 
   <script>
+    // Registro del Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
 
+    // Lógica nativa de instalación
     let deferredPrompt = null;
     const btnInstallPwa = document.getElementById("btnInstallPwa");
 
@@ -1112,21 +1112,13 @@
     });
 
     btnInstallPwa.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          btnInstallPwa.style.display = 'none';
-        }
-        deferredPrompt = null;
-      } else {
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-          alert("Para instalar en iPhone/iPad:\nPulsa el botón Compartir de Safari y selecciona 'Añadir a la pantalla de inicio'.");
-        } else {
-          alert("Para instalar esta aplicación:\nAbre el menú de opciones de tu navegador (los tres puntos arriba a la derecha) y pulsa en 'Instalar app' o 'Añadir a pantalla de inicio'.");
-        }
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        btnInstallPwa.style.display = 'none';
       }
+      deferredPrompt = null;
     });
 
     window.addEventListener('appinstalled', () => {

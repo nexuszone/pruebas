@@ -1,25 +1,19 @@
 {
   "name": "NeXus ZonE Radio",
   "short_name": "NeXus ZonE",
-  "start_url": "./",
-  "id": "nexus-zone-app",
+  "description": "Radio online y streaming continuo de NeXus ZonE",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#08090d",
   "theme_color": "#08090d",
-  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "icon.svg",
-      "sizes": "192x192 512x512 any",
+      "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "djs/nexusdj.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }
