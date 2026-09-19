@@ -1,7 +1,7 @@
 {
   "name": "NeXus ZonE Radio",
   "short_name": "NeXus ZonE",
-  "description": "Radio online y streaming continuo de NeXus ZonE",
+  "description": "Reproductor oficial y streaming continuo de NeXus ZonE",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
