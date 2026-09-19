@@ -158,13 +158,13 @@
     }
 
     @keyframes pulseNeonPurple {
-      0% { text-shadow: 0 0 8px var(--purple-glow), 0 0 16px rgba(176, 38, 255, 0.25); }
-      100% { text-shadow: 0 0 14px var(--neon-purple), 0 0 28px rgba(176, 38, 255, 0.65), 0 0 45px rgba(176, 38, 255, 0.3); }
+      0% { text-shadow: 0 0 8px var(--purple-glow); }
+      100% { text-shadow: 0 0 14px var(--neon-purple), 0 0 24px rgba(176, 38, 255, 0.5); }
     }
 
     @keyframes pulseNeonGreen {
-      0% { text-shadow: 0 0 8px var(--green-glow), 0 0 16px rgba(0, 255, 102, 0.25); }
-      100% { text-shadow: 0 0 14px var(--neon-green), 0 0 28px rgba(0, 255, 102, 0.65), 0 0 45px rgba(0, 255, 102, 0.3); }
+      0% { text-shadow: 0 0 8px var(--green-glow); }
+      100% { text-shadow: 0 0 14px var(--neon-green), 0 0 24px rgba(0, 255, 102, 0.5); }
     }
 
     @keyframes cyberSweep {
@@ -229,7 +229,6 @@
       filter: drop-shadow(0 0 8px var(--telegram-blue));
     }
 
-    /* BOTÓN INSTALAR A LA IZQUIERDA, SIN RELLENO SÓLIDO */
     .btn-install-pwa {
       display: none;
       align-items: center;
@@ -338,18 +337,19 @@
       }
     }
 
+    /* Fondo dinámico nítido y visible */
     .player-bg-art {
       position: absolute;
       inset: -15px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      filter: blur(10px) brightness(0.85);
-      opacity: 0.65;
+      filter: blur(14px) brightness(0.75);
+      opacity: 0.55;
       z-index: 0;
       pointer-events: none;
-      transform: scale(1.05);
-      transition: opacity 0.6s ease-in-out;
+      transform: scale(1.08);
+      transition: background-image 0.8s ease-in-out, opacity 0.6s ease;
     }
 
     .deck-top, .deck-bottom {
@@ -890,7 +890,6 @@
 
   <header class="header-bar">
     <div class="brand">
-      <!-- Cassette SVG Neón Bicolor -->
       <svg class="brand-cassette-svg" viewBox="0 0 76 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="cassetteBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -908,12 +907,10 @@
         </defs>
 
         <rect x="2" y="2" width="72" height="46" rx="6" fill="url(#cassetteBodyGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="2.5"/>
-
         <circle cx="6" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
         <circle cx="70" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
         <circle cx="6" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
         <circle cx="70" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
-
         <rect x="11" y="7" width="54" height="24" rx="3.5" fill="url(#cassetteLabelGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="1.4"/>
         <rect x="22" y="12" width="32" height="14" rx="2.5" fill="#08090d" stroke="url(#cassetteBorderGrad)" stroke-width="1"/>
 
@@ -943,7 +940,6 @@
       </div>
     </div>
     
-    <!-- Botón Instalar a la izquierda de las redes sociales con diseño sin relleno -->
     <div class="header-actions">
       <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
         <svg viewBox="0 0 24 24">
@@ -968,8 +964,8 @@
 
   <main class="workspace">
     <section class="player-deck" id="playerDeck">
+      <!-- Capa de fondo dinámica para la carátula -->
       <div class="player-bg-art" id="playerBgArt"></div>
-      <div id='sonic_art_full' style="display: none;"></div>
 
       <div class="deck-top">
         <div class="cover-wrapper">
@@ -1246,7 +1242,7 @@
     djObserver.observe(sonicDj, { childList: true, characterData: true, subtree: true });
 
     // ----------------------------------------------------
-    // SINCRONIZACIÓN AUTOMÁTICA DE CARÁTULA (PC Y MÓVIL)
+    // SISTEMA ROBUSTO DE CARÁTULA VÍA ITUNES Y API STATS
     // ----------------------------------------------------
     function applyBackgroundCover(url) {
       if (!url) return;
@@ -1264,6 +1260,18 @@
         playerBgArt.style.backgroundImage = `url('${cleanUrl}')`;
       };
       tempImg.src = cleanUrl;
+    }
+
+    async function fetchCoverFromItunes(title, artist) {
+      try {
+        const query = encodeURIComponent(`${artist} ${title}`);
+        const res = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&entity=song&limit=1`);
+        const data = await res.json();
+        if (data.results && data.results.length > 0 && data.results[0].artworkUrl100) {
+          const hiRes = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+          applyBackgroundCover(hiRes);
+        }
+      } catch (_) {}
     }
 
     async function syncMetadataAPI() {
@@ -1289,7 +1297,7 @@
     });
     titleObserver.observe(sonicTitle, { childList: true, characterData: true, subtree: true });
 
-    // Consulta constante cada 4 segundos para forzar actualización de carátula en PC
+    // Consulta constante cada 4 segundos para refrescar carátula y metadatos garantizado en PC y Móvil
     setInterval(syncMetadataAPI, 4000);
     syncMetadataAPI();
 
@@ -1558,7 +1566,9 @@
       trackArtist.textContent = artist;
       displayTitle.textContent = songOnly;
       recalculateMarquee();
-      syncMetadataAPI();
+      
+      // Buscar la carátula automáticamente por API si cambia la canción
+      fetchCoverFromItunes(songOnly, artist);
     }
 
     btnOpenPanel.addEventListener("click", () => {
