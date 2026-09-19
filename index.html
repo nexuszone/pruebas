@@ -229,7 +229,7 @@
       filter: drop-shadow(0 0 8px var(--telegram-blue));
     }
 
-    /* BOTÓN INSTALAR APP NATIVO */
+    /* BOTÓN INSTALAR APP SIN RELLENO, SÓLO LUZ NEÓN */
     .btn-install-pwa {
       display: none;
       align-items: center;
@@ -237,7 +237,7 @@
       height: 36px;
       padding: 0 12px;
       border-radius: 12px;
-      background: linear-gradient(135deg, rgba(176, 38, 255, 0.25), rgba(0, 255, 102, 0.2));
+      background: transparent;
       border: 1px solid var(--neon-green);
       color: var(--neon-green);
       font-family: inherit;
@@ -247,7 +247,7 @@
       cursor: pointer;
       text-transform: uppercase;
       transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 0 12px rgba(0, 255, 102, 0.25);
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
     .btn-install-pwa svg {
@@ -258,10 +258,10 @@
     }
 
     .btn-install-pwa:hover, .btn-install-pwa:active {
-      background: linear-gradient(135deg, var(--neon-purple), var(--neon-green));
-      color: #08090d;
-      border-color: #ffffff;
-      box-shadow: 0 0 18px var(--green-glow), 0 0 14px var(--purple-glow);
+      background: transparent;
+      color: var(--neon-green);
+      border-color: #fff;
+      box-shadow: 0 0 18px var(--green-glow), 0 0 8px #fff;
       transform: translateY(-2px);
     }
 
@@ -349,7 +349,7 @@
       z-index: 0;
       pointer-events: none;
       transform: scale(1.05);
-      transition: opacity 0.4s ease;
+      transition: opacity 0.6s ease-in-out;
     }
 
     .deck-top, .deck-bottom {
@@ -943,11 +943,11 @@
       </div>
     </div>
     
-    <!-- Botones de Redes Sociales y Botón de Instalar App -->
+    <!-- Botones de Redes Sociales (TikTok con diseño corregido) y Botón de Instalar App -->
     <div class="header-actions">
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
-          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.86 4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-2.04-.44 4.89 4.89 0 0 1-1.77-1.48z"/>
+          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
         </svg>
       </a>
 
@@ -957,7 +957,6 @@
         </svg>
       </a>
 
-      <!-- Botón de instalación nativo -->
       <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
         <svg viewBox="0 0 24 24">
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
@@ -1094,14 +1093,12 @@
   <audio id="audioSource" preload="none" crossorigin="anonymous"></audio>
 
   <script>
-    // Registro del Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
 
-    // Lógica nativa de instalación
     let deferredPrompt = null;
     const btnInstallPwa = document.getElementById("btnInstallPwa");
 
@@ -1248,17 +1245,31 @@
     });
     djObserver.observe(sonicDj, { childList: true, characterData: true, subtree: true });
 
+    // ----------------------------------------------------
+    // CONTROL DE CARÁTULA DE FONDO ANTIPARPADEO (GITHUB FIX)
+    // ----------------------------------------------------
+    let artDebounceTimer = null;
+
     function applyBackgroundCover(url) {
       if (!url) return;
       let cleanUrl = url.replace(/^url\(["']?/, '').replace(/["']?\)$/, '').trim();
-      if (!cleanUrl || cleanUrl === currentCoverUrl) return;
+      if (!cleanUrl) return;
 
-      currentCoverUrl = cleanUrl;
-      const tempImg = new Image();
-      tempImg.onload = () => {
-        playerBgArt.style.backgroundImage = `url('${cleanUrl}')`;
-      };
-      tempImg.src = cleanUrl;
+      // Ignora parámetros temporales de caché o refresh de GitHub Pages para evitar bucles
+      let cleanUrlBase = cleanUrl.split('?')[0];
+      let currentBase = currentCoverUrl.split('?')[0];
+
+      if (cleanUrlBase === currentBase) return;
+
+      clearTimeout(artDebounceTimer);
+      artDebounceTimer = setTimeout(() => {
+        currentCoverUrl = cleanUrl;
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          playerBgArt.style.backgroundImage = `url('${cleanUrl}')`;
+        };
+        tempImg.src = cleanUrl;
+      }, 400); // Retardo antirrebote para estabilizar eventos recurrentes de red
     }
 
     function checkSonicArt() {
@@ -1273,7 +1284,8 @@
     const artObserver = new MutationObserver(() => {
       checkSonicArt();
     });
-    artObserver.observe(sonicArtFull, { childList: true, attributes: true, subtree: true });
+    // Observa exclusivamente cambios estructurales en los hijos y no atributos menores de renderizado
+    artObserver.observe(sonicArtFull, { childList: true, subtree: true });
 
     tabChat.addEventListener("click", () => {
       tabChat.classList.add("active");
@@ -1294,7 +1306,6 @@
     let audioCtx = null;
     let analyser = null;
     let dataArray = null;
-    let mediaNode = null;
     let eqAnimId = null;
 
     const NUM_BARS = 28;
@@ -1357,7 +1368,7 @@
           analyser.maxDecibels = -10;
           analyser.smoothingTimeConstant = 0.62;
 
-          mediaNode = audioCtx.createMediaElementSource(audio);
+          let mediaNode = audioCtx.createMediaElementSource(audio);
           mediaNode.connect(analyser);
           analyser.connect(audioCtx.destination);
 
