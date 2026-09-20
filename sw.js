@@ -1,5 +1,5 @@
 // NeXus ZonE Radio - Service Worker para habilitar instalación PWA
-const CACHE_NAME = 'nexuszone-cache-v1.1';
+const CACHE_NAME = 'nexuszone-cache-v1.2';
 const CORE_ASSETS = [
   './',
   './index.html',
