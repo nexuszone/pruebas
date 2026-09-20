@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.28"></script>
+  <script src="./staff.js?v=1.1.29"></script>
 
   <style>
     :root {
@@ -815,7 +815,7 @@
     }
 
     /* ----------------------------------------------------
-       ESTILOS STAFF: FOTOS CUADRADAS Y RANGOS VERDES
+       ESTILOS STAFF: FOTOS CUADRADAS Y OPTIMIZACIÓN DE SCROLL
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -824,6 +824,7 @@
       padding: 14px;
       overflow-y: auto;
       box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
     }
 
     .staff-grid {
@@ -854,12 +855,15 @@
       position: relative;
       overflow: hidden;
       min-height: 195px;
+      content-visibility: auto; /* Optimiza el renderizado móvil al hacer scroll */
+      contain-intrinsic-size: 195px;
     }
 
     @media (min-width: 900px) {
       .staff-card {
         min-height: 230px;
         padding: 16px 8px 38px 8px;
+        contain-intrinsic-size: 230px;
       }
     }
 
@@ -881,6 +885,7 @@
       box-shadow: 0 0 14px rgba(176, 38, 255, 0.35);
       margin-bottom: 8px;
       transition: transform 0.2s ease;
+      will-change: transform;
     }
 
     @media (min-width: 900px) {
@@ -1321,7 +1326,7 @@
 
   <script>
     // ----------------------------------------------------
-    // SERVICE WORKER ESTABLE (ACTUALIZACIÓN EN SEGUNDO PLANO)
+    // SERVICE WORKER ESTABLE
     // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -1412,7 +1417,7 @@
       const coverMemoryCache = new Map();
 
       // ----------------------------------------------------
-      // CARGAR STAFF DESDE staff.js GLOBAL
+      // CARGAR STAFF DESDE staff.js GLOBAL (CON LAZY LOADING OPTIMIZADO)
       // ----------------------------------------------------
       function loadStaffMembers() {
         try {
@@ -1436,12 +1441,12 @@
           const imgSrc = dj.image ? `${dj.image}` : "djs/nexusdj.webp";
 
           li.innerHTML = `
-            <img src="${imgSrc}" class="staff-avatar-img" alt="${dj.name}" onerror="this.onerror=null; this.src='djs/nexusdj.webp';">
+            <img src="${imgSrc}" class="staff-avatar-img" alt="${dj.name}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='djs/nexusdj.webp';">
             <div class="staff-info">
               <div class="staff-name">${dj.name}</div>
             </div>
             <div class="staff-country-badge">
-              ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
+              ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}" loading="lazy" decoding="async">` : ""}
               <span>${dj.country || "Int."}</span>
             </div>
             <span class="staff-badge">${dj.badge || "Staff"}</span>
@@ -1890,25 +1895,29 @@
       resizeCanvas();
 
       // ----------------------------------------------------
-      // REPRODUCCIÓN BLINDADA CONTRA EL PETARDEO MÓVIL
+      // REPRODUCCIÓN ULTRA-FLUIDA EN MÓVILES (SIN PETARDEO)
       // ----------------------------------------------------
       btnPlay.addEventListener("click", () => {
         if (!isPlaying) {
+          // Despertamos/precargamos el motor de audio en el evento táctil directo del usuario
+          setupWebAudioPipeline();
+          if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+
           audio.pause();
           audio.removeAttribute("src");
           audio.load();
 
           setTimeout(() => {
             audio.src = STREAM_URL + "?nocache=" + Date.now();
-            audio.preload = "none";
+            audio.preload = "auto";
             audio.load();
             
-            setTimeout(() => {
-              audio.play().catch(err => {
-                console.warn("Autoplay bloqueado:", err);
-              });
-            }, 350);
-          }, 100);
+            audio.play().catch(err => {
+              console.warn("Autoplay bloqueado:", err);
+            });
+          }, 80);
         } else {
           audio.pause();
           audio.src = "";
@@ -1919,9 +1928,7 @@
       });
 
       audio.addEventListener("playing", () => {
-        setTimeout(() => {
-          setupWebAudioPipeline();
-        }, 150);
+        setupWebAudioPipeline();
         setPlayingState(true);
       });
 
