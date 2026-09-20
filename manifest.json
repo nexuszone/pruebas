@@ -1,17 +1,14 @@
 {
   "name": "NeXus ZonE Radio",
   "short_name": "NeXus ZonE",
-  "description": "Reproductor oficial y streaming continuo de NeXus ZonE",
   "start_url": "./index.html",
-  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#08090d",
   "theme_color": "#08090d",
   "icons": [
     {
       "src": "icon.svg",
-      "sizes": "any",
+      "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
