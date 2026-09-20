@@ -820,7 +820,8 @@
     }
 
     /* ----------------------------------------------------
-       ESTILOS DEL STAFF (FOTO GRANDE Y ESQUINAS)
+       ESTILOS STAFF: FOTO MÁS GRANDE, NOMBRE MÁS GRANDE
+       Y RANGOS EN ESTILO VERDE NEÓN
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -853,18 +854,18 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
       border-radius: 18px;
-      padding: 18px 12px 34px 12px;
+      padding: 18px 10px 36px 10px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      min-height: 170px;
+      min-height: 185px;
     }
 
     @media (min-width: 900px) {
       .staff-card {
-        min-height: 195px;
-        padding: 16px 8px 36px 8px;
+        min-height: 215px;
+        padding: 16px 8px 38px 8px;
       }
     }
 
@@ -875,10 +876,10 @@
       box-shadow: 0 8px 22px rgba(176, 38, 255, 0.35);
     }
 
-    /* Imagen grande del DJ */
+    /* Imagen más grande y destacada */
     .staff-avatar-img {
-      width: 78px;
-      height: 78px;
+      width: 92px;
+      height: 92px;
       border-radius: 50%;
       object-fit: cover;
       border: 2.5px solid var(--neon-purple);
@@ -891,8 +892,8 @@
 
     @media (min-width: 900px) {
       .staff-avatar-img {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
       }
     }
 
@@ -905,8 +906,9 @@
       text-align: center;
     }
 
+    /* Nombre más grande */
     .staff-name {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
@@ -915,7 +917,13 @@
       max-width: 100%;
     }
 
-    /* ESQUINA INFERIOR IZQUIERDA: Bandera y País */
+    @media (min-width: 900px) {
+      .staff-name {
+        font-size: 16px;
+      }
+    }
+
+    /* Esquina Inferior Izquierda: Bandera + País */
     .staff-country-badge {
       position: absolute;
       bottom: 8px;
@@ -940,7 +948,7 @@
       object-fit: cover;
     }
 
-    /* ESQUINA INFERIOR DERECHA: Rol / Rango */
+    /* Esquina Inferior Derecha: Rango Dueño / Fundador en verde neón unificado */
     .staff-badge {
       position: absolute;
       bottom: 8px;
@@ -1049,7 +1057,7 @@
 
     .modal-dj-role {
       font-size: 12px;
-      color: var(--neon-purple);
+      color: var(--neon-green);
       font-weight: 800;
       letter-spacing: 0.6px;
       text-transform: uppercase;
@@ -1284,7 +1292,7 @@
     </section>
   </main>
 
-  <!-- MODAL AMPLIADO DEL DJ -->
+  <!-- MODAL AMPLIADO -->
   <div class="dj-modal-overlay" id="djModalOverlay">
     <div class="dj-modal-card">
       <button class="btn-close-modal" id="btnCloseModal" title="Cerrar">✕</button>
@@ -1438,7 +1446,7 @@
             ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
             <span>${dj.country || "Int."}</span>
           </div>
-          <!-- Esquina Inferior Derecha: Dueño / Rango -->
+          <!-- Esquina Inferior Derecha: Rango en verde neón -->
           <span class="staff-badge">${dj.badge || "Staff"}</span>
         `;
 
