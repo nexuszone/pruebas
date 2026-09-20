@@ -38,5 +38,25 @@ window.STAFF_MEMBERS = [
     "flag": "bo",
     "schedule": "Jueves 19:00 a 22:00 (Hora Bolivia)",
     "description": "Programación variada con algunos especiales de bandas y grupos."
-  }
+  },
+  {
+    "name": "Cisne-Negro",
+    "image": "djs/castle.webp",
+    "role": "Dj",
+    "badge": "Dj",
+    "country": "Colombia",
+    "flag": "co",
+    "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
+    "description": "Sesiones de música Rap y ritmos no tan sonados."
+  },
+  {
+    "name": "Caraxs",
+    "image": "djs/castle.webp",
+    "role": "Dj",
+    "badge": "Dj",
+    "country": "El Salvador",
+    "flag": "sv",
+    "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
+    "description": "Experta en generos Urbanos y música de actualidad"
+  },
 ];
