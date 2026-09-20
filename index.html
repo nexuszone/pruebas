@@ -544,7 +544,6 @@
       padding: 4px 0;
     }
 
-    /* BOTÓN PLAY / STOP: Morado #b026ff */
     .btn-play-hero {
       background: #b026ff !important;
       border: none;
@@ -634,7 +633,6 @@
       fill: var(--text-primary);
     }
 
-    /* SLIDER DE VOLUMEN: Morado #b026ff */
     .volume-slider {
       flex: 1;
       height: 5px;
@@ -820,8 +818,7 @@
     }
 
     /* ----------------------------------------------------
-       ESTILOS STAFF: FOTO MÁS GRANDE, NOMBRE MÁS GRANDE
-       Y RANGOS EN ESTILO VERDE NEÓN
+       ESTILOS STAFF: FOTOS CUADRADAS Y RANGOS EN VERDE NEÓN
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -854,17 +851,17 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
       border-radius: 18px;
-      padding: 18px 10px 36px 10px;
+      padding: 16px 10px 36px 10px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      min-height: 185px;
+      min-height: 195px;
     }
 
     @media (min-width: 900px) {
       .staff-card {
-        min-height: 215px;
+        min-height: 230px;
         padding: 16px 8px 38px 8px;
       }
     }
@@ -876,16 +873,16 @@
       box-shadow: 0 8px 22px rgba(176, 38, 255, 0.35);
     }
 
-    /* Imagen más grande y destacada */
+    /* Imagen cuadrada con esquinas redondeadas */
     .staff-avatar-img {
       width: 92px;
       height: 92px;
-      border-radius: 50%;
+      border-radius: 14px;
       object-fit: cover;
-      border: 2.5px solid var(--neon-purple);
+      border: 2px solid var(--neon-purple);
       flex-shrink: 0;
       background: #08090d;
-      box-shadow: 0 0 14px rgba(176, 38, 255, 0.45);
+      box-shadow: 0 0 14px rgba(176, 38, 255, 0.35);
       margin-bottom: 8px;
       transition: transform 0.2s ease;
     }
@@ -898,7 +895,7 @@
     }
 
     .staff-card:hover .staff-avatar-img {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
 
     .staff-info {
@@ -948,7 +945,7 @@
       object-fit: cover;
     }
 
-    /* Esquina Inferior Derecha: Rango Dueño / Fundador en verde neón unificado */
+    /* Esquina Inferior Derecha: Píldora de Rango en verde neón unificado */
     .staff-badge {
       position: absolute;
       bottom: 8px;
@@ -1033,9 +1030,10 @@
       border-color: var(--neon-purple);
     }
 
+    /* Avatar cuadrado en la modal */
     .modal-dj-avatar {
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
       border-radius: 20px;
       object-fit: cover;
       border: 3px solid var(--neon-purple);
@@ -1141,7 +1139,7 @@
         <g clip-path="url(#navRightHalf)">
           <rect x="26" y="106" width="460" height="300" rx="64" fill="#0d0e15" stroke="#00ff66" stroke-width="26"/>
           <rect x="86" y="156" width="340" height="150" rx="36" fill="#08090d" stroke="#00ff66" stroke-width="12"/>
-          <rect x="156" y="186" width="200" height="90" rx="22" fill="#0d0e15" stroke="#00ff66" stroke-width="10"/>
+          <rect x="156" y="186" width="200" height="90" rx="22" fill="#0a120e" stroke="#00ff66" stroke-width="10"/>
           <circle cx="302" cy="231" r="30" fill="none" stroke="#00ff66" stroke-width="10"/>
           <circle cx="302" cy="231" r="13" fill="#00ff66"/>
           <polygon points="126,380 166,324 346,324 386,380" fill="#08090d" stroke="#00ff66" stroke-width="12"/>
@@ -1446,7 +1444,7 @@
             ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
             <span>${dj.country || "Int."}</span>
           </div>
-          <!-- Esquina Inferior Derecha: Rango en verde neón -->
+          <!-- Esquina Inferior Derecha: Rango en estilo píldora verde neón -->
           <span class="staff-badge">${dj.badge || "Staff"}</span>
         `;
 

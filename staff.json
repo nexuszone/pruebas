@@ -2,13 +2,23 @@
   {
     "name": "Castle",
     "image": "staff/castle.webp",
-    "role": "Dueño & Fundador",
-    "badge": "Dueño",
+    "role": "Fundador & Dj",
+    "badge": "Dundador",
     "country": "España",
     "flag": "es",
     "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
     "description": "Sesiones de música electrónica de los 2000s, dance, techno y eurodance."
   },
+  {
+    "name": "AdharaCanis",
+    "image": "staff/nexusdj.webp",
+    "role": "Admin & Dj",
+    "badge": "Admin",
+    "country": "El Salvador",
+    "flag": "sv",
+    "schedule": "Siempre que puede xD",
+    "description": "Musica variada sobre todo sandugueo del sucio"
+  }
   {
     "name": "YaHiRMaNiaCa",
     "image": "staff/yahir.webp",
@@ -17,26 +27,16 @@
     "country": "México",
     "flag": "mx",
     "schedule": "Miércoles y Domingos 20:00 (Hora México)",
-    "description": "Especialista en ritmos urbanos, reggaetón clásico y mezclas en vivo."
+    "description": "Especialista en música romantica, banda, baladas entre otros"
   },
   {
     "name": "|lu5|0n",
     "image": "staff/lusion.webp",
-    "role": "DJ Residente",
-    "badge": "DJ",
+    "role": "Admin & Dj",
+    "badge": "Admin",
     "country": "Bólivia",
     "flag": "Bo",
-    "schedule": "Jueves 19:00 a 22:00 (Hora Argentina)",
-    "description": "Rock latino, alternativo y éxitos de los 90s/2000s."
+    "schedule": "Jueves 19:00 a 22:00 (Hora Bólivia)",
+    "description": "Programacion variada con algunos especiales de bandas y grupos"
   },
-  {
-    "name": "NeXusDj",
-    "image": "staff/nexusdj.webp",
-    "role": "AutoDJ Automatizado",
-    "badge": "Bot",
-    "country": "España",
-    "flag": "es",
-    "schedule": "24/7 cuando no hay DJ en directo",
-    "description": "Emisión continua con la mejor selección musical ininterrumpida."
-  }
 ]
