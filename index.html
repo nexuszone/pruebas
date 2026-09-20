@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.17"></script>
+  <script src="./staff.js?v=1.1.19"></script>
 
   <style>
     :root {
@@ -781,15 +781,6 @@
       color: var(--text-primary);
     }
 
-    .tab-pill {
-      background: var(--neon-green);
-      color: #08090d;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 10px;
-    }
-
     .tab-view-container {
       flex: 1;
       width: 100%;
@@ -1231,9 +1222,10 @@
             <span>Chat</span>
           </button>
 
+          <!-- Icono de Staff corregido (dos muñecos con cabezas perfectas y bien alineados) -->
           <button class="btn-deck-action btn-deck-staff" id="btnDeckStaff" title="Ver Staff" aria-label="Ver Staff">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
             </svg>
             <span>Staff</span>
           </button>
@@ -1258,7 +1250,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
           </svg>
-          <span>Comunidad</span>
+          <span>NeXus ZonE</span>
         </div>
         <button class="btn-close-drawer" id="btnCloseDrawer" title="Cerrar">✕</button>
       </div>
@@ -1266,7 +1258,8 @@
       <div class="panel-header">
         <div class="tabs-group">
           <button class="tab-item" id="tabChat">Chat</button>
-          <button class="tab-item active" id="tabStaff">Staff <span class="tab-pill">Online</span></button>
+          <!-- Sin el texto "Online" -->
+          <button class="tab-item active" id="tabStaff">Staff</button>
         </div>
       </div>
 
@@ -1906,14 +1899,18 @@
     resizeCanvas();
 
     // ----------------------------------------------------
-    // REPRODUCCIÓN: BOTÓN PLAY Y STOP COMPLETO
+    // REPRODUCCIÓN OPTIMIZADA (FLUIDA Y SIN CORTES)
     // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
       if (!isPlaying) {
         audio.src = STREAM_URL + "?nocache=" + Date.now();
-        audio.play().catch(err => {
-          console.warn("Autoplay en espera:", err);
-        });
+        audio.load();
+        
+        setTimeout(() => {
+          audio.play().catch(err => {
+            console.warn("Autoplay en espera:", err);
+          });
+        }, 100);
       } else {
         audio.pause();
         audio.src = "";
@@ -1924,12 +1921,22 @@
     });
 
     audio.addEventListener("playing", () => {
-      setupWebAudioPipeline();
+      setTimeout(() => {
+        setupWebAudioPipeline();
+      }, 150);
       setPlayingState(true);
     });
 
     audio.addEventListener("pause", () => {
       setPlayingState(false);
+    });
+
+    audio.addEventListener("stalled", () => {
+      if (isPlaying) {
+        console.warn("Stream trabado, reconectando...");
+        audio.src = STREAM_URL + "?nocache=" + Date.now();
+        audio.play().catch(() => {});
+      }
     });
 
     function setPlayingState(playing) {
