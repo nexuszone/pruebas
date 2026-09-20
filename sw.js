@@ -1,5 +1,5 @@
 // NeXus ZonE Radio - Service Worker PWA Optimizado
-const CACHE_NAME = 'nexuszone-cache-v1.1.7';
+const CACHE_NAME = 'nexuszone-cache-v1.1.8';
 const CORE_ASSETS = [
   './',
   './index.html',

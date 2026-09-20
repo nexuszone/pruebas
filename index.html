@@ -873,7 +873,6 @@
       box-shadow: 0 8px 22px rgba(176, 38, 255, 0.35);
     }
 
-    /* Imagen cuadrada con esquinas redondeadas */
     .staff-avatar-img {
       width: 92px;
       height: 92px;
@@ -903,7 +902,6 @@
       text-align: center;
     }
 
-    /* Nombre más grande */
     .staff-name {
       font-size: 15px;
       font-weight: 800;
@@ -915,12 +913,9 @@
     }
 
     @media (min-width: 900px) {
-      .staff-name {
-        font-size: 16px;
-      }
+      .staff-name { font-size: 16px; }
     }
 
-    /* Esquina Inferior Izquierda: Bandera + País */
     .staff-country-badge {
       position: absolute;
       bottom: 8px;
@@ -945,7 +940,6 @@
       object-fit: cover;
     }
 
-    /* Esquina Inferior Derecha: Rango en estilo píldora verde neón */
     .staff-badge {
       position: absolute;
       bottom: 8px;
@@ -1128,7 +1122,7 @@
         <g clip-path="url(#navLeftHalf)">
           <rect x="26" y="106" width="460" height="300" rx="64" fill="#0d0e15" stroke="#b026ff" stroke-width="26"/>
           <rect x="86" y="156" width="340" height="150" rx="36" fill="#08090d" stroke="#b026ff" stroke-width="12"/>
-          <rect x="156" y="186" width="200" height="90" rx="22" fill="#0d0e15" stroke="#b026ff" stroke-width="10"/>
+          <rect x="156" y="186" width="200" height="90" rx="22" fill="#08090d" stroke="#b026ff" stroke-width="10"/>
           <circle cx="210" cy="231" r="30" fill="none" stroke="#b026ff" stroke-width="10"/>
           <circle cx="210" cy="231" r="13" fill="#b026ff"/>
           <polygon points="126,380 166,324 346,324 386,380" fill="#08090d" stroke="#b026ff" stroke-width="12"/>
@@ -1281,7 +1275,7 @@
         <div class="view-content active" id="viewStaff">
           <div class="staff-container">
             <ul class="staff-grid" id="staffListGrid">
-              <!-- Renderizado dinámico desde staff.json -->
+              <!-- Renderizado dinámico interno -->
             </ul>
           </div>
         </div>
@@ -1410,19 +1404,50 @@
     const coverMemoryCache = new Map();
 
     // ----------------------------------------------------
-    // CARGAR Y RENDERIZAR STAFF DESDE staff.json
+    // DATOS DE STAFF INTERNOS (SIN NECESIDAD DE FETCH EXTERNO)
     // ----------------------------------------------------
-    async function loadStaffMembers() {
-      try {
-        const res = await fetch("staff.json?nocache=" + Date.now());
-        if (res.ok) {
-          const staffData = await res.json();
-          renderStaffGrid(staffData);
-        }
-      } catch (err) {
-        console.warn("No se pudo cargar staff.json:", err);
+    const staffMembersData = [
+      {
+        "name": "Castle",
+        "image": "staff/castle.webp",
+        "role": "Fundador & Dj",
+        "badge": "Fundador",
+        "country": "España",
+        "flag": "es",
+        "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
+        "description": "Sesiones de música electrónica de los 2000s, dance, techno y eurodance."
+      },
+      {
+        "name": "AdharaCanis",
+        "image": "staff/nexusdj.webp",
+        "role": "Admin & Dj",
+        "badge": "Admin",
+        "country": "El Salvador",
+        "flag": "sv",
+        "schedule": "Siempre que puede xD",
+        "description": "Música variada sobre todo sandungueo del sucio."
+      },
+      {
+        "name": "YaHiRMaNiaCa",
+        "image": "staff/yahir.webp",
+        "role": "Admin & Dj",
+        "badge": "Admin",
+        "country": "México",
+        "flag": "mx",
+        "schedule": "Miércoles y Domingos 20:00 (Hora México)",
+        "description": "Especialista en música romántica, banda, baladas entre otros."
+      },
+      {
+        "name": "|lu5|0n",
+        "image": "staff/lusion.webp",
+        "role": "Admin & Dj",
+        "badge": "Admin",
+        "country": "Bolivia",
+        "flag": "bo",
+        "schedule": "Jueves 19:00 a 22:00 (Hora Bolivia)",
+        "description": "Programación variada con algunos especiales de bandas y grupos."
       }
-    }
+    ];
 
     function renderStaffGrid(members) {
       staffListGrid.innerHTML = "";
@@ -1491,7 +1516,8 @@
       if (e.target === djModalOverlay) closeDjModal();
     });
 
-    loadStaffMembers();
+    // Renderizar staff al iniciar
+    renderStaffGrid(staffMembersData);
 
     // ----------------------------------------------------
     // VISTAS INDEPENDIENTES (PC Y MÓVIL)
