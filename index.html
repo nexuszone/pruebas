@@ -277,7 +277,7 @@
       }
     }
 
-    /* ESPACIO DE TRABAJO (2 COLUMNAS FIJAS EN PC) */
+    /* ESPACIO DE TRABAJO */
     .workspace {
       flex: 1;
       width: 100%;
@@ -587,7 +587,6 @@
       transform: scale(0.94);
     }
 
-    /* BOTONES DE ACCIÓN DEL PANEL */
     .btn-deck-action {
       background: rgba(0, 255, 102, 0.14);
       border: 1px solid rgba(0, 255, 102, 0.45);
@@ -615,7 +614,6 @@
       box-shadow: 0 0 14px var(--green-glow);
     }
 
-    /* El botón de Staff en el reproductor solo se muestra en móviles */
     .btn-deck-staff {
       display: flex;
     }
@@ -671,7 +669,6 @@
       box-shadow: 0 0 8px var(--neon-purple);
     }
 
-    /* PANEL LATERAL (FIJO EN PC, DRAWER EN MÓVIL) */
     .library-panel {
       position: fixed;
       top: 0;
@@ -787,6 +784,11 @@
       justify-content: center;
       gap: 6px;
       transition: all 0.2s;
+    }
+
+    /* Pestaña Chat oculta por defecto en la cabecera */
+    #tabChat {
+      display: none;
     }
 
     .tab-item.active {
@@ -1026,7 +1028,7 @@
             <span>Chat</span>
           </button>
 
-          <!-- Botón de Staff (Visible solo en móvil al lado de Chat) -->
+          <!-- Botón de Staff (Visible solo en móvil) -->
           <button class="btn-deck-action btn-deck-staff" id="btnDeckStaff" title="Ver Staff" aria-label="Ver Staff">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
@@ -1047,7 +1049,7 @@
       </div>
     </section>
 
-    <!-- Panel de Comunidad (Staff siempre visible en PC por defecto) -->
+    <!-- Panel de Comunidad (Staff siempre visible en PC) -->
     <section class="library-panel" id="libraryPanel">
       <div class="drawer-mobile-header">
         <div class="drawer-title" id="drawerTitleText">
@@ -1061,6 +1063,7 @@
 
       <div class="panel-header">
         <div class="tabs-group">
+          <!-- Pestaña Chat oculta por defecto, solo visible si se activa el chat -->
           <button class="tab-item" id="tabChat">Chat</button>
           <button class="tab-item active" id="tabStaff">Staff <span class="tab-pill">Online</span></button>
         </div>
@@ -1077,7 +1080,7 @@
           </iframe>
         </div>
 
-        <!-- Vista Staff (Activa por defecto en PC) -->
+        <!-- Vista Staff (Activa por defecto) -->
         <div class="view-content active" id="viewStaff">
           <div class="staff-container">
             <ul class="staff-grid">
@@ -1195,28 +1198,35 @@
     // ----------------------------------------------------
     function activateTab(tabName) {
       if (tabName === "chat") {
+        tabChat.style.display = "flex";
         tabChat.classList.add("active");
         tabStaff.classList.remove("active");
         viewChat.classList.add("active");
         viewStaff.classList.remove("active");
         btnDeckChat.classList.add("active");
       } else {
-        tabStaff.classList.add("active");
+        tabChat.style.display = "none";
         tabChat.classList.remove("active");
+        tabStaff.classList.add("active");
         viewStaff.classList.add("active");
         viewChat.classList.remove("active");
         btnDeckChat.classList.remove("active");
       }
     }
 
-    // Botón Chat (al lado del Play): En PC alterna entre Chat y Staff; en móvil abre el cajón en Chat
+    // Botón Chat (al lado del Play)
     btnDeckChat.addEventListener("click", () => {
       const isMobile = window.innerWidth < 900;
       if (isMobile) {
-        activateTab("chat");
-        libraryPanel.classList.add("drawer-open");
+        if (libraryPanel.classList.contains("drawer-open") && viewChat.classList.contains("active")) {
+          libraryPanel.classList.remove("drawer-open");
+          btnDeckChat.classList.remove("active");
+        } else {
+          activateTab("chat");
+          libraryPanel.classList.add("drawer-open");
+        }
       } else {
-        // En PC: si el chat ya está activo, regresa a Staff; si no, muestra el chat
+        // En PC: alterna entre Chat y Staff
         if (viewChat.classList.contains("active")) {
           activateTab("staff");
         } else {
@@ -1225,18 +1235,24 @@
       }
     });
 
-    // Botón Staff (al lado del Play en móvil): Abre el cajón en la pestaña Staff
+    // Botón Staff (al lado del Play en móvil)
     btnDeckStaff.addEventListener("click", () => {
-      activateTab("staff");
-      libraryPanel.classList.add("drawer-open");
+      if (libraryPanel.classList.contains("drawer-open") && viewStaff.classList.contains("active")) {
+        libraryPanel.classList.remove("drawer-open");
+      } else {
+        activateTab("staff");
+        libraryPanel.classList.add("drawer-open");
+      }
     });
 
     // Cerrar cajón en móviles
     btnCloseDrawer.addEventListener("click", () => {
       libraryPanel.classList.remove("drawer-open");
+      btnDeckChat.classList.remove("active");
+      activateTab("staff");
     });
 
-    // Pestañas internas del panel
+    // Pestañas internas
     tabChat.addEventListener("click", () => activateTab("chat"));
     tabStaff.addEventListener("click", () => activateTab("staff"));
 
