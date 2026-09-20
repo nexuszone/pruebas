@@ -97,29 +97,18 @@
       gap: 12px;
     }
 
-    /* Cassette Vectorial limpio */
+    /* Logo Cassette */
     .brand-cassette-svg {
-      width: 40px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       flex-shrink: 0;
       filter: drop-shadow(0 0 8px rgba(176, 38, 255, 0.5)) drop-shadow(0 0 10px rgba(0, 255, 102, 0.4));
-      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
       cursor: pointer;
     }
 
     .brand-cassette-svg:hover {
       transform: scale(1.08) rotate(-2deg);
-      filter: drop-shadow(0 0 12px var(--neon-purple)) drop-shadow(0 0 14px var(--neon-green));
-    }
-
-    .reel-rotate {
-      transform-origin: center;
-      animation: spinReel 4s linear infinite;
-    }
-
-    @keyframes spinReel {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
     }
 
     .brand-name {
@@ -567,7 +556,7 @@
       padding: 4px 0;
     }
 
-    /* BOTÓN PLAY / STOP: Morado #b026ff idéntico a NeXus */
+    /* BOTÓN PLAY / STOP: Morado #b026ff unificado */
     .btn-play-hero {
       background: #b026ff !important;
       border: none;
@@ -588,6 +577,7 @@
       transform: scale(0.94);
     }
 
+    /* BOTONES DE ACCIÓN DEL REPRODUCTOR */
     .btn-deck-action {
       background: rgba(0, 255, 102, 0.14);
       border: 1px solid rgba(0, 255, 102, 0.45);
@@ -657,7 +647,7 @@
       fill: var(--text-primary);
     }
 
-    /* SLIDER DE VOLUMEN: Morado #b026ff idéntico a NeXus */
+    /* SLIDER DE VOLUMEN: Morado #b026ff unificado */
     .volume-slider {
       flex: 1;
       height: 5px;
@@ -916,50 +906,45 @@
 
   <header class="header-bar">
     <div class="brand">
-      <!-- SVG Cassette Limpio sin zonas blancas -->
-      <svg class="brand-cassette-svg" viewBox="0 0 76 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- SVG Cassette idéntico al diseño original de referencia (morado izq, verde der) -->
+      <svg class="brand-cassette-svg" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="cassetteBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="49.5%" stop-color="#b026ff"/>
-            <stop offset="50.5%" stop-color="#00ff66"/>
-          </linearGradient>
-          <linearGradient id="cassetteBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="49.5%" stop-color="#140d21"/>
-            <stop offset="50.5%" stop-color="#0a1c12"/>
-          </linearGradient>
-          <linearGradient id="cassetteLabelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="49.5%" stop-color="#191326"/>
-            <stop offset="50.5%" stop-color="#102419"/>
-          </linearGradient>
+          <clipPath id="navLeftHalf">
+            <rect x="0" y="0" width="256" height="512"/>
+          </clipPath>
+          <clipPath id="navRightHalf">
+            <rect x="256" y="0" width="256" height="512"/>
+          </clipPath>
         </defs>
 
-        <rect x="2" y="2" width="72" height="46" rx="6" fill="url(#cassetteBodyGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="2.5"/>
-        <circle cx="6" cy="6" r="1.5" fill="#252936"/>
-        <circle cx="70" cy="6" r="1.5" fill="#252936"/>
-        <circle cx="6" cy="44" r="1.5" fill="#252936"/>
-        <circle cx="70" cy="44" r="1.5" fill="#252936"/>
-
-        <rect x="11" y="7" width="54" height="24" rx="3.5" fill="url(#cassetteLabelGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="1.4"/>
-        <rect x="22" y="12" width="32" height="14" rx="2.5" fill="#08090d" stroke="url(#cassetteBorderGrad)" stroke-width="1"/>
-
-        <g class="reel-rotate" style="transform-origin: 30px 19px;">
-          <circle cx="30" cy="19" r="4.5" fill="#08090d" stroke="#b026ff" stroke-width="1.5"/>
-          <circle cx="30" cy="19" r="1.8" fill="#b026ff"/>
-          <line x1="30" y1="14.5" x2="30" y2="23.5" stroke="#b026ff" stroke-width="1"/>
-          <line x1="25.5" y1="19" x2="34.5" y2="19" stroke="#b026ff" stroke-width="1"/>
+        <!-- MITAD MORADA (#b026ff) -->
+        <g clip-path="url(#navLeftHalf)">
+          <rect x="26" y="106" width="460" height="300" rx="64" fill="#0d0e15" stroke="#b026ff" stroke-width="26"/>
+          <rect x="86" y="156" width="340" height="150" rx="36" fill="#08090d" stroke="#b026ff" stroke-width="12"/>
+          <rect x="156" y="186" width="200" height="90" rx="22" fill="#0d0e15" stroke="#b026ff" stroke-width="10"/>
+          <circle cx="210" cy="231" r="30" fill="none" stroke="#b026ff" stroke-width="10"/>
+          <circle cx="210" cy="231" r="13" fill="#b026ff"/>
+          <polygon points="126,380 166,324 346,324 386,380" fill="#08090d" stroke="#b026ff" stroke-width="12"/>
+          <circle cx="196" cy="354" r="14" fill="#b026ff"/>
         </g>
 
-        <g class="reel-rotate" style="transform-origin: 46px 19px;">
-          <circle cx="46" cy="19" r="4.5" fill="#08090d" stroke="#00ff66" stroke-width="1.5"/>
-          <circle cx="46" cy="19" r="1.8" fill="#00ff66"/>
-          <line x1="46" y1="14.5" x2="46" y2="23.5" stroke="#00ff66" stroke-width="1"/>
-          <line x1="41.5" y1="19" x2="50.5" y2="19" stroke="#00ff66" stroke-width="1"/>
+        <!-- MITAD VERDE (#00ff66) -->
+        <g clip-path="url(#navRightHalf)">
+          <rect x="26" y="106" width="460" height="300" rx="64" fill="#0a120e" stroke="#00ff66" stroke-width="26"/>
+          <rect x="86" y="156" width="340" height="150" rx="36" fill="#08090d" stroke="#00ff66" stroke-width="12"/>
+          <rect x="156" y="186" width="200" height="90" rx="22" fill="#0a120e" stroke="#00ff66" stroke-width="10"/>
+          <circle cx="302" cy="231" r="30" fill="none" stroke="#00ff66" stroke-width="10"/>
+          <circle cx="302" cy="231" r="13" fill="#00ff66"/>
+          <polygon points="126,380 166,324 346,324 386,380" fill="#08090d" stroke="#00ff66" stroke-width="12"/>
+          <circle cx="316" cy="354" r="14" fill="#00ff66"/>
         </g>
 
-        <polygon points="17,47 23,37 53,37 59,47" fill="#0c0e15" stroke="url(#cassetteBorderGrad)" stroke-width="1.5"/>
-        <circle cx="27" cy="42" r="1.8" fill="#b026ff"/>
-        <circle cx="38" cy="42" r="1.4" fill="#252936"/>
-        <circle cx="49" cy="42" r="1.8" fill="#00ff66"/>
+        <!-- TORNILLOS GRISES -->
+        <circle cx="56" cy="136" r="12" fill="#9096a6"/>
+        <circle cx="456" cy="136" r="12" fill="#9096a6"/>
+        <circle cx="56" cy="376" r="12" fill="#9096a6"/>
+        <circle cx="456" cy="376" r="12" fill="#9096a6"/>
+        <circle cx="256" cy="354" r="11" fill="#9096a6"/>
       </svg>
 
       <div class="brand-name">
