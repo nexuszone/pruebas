@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.20"></script>
+  <script src="./staff.js?v=1.1.21"></script>
 
   <style>
     :root {
@@ -1337,7 +1337,6 @@
       });
     }
 
-    // Aseguramos que todo se ejecute cuando el DOM esté completamente cargado para evitar fallos de elementos visuales
     document.addEventListener("DOMContentLoaded", () => {
       let deferredPrompt = null;
       const btnInstallPwa = document.getElementById("btnInstallPwa");
@@ -1899,26 +1898,26 @@
       resizeCanvas();
 
       // ----------------------------------------------------
-      // REPRODUCCIÓN ULTRA-OPTIMIZADA PARA MÓVILES (SIN PETARDEO)
+      // REPRODUCCIÓN BLINDADA CONTRA EL PETARDEO MÓVIL
       // ----------------------------------------------------
       btnPlay.addEventListener("click", () => {
         if (!isPlaying) {
-          // Limpiamos el buffer previo por completo para evitar que el móvil reproduzca basura acumulada
           audio.pause();
-          audio.src = "";
+          audio.removeAttribute("src");
           audio.load();
 
+          // Usamos una promesa de timeout para purgar el canal de audio del navegador móvil
           setTimeout(() => {
             audio.src = STREAM_URL + "?nocache=" + Date.now();
+            audio.preload = "none";
             audio.load();
             
-            // Retraso optimizado de 300ms exclusivo para móviles para que el búfer se sature limpio
             setTimeout(() => {
               audio.play().catch(err => {
-                console.warn("Autoplay en espera:", err);
+                console.warn("Autoplay bloqueado:", err);
               });
-            }, 300);
-          }, 50);
+            }, 350);
+          }, 100);
         } else {
           audio.pause();
           audio.src = "";
@@ -1931,7 +1930,7 @@
       audio.addEventListener("playing", () => {
         setTimeout(() => {
           setupWebAudioPipeline();
-        }, 200);
+        }, 150);
         setPlayingState(true);
       });
 
@@ -1980,7 +1979,7 @@
         updateVolumeVisual(1);
       });
 
-      // Inicializamos el color visual del slider de volumen al arrancar
+      // Forzamos el pintado de la barra de volumen al cargar para que nunca desaparezca tras el auto-reinicio
       updateVolumeVisual(parseFloat(volumeControl.value));
 
       function recalculateMarquee() {
