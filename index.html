@@ -20,6 +20,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
+  <!-- Archivo externo de Staff -->
+  <script src="./staff.js?v=1.1.15"></script>
+
   <style>
     :root {
       --bg-main: #08090d;
@@ -1283,7 +1286,7 @@
         <div class="view-content active" id="viewStaff">
           <div class="staff-container">
             <ul class="staff-grid" id="staffListGrid">
-              <!-- Renderizado dinámico desde staff.json externo -->
+              <!-- Renderizado dinámico desde staff.js -->
             </ul>
           </div>
         </div>
@@ -1412,23 +1415,22 @@
     const coverMemoryCache = new Map();
 
     // ----------------------------------------------------
-    // CARGAR STAFF DESDE staff.json EXTERNO
+    // CARGAR STAFF DESDE staff.js GLOBAL
     // ----------------------------------------------------
-    async function loadStaffMembers() {
+    function loadStaffMembers() {
       try {
-        const res = await fetch("./staff.json?v=" + Date.now());
-        if (!res.ok) throw new Error("No se pudo cargar staff.json");
-        const staffData = await res.json();
-        renderStaffGrid(staffData);
+        if (window.STAFF_MEMBERS && Array.isArray(window.STAFF_MEMBERS)) {
+          renderStaffGrid(window.STAFF_MEMBERS);
+        } else {
+          console.warn("window.STAFF_MEMBERS no está disponible.");
+        }
       } catch (err) {
-        console.warn("Error cargando staff.json:", err);
+        console.warn("Error al renderizar el staff:", err);
       }
     }
 
     function renderStaffGrid(members) {
       staffListGrid.innerHTML = "";
-      if (!members || !Array.isArray(members)) return;
-
       members.forEach((dj) => {
         const li = document.createElement("li");
         li.className = "staff-card";
