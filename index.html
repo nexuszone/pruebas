@@ -337,7 +337,6 @@
       }
     }
 
-    /* Fondo dinámico nítido y visible */
     .player-bg-art {
       position: absolute;
       inset: -15px;
@@ -348,8 +347,9 @@
       opacity: 0.55;
       z-index: 0;
       pointer-events: none;
-      transform: scale(1.08);
-      transition: background-image 0.8s ease-in-out, opacity 0.6s ease;
+      transform: scale(1.08) translateZ(0);
+      will-change: opacity, background-image;
+      transition: opacity 0.6s ease;
     }
 
     .deck-top, .deck-bottom {
@@ -510,6 +510,7 @@
       letter-spacing: 0.5px;
       color: #e2e6f0;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+      min-height: 18px;
     }
 
     .dj-flag-img {
@@ -518,7 +519,7 @@
       border-radius: 2px;
       object-fit: cover;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-      display: none;
+      display: inline-block;
     }
 
     .deck-bottom {
@@ -537,6 +538,7 @@
       align-items: flex-end;
       justify-content: center;
       overflow: hidden;
+      contain: strict;
     }
 
     @media (min-width: 900px) {
@@ -549,6 +551,7 @@
       width: 100%;
       height: 100%;
       display: block;
+      transform: translateZ(0);
     }
 
     .playback-controls {
@@ -897,8 +900,8 @@
             <stop offset="50.5%" stop-color="#00ff66"/>
           </linearGradient>
           <linearGradient id="cassetteBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="49.5%" stop-color="rgba(176, 38, 255, 0.18)"/>
-            <stop offset="50.5%" stop-color="rgba(0, 255, 102, 0.18)"/>
+            <stop offset="49.5%" stop-color="#191326"/>
+            <stop offset="50.5%" stop-color="#102419"/>
           </linearGradient>
           <linearGradient id="cassetteLabelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="49.5%" stop-color="#191326"/>
@@ -911,6 +914,7 @@
         <circle cx="70" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
         <circle cx="6" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
         <circle cx="70" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
+
         <rect x="11" y="7" width="54" height="24" rx="3.5" fill="url(#cassetteLabelGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="1.4"/>
         <rect x="22" y="12" width="32" height="14" rx="2.5" fill="#08090d" stroke="url(#cassetteBorderGrad)" stroke-width="1"/>
 
@@ -964,7 +968,6 @@
 
   <main class="workspace">
     <section class="player-deck" id="playerDeck">
-      <!-- Capa de fondo dinámica para la carátula -->
       <div class="player-bg-art" id="playerBgArt"></div>
 
       <div class="deck-top">
@@ -986,7 +989,7 @@
         </div>
 
         <div class="dj-country-row" id="djCountryRow">
-          <img src="https://flagcdn.com/24x18/es.png" class="dj-flag-img" id="djFlagImg" alt="Bandera" style="display: inline-block;">
+          <img src="https://flagcdn.com/24x18/es.png" class="dj-flag-img" id="djFlagImg" alt="Bandera">
           <span id="djCountryName">España</span>
         </div>
       </div>
@@ -1047,7 +1050,6 @@
             src="https://chat.chatzona.org/index.html?theme=night#channel=Nexus_Zone" 
             class="chat-iframe"
             title="ChatZona IRC"
-            allow="autoplay"
             loading="lazy">
           </iframe>
         </div>
@@ -1119,7 +1121,7 @@
       deferredPrompt = null;
     });
 
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
       btnInstallPwa.style.display = 'none';
     }
 
@@ -1160,8 +1162,12 @@
     let lastObservedTitle = "";
     let lastObservedDjRaw = "";
     let currentCoverUrl = "";
+    let isFetchingCover = false;
     let djMap = {};
 
+    // ----------------------------------------------------
+    // CARGAR MAPEO DE DJS Y REDES DESDE djs.json
+    // ----------------------------------------------------
     async function loadDjMap() {
       try {
         const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1184,9 +1190,11 @@
     }
     loadDjMap();
 
+    // ----------------------------------------------------
+    // PROCESAMIENTO REFORZADO DEL DJ, PAÍS Y BANDERA
+    // ----------------------------------------------------
     function processDjUpdate(rawDj) {
       if (!rawDj) rawDj = "no dj";
-      
       let cleanDj = rawDj.replace(/\s+/g, ' ').trim();
       let lookupKey = cleanDj.toLowerCase();
 
@@ -1194,13 +1202,12 @@
         lookupKey = "no dj";
       }
 
-      if (lookupKey === lastObservedDjRaw && displayDj.textContent !== "") return;
       lastObservedDjRaw = lookupKey;
 
       let styledName = cleanDj;
       let imgPath = `djs/${encodeURIComponent(lookupKey)}.webp`;
-      let country = "";
-      let flagCode = "";
+      let country = "España";
+      let flagCode = "es";
 
       if (djMap[lookupKey]) {
         styledName = djMap[lookupKey].display || styledName;
@@ -1239,20 +1246,15 @@
     const djObserver = new MutationObserver(() => {
       processDjUpdate(sonicDj.textContent.trim());
     });
-    djObserver.observe(sonicDj, { childList: true, characterData: true, subtree: true });
+    djObserver.observe(sonicDj, { childList: true, subtree: true, characterData: true });
 
     // ----------------------------------------------------
-    // SISTEMA ROBUSTO DE CARÁTULA VÍA ITUNES Y API STATS
+    // CONTROL DE CARÁTULA DE FONDO
     // ----------------------------------------------------
     function applyBackgroundCover(url) {
       if (!url) return;
-      let cleanUrl = url.replace(/^url\(["']?/, '').replace(/["']?\)$/, '').trim();
-      if (!cleanUrl) return;
-
-      let cleanUrlBase = cleanUrl.split('?')[0];
-      let currentBase = currentCoverUrl.split('?')[0];
-
-      if (cleanUrlBase === currentBase) return;
+      let cleanUrl = url.split('?')[0].trim();
+      if (!cleanUrl || cleanUrl === currentCoverUrl) return;
 
       currentCoverUrl = cleanUrl;
       const tempImg = new Image();
@@ -1263,6 +1265,8 @@
     }
 
     async function fetchCoverFromItunes(title, artist) {
+      if (isFetchingCover) return;
+      isFetchingCover = true;
       try {
         const query = encodeURIComponent(`${artist} ${title}`);
         const res = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&entity=song&limit=1`);
@@ -1271,12 +1275,15 @@
           const hiRes = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
           applyBackgroundCover(hiRes);
         }
-      } catch (_) {}
+      } catch (_) {
+      } finally {
+        isFetchingCover = false;
+      }
     }
 
     async function syncMetadataAPI() {
       try {
-        const res = await fetch(STATS_URL + "&nocache=" + Date.now());
+        const res = await fetch(STATS_URL + "&t=" + Date.now());
         if (res.ok) {
           const data = await res.json();
           if (data.songtitle) {
@@ -1284,6 +1291,9 @@
           }
           if (data.arturl) {
             applyBackgroundCover(data.arturl);
+          }
+          if (data.djusername) {
+            processDjUpdate(data.djusername);
           }
         }
       } catch (_) {}
@@ -1295,10 +1305,9 @@
         updateSongDisplay(raw);
       }
     });
-    titleObserver.observe(sonicTitle, { childList: true, characterData: true, subtree: true });
+    titleObserver.observe(sonicTitle, { childList: true, subtree: true, characterData: true });
 
-    // Consulta constante cada 4 segundos para refrescar carátula y metadatos garantizado en PC y Móvil
-    setInterval(syncMetadataAPI, 4000);
+    setInterval(syncMetadataAPI, 6000);
     syncMetadataAPI();
 
     tabChat.addEventListener("click", () => {
@@ -1315,11 +1324,15 @@
       viewChat.classList.remove("active");
     });
 
+    // ----------------------------------------------------
+    // ECUALIZADOR FFT REAL 28 BANDAS
+    // ----------------------------------------------------
     const canvas = document.getElementById("equalizerCanvas");
     const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
     let audioCtx = null;
     let analyser = null;
     let dataArray = null;
+    let mediaNode = null;
     let eqAnimId = null;
 
     const NUM_BARS = 28;
@@ -1372,29 +1385,27 @@
       }
     }
 
-    function initAudioContext() {
+    function setupWebAudioPipeline() {
+      if (audioCtx) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        return;
+      }
       try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 256;
-          analyser.minDecibels = -85;
-          analyser.maxDecibels = -10;
-          analyser.smoothingTimeConstant = 0.62;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.minDecibels = -85;
+        analyser.maxDecibels = -10;
+        analyser.smoothingTimeConstant = 0.62;
 
-          let mediaNode = audioCtx.createMediaElementSource(audio);
-          mediaNode.connect(analyser);
-          analyser.connect(audioCtx.destination);
+        mediaNode = audioCtx.createMediaElementSource(audio);
+        mediaNode.connect(analyser);
+        analyser.connect(audioCtx.destination);
 
-          dataArray = new Uint8Array(analyser.frequencyBinCount);
-          buildPrecomputedLookup();
-        }
-
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        buildPrecomputedLookup();
       } catch (err) {
-        console.warn("AudioContext setup:", err);
+        console.warn("AudioContext setup notice:", err);
       }
     }
 
@@ -1476,16 +1487,14 @@
     window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
     resizeCanvas();
 
+    // ----------------------------------------------------
+    // REPRODUCCIÓN
+    // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
-      initAudioContext();
-
       if (!isPlaying) {
         audio.src = STREAM_URL + "?nocache=" + Date.now();
-        
-        audio.play().then(() => {
-          setPlayingState(true);
-        }).catch(err => {
-          console.error("Error al iniciar reproducción:", err);
+        audio.play().catch(err => {
+          console.warn("Autoplay en espera:", err);
         });
       } else {
         audio.pause();
@@ -1493,6 +1502,15 @@
         audio.load();
         setPlayingState(false);
       }
+    });
+
+    audio.addEventListener("playing", () => {
+      setupWebAudioPipeline();
+      setPlayingState(true);
+    });
+
+    audio.addEventListener("pause", () => {
+      setPlayingState(false);
     });
 
     function setPlayingState(playing) {
@@ -1567,7 +1585,6 @@
       displayTitle.textContent = songOnly;
       recalculateMarquee();
       
-      // Buscar la carátula automáticamente por API si cambia la canción
       fetchCoverFromItunes(songOnly, artist);
     }
 
