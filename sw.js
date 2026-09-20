@@ -1,11 +1,12 @@
-// NeXus ZonE Radio - Service Worker para habilitar instalación PWA
-const CACHE_NAME = 'nexuszone-cache-v1.2';
+// NeXus ZonE Radio - Service Worker PWA Optimizado
+const CACHE_NAME = 'nexuszone-cache-v1.2.0';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
-  './djs.json'
+  './djs.json',
+  './staff.json'
 ];
 
 self.addEventListener('install', (event) => {
@@ -27,11 +28,35 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Las transmisiones de audio y APIs externas se manejan por red directa
-  if (event.request.url.includes('/stream') || event.request.url.includes('streamerr.co') || event.request.url.includes('itunes.apple.com') || event.request.url.includes('flagcdn.com')) {
+  const url = event.request.url;
+
+  // 1. Streaming y APIs externas: Red directa siempre
+  if (
+    url.includes('/stream') ||
+    url.includes('streamerr.co') ||
+    url.includes('itunes.apple.com') ||
+    url.includes('flagcdn.com')
+  ) {
     return;
   }
 
+  // 2. Archivos dinámicos del Staff y configuración: Red primero con respaldo en caché
+  if (url.includes('staff.json') || url.includes('/staff/')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // 3. Recursos estáticos base: Caché primero con respaldo en red
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       return cachedResponse || fetch(event.request);
