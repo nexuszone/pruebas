@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.22"></script>
+  <script src="./staff.js?v=1.1.24"></script>
 
   <style>
     :root {
@@ -1287,7 +1287,7 @@
   <!-- MODAL AMPLIADO -->
   <div class="dj-modal-overlay" id="djModalOverlay">
     <div class="dj-modal-card">
-      <button class="btn-close-modal" id="btnCloseModal" title="Cerrar">✕</button>
+      <button class="btn-close-modal" id="btn-close-modal" title="Cerrar">✕</button>
       <img src="djs/nexusdj.webp" class="modal-dj-avatar" id="modalDjImg" alt="DJ">
       <div class="modal-dj-name" id="modalDjName">Nombre del DJ</div>
       <div class="modal-dj-role-pill" id="modalDjRole">Rol / Rango</div>
@@ -1318,17 +1318,9 @@
 
   <script>
     // ----------------------------------------------------
-    // SERVICE WORKER CON ACTUALIZACIÓN ANTES DE CARGAR INTERFAZ
+    // SERVICE WORKER CON AUTO-REINICIO INSTANTÁNEO
     // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').then((reg) => {
-        reg.update();
-        // Si hay un nuevo service worker esperando, forzamos la activación antes de pintar la app
-        if (reg.waiting) {
-          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-        }
-      }).catch(() => {});
-
       let refreshing = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
@@ -1404,7 +1396,7 @@
       // Modal elements
       const staffListGrid = document.getElementById("staffListGrid");
       const djModalOverlay = document.getElementById("djModalOverlay");
-      const btnCloseModal = document.getElementById("btnCloseModal");
+      const btnCloseModal = document.getElementById("btn-close-modal");
       const modalDjImg = document.getElementById("modalDjImg");
       const modalDjName = document.getElementById("modalDjName");
       const modalDjRole = document.getElementById("modalDjRole");
@@ -1962,7 +1954,12 @@
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
-        volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
+        // Usamos requestAnimationFrame doble para forzar que el navegador pinte el gradiente correctamente tras la recarga PWA
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
+          });
+        });
       }
 
       volumeControl.addEventListener("input", (e) => {
@@ -1979,10 +1976,8 @@
         updateVolumeVisual(1);
       });
 
-      // Aseguramos el pintado inicial del volumen con requestAnimationFrame para que renderice perfecto tras cualquier recarga
-      requestAnimationFrame(() => {
-        updateVolumeVisual(parseFloat(volumeControl.value));
-      });
+      // Inicialización garantizada del volumen en el primer render
+      updateVolumeVisual(parseFloat(volumeControl.value));
 
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
