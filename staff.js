@@ -41,7 +41,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "Cisne-Negro",
-    "image": "djs/castle.webp",
+    "image": "djs/cisne.webp",
     "role": "Dj",
     "badge": "Dj",
     "country": "Colombia",
@@ -51,7 +51,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "Caraxs",
-    "image": "djs/castle.webp",
+    "image": "djs/ca.webp",
     "role": "Dj",
     "badge": "Dj",
     "country": "El Salvador",

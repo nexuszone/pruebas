@@ -18,13 +18,25 @@
   "|lu5|0n": {
     "display": "|lu5|0n",
     "image": "djs/lu50n.webp",
-    "country": "Argentina",
-    "flag": "ar"
+    "country": "Bolivia",
+    "flag": "bo"
   },
   "castle": {
     "display": "Castle",
     "image": "djs/castle.webp",
     "country": "España",
     "flag": "es"
+  }
+  "Cisne-Negro": {
+    "display": "Cisne-Negro",
+    "image": "djs/lu50n.webp",
+    "country": "Colombia",
+    "flag": "co"
+  },
+  "Caraxs": {
+    "display": "|lu5|0n",
+    "image": "djs/lu50n.webp",
+    "country": "El Salvador",
+    "flag": "sv"
   }
 }

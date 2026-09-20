@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.21"></script>
+  <script src="./staff.js?v=1.1.22"></script>
 
   <style>
     :root {
@@ -1318,22 +1318,23 @@
 
   <script>
     // ----------------------------------------------------
-    // SERVICE WORKER CON AUTO-REINICIO AL ACTUALIZAR
+    // SERVICE WORKER CON ACTUALIZACIÓN ANTES DE CARGAR INTERFAZ
     // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
-      let refreshing = false;
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        reg.update();
+        // Si hay un nuevo service worker esperando, forzamos la activación antes de pintar la app
+        if (reg.waiting) {
+          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+      }).catch(() => {});
 
+      let refreshing = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
           refreshing = true;
           window.location.reload();
         }
-      });
-
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').then((reg) => {
-          reg.update();
-        }).catch(() => {});
       });
     }
 
@@ -1906,7 +1907,6 @@
           audio.removeAttribute("src");
           audio.load();
 
-          // Usamos una promesa de timeout para purgar el canal de audio del navegador móvil
           setTimeout(() => {
             audio.src = STREAM_URL + "?nocache=" + Date.now();
             audio.preload = "none";
@@ -1979,8 +1979,10 @@
         updateVolumeVisual(1);
       });
 
-      // Forzamos el pintado de la barra de volumen al cargar para que nunca desaparezca tras el auto-reinicio
-      updateVolumeVisual(parseFloat(volumeControl.value));
+      // Aseguramos el pintado inicial del volumen con requestAnimationFrame para que renderice perfecto tras cualquier recarga
+      requestAnimationFrame(() => {
+        updateVolumeVisual(parseFloat(volumeControl.value));
+      });
 
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
