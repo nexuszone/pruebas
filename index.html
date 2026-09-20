@@ -337,7 +337,6 @@
       }
     }
 
-    /* Desenfoque ajustado 10% menos (12.6px) y renderizado acelerado por hardware */
     .player-bg-art {
       position: absolute;
       inset: -15px;
@@ -564,8 +563,9 @@
       padding: 4px 0;
     }
 
+    /* BOTÓN HERO PLAY: Morado uniforme exacto */
     .btn-play-hero {
-      background: linear-gradient(135deg, var(--neon-purple), #8800cc);
+      background: var(--neon-purple);
       border: none;
       color: white;
       width: 58px;
@@ -1243,9 +1243,6 @@
     });
     djObserver.observe(sonicDj, { childList: true, subtree: true, characterData: true });
 
-    // ----------------------------------------------------
-    // CARÁTULA CON VERIFICACIÓN Y FILTRO INTELIGENTE
-    // ----------------------------------------------------
     function applyBackgroundCover(url) {
       if (!url) return;
       let cleanUrl = url.split('?')[0].trim();
@@ -1259,7 +1256,6 @@
       tempImg.src = cleanUrl;
     }
 
-    // Limpia cadenas de radio para obtener resultados musicales precisos
     function sanitizeTerm(str) {
       return str
         .replace(/\b(feat|ft|remix|mix|edit|version|radio edit|original mix|extended|official video|audio|lyrics)\b.*$/gi, '')
@@ -1280,7 +1276,6 @@
       const cleanTitle = sanitizeTerm(title);
 
       try {
-        // Intento 1: Búsqueda estricta combinada Artista + Canción
         const query1 = encodeURIComponent(`${cleanArtist} ${cleanTitle}`);
         let res = await fetch(`https://itunes.apple.com/search?term=${query1}&media=music&entity=song&limit=4`);
         let data = await res.json();
@@ -1298,7 +1293,6 @@
           }) || data.results[0];
         }
 
-        // Intento 2: Búsqueda por título limpio si el nombre del artista era un indicativo de radio
         if (!bestMatch && cleanTitle.length > 2) {
           const query2 = encodeURIComponent(cleanTitle);
           res = await fetch(`https://itunes.apple.com/search?term=${query2}&media=music&entity=song&limit=3`);
@@ -1357,7 +1351,7 @@
     });
 
     // ----------------------------------------------------
-    // ECUALIZADOR FFT REAL 28 BANDAS (OPTIMIZADO)
+    // ECUALIZADOR FFT REAL 28 BANDAS: Morado Neón idéntico
     // ----------------------------------------------------
     const canvas = document.getElementById("equalizerCanvas");
     const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
@@ -1407,7 +1401,7 @@
 
       cachedBarGradient = ctx.createLinearGradient(0, eqLogicalHeight, 0, 0);
       cachedBarGradient.addColorStop(0, "#b026ff");
-      cachedBarGradient.addColorStop(0.55, "#7000ff");
+      cachedBarGradient.addColorStop(0.65, "#b026ff");
       cachedBarGradient.addColorStop(1, "#00ff66");
 
       buildPrecomputedLookup();
@@ -1519,9 +1513,6 @@
     window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
     resizeCanvas();
 
-    // ----------------------------------------------------
-    // REPRODUCCIÓN FLUIDA
-    // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
       if (!isPlaying) {
         audio.src = STREAM_URL + "?nocache=" + Date.now();
@@ -1617,7 +1608,6 @@
       displayTitle.textContent = songOnly;
       recalculateMarquee();
       
-      // Búsqueda afinada sin carátulas falsas
       fetchAccurateCover(songOnly, artist);
     }
 
