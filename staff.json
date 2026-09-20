@@ -1,9 +1,9 @@
 [
   {
     "name": "Castle",
-    "image": "staff/castle.webp",
+    "image": "djs/castle.webp",
     "role": "Fundador & Dj",
-    "badge": "Dundador",
+    "badge": "Fundador",
     "country": "España",
     "flag": "es",
     "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
@@ -11,32 +11,32 @@
   },
   {
     "name": "AdharaCanis",
-    "image": "staff/nexusdj.webp",
+    "image": "djs/nexusdj.webp",
     "role": "Admin & Dj",
     "badge": "Admin",
     "country": "El Salvador",
     "flag": "sv",
     "schedule": "Siempre que puede xD",
-    "description": "Musica variada sobre todo sandugueo del sucio"
-  }
+    "description": "Música variada sobre todo sandungueo del sucio."
+  },
   {
     "name": "YaHiRMaNiaCa",
-    "image": "staff/yahir.webp",
+    "image": "djs/yahirmaniaca",
     "role": "Admin & Dj",
     "badge": "Admin",
     "country": "México",
     "flag": "mx",
     "schedule": "Miércoles y Domingos 20:00 (Hora México)",
-    "description": "Especialista en música romantica, banda, baladas entre otros"
+    "description": "Especialista en música romántica, banda, baladas entre otros."
   },
   {
     "name": "|lu5|0n",
-    "image": "staff/lusion.webp",
+    "image": "djs/lusion.webp",
     "role": "Admin & Dj",
     "badge": "Admin",
-    "country": "Bólivia",
-    "flag": "Bo",
-    "schedule": "Jueves 19:00 a 22:00 (Hora Bólivia)",
-    "description": "Programacion variada con algunos especiales de bandas y grupos"
+    "country": "Bolivia",
+    "flag": "bo",
+    "schedule": "Jueves 19:00 a 22:00 (Hora Bolivia)",
+    "description": "Programación variada con algunos especiales de bandas y grupos."
   },
 ]
