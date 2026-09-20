@@ -818,7 +818,7 @@
     }
 
     /* ----------------------------------------------------
-       ESTILOS STAFF: CUADRÍCULA 5 COLUMNAS Y TARJETAS
+       ESTILOS STAFF: FOTOS CUADRADAS Y RANGOS VERDES
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -1046,13 +1046,21 @@
       justify-content: center;
     }
 
-    .modal-dj-role {
-      font-size: 12px;
+    /* Píldora idéntica para el rol en la ventana modal */
+    .modal-dj-role-pill {
+      display: inline-block;
+      background: rgba(0, 255, 102, 0.15);
+      border: 1px solid rgba(0, 255, 102, 0.5);
       color: var(--neon-green);
+      font-size: 11px;
       font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 12px;
       letter-spacing: 0.6px;
       text-transform: uppercase;
-      margin-top: 3px;
+      margin-top: 6px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
     .modal-dj-country {
@@ -1289,7 +1297,7 @@
       <button class="btn-close-modal" id="btnCloseModal" title="Cerrar">✕</button>
       <img src="djs/nexusdj.webp" class="modal-dj-avatar" id="modalDjImg" alt="DJ">
       <div class="modal-dj-name" id="modalDjName">Nombre del DJ</div>
-      <div class="modal-dj-role" id="modalDjRole">Rol / Rango</div>
+      <div class="modal-dj-role-pill" id="modalDjRole">Rol / Rango</div>
       <div class="modal-dj-country" id="modalDjCountry">
         <img src="" id="modalDjFlag" alt="Bandera">
         <span id="modalDjCountryName">País</span>
@@ -1404,7 +1412,7 @@
     const coverMemoryCache = new Map();
 
     // ----------------------------------------------------
-    // DATOS DE STAFF INTERNOS (SIN NECESIDAD DE FETCH EXTERNO)
+    // DATOS DE STAFF INTERNOS
     // ----------------------------------------------------
     const staffMembersData = [
       {
@@ -1463,12 +1471,10 @@
           <div class="staff-info">
             <div class="staff-name">${dj.name}</div>
           </div>
-          <!-- Esquina Inferior Izquierda: Bandera + País -->
           <div class="staff-country-badge">
             ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
             <span>${dj.country || "Int."}</span>
           </div>
-          <!-- Esquina Inferior Derecha: Rango en estilo píldora verde neón -->
           <span class="staff-badge">${dj.badge || "Staff"}</span>
         `;
 
@@ -1516,7 +1522,6 @@
       if (e.target === djModalOverlay) closeDjModal();
     });
 
-    // Renderizar staff al iniciar
     renderStaffGrid(staffMembersData);
 
     // ----------------------------------------------------
