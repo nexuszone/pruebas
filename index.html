@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.25"></script>
+  <script src="./staff.js?v=1.1.27"></script>
 
   <style>
     :root {
@@ -62,6 +62,7 @@
       overflow: hidden;
       position: fixed;
       inset: 0;
+      transition: opacity 0.2s ease; /* Transición suave para el reinicio limpio */
     }
 
     body {
@@ -622,7 +623,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       min-height: 34px;
       backdrop-filter: blur(8px);
-      width: 100%; /* Forzamos ancho completo seguro */
+      width: 100%;
       flex-shrink: 0;
     }
 
@@ -1321,24 +1322,29 @@
 
   <script>
     // ----------------------------------------------------
-    // SERVICE WORKER CON AUTO-REINICIO INSTANTÁNEO
+    // REINICIO LIMPIO AUTOMÁTICO AL ACTUALIZAR (SIMULA CIERRE Y APERTURA)
     // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
           refreshing = true;
-          window.location.reload();
+          // Desvanece la pantalla un instante y recarga limpio
+          document.documentElement.style.opacity = '0';
+          setTimeout(() => {
+            window.location.reload();
+          }, 200);
         }
+      });
+
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          reg.update();
+        }).catch(() => {});
       });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Forzamos un redimensionamiento global inmediato al arrancar para corregir el viewport en móviles tras recargas PWA
-      setTimeout(() => {
-        window.dispatchEvent(new Event('resize'));
-      }, 50);
-
       let deferredPrompt = null;
       const btnInstallPwa = document.getElementById("btnInstallPwa");
 
@@ -1962,9 +1968,7 @@
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
-        requestAnimationFrame(() => {
-          volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
-        });
+        volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
       }
 
       volumeControl.addEventListener("input", (e) => {

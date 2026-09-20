@@ -1,5 +1,5 @@
-// NeXus ZonE Radio - Service Worker v1.1.31
-const CACHE_NAME = 'nexuszone-cache-v1.1.31';
+// NeXus ZonE Radio - Service Worker v1.1.35
+const CACHE_NAME = 'nexuszone-cache-v1.1.35';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -9,17 +9,13 @@ const CORE_ASSETS = [
   './staff.js'
 ];
 
-// Instalación inmediata
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(CORE_ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
   );
 });
 
-// Activación y limpieza inmediata de cachés viejas
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -30,11 +26,8 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Intercepción de red optimizada
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
-
-  // Excepciones directas a la red
   if (
     url.includes('/stream') ||
     url.includes('streamerr.co') ||
@@ -47,7 +40,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Para el resto de archivos de la app: red primero, si falla usa caché
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
