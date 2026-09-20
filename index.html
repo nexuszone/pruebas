@@ -97,6 +97,7 @@
       gap: 12px;
     }
 
+    /* Cassette Vectorial limpio sin partes blancas indeseadas */
     .brand-cassette-svg {
       width: 40px;
       height: 28px;
@@ -203,30 +204,29 @@
       transition: transform 0.2s ease, filter 0.2s ease;
     }
 
-    .social-tiktok:hover, .social-tiktok:active {
-      border-color: #ffffff;
-      background: rgba(255, 255, 255, 0.18);
-      color: #ffffff;
-      box-shadow: 0 0 16px var(--tiktok-glow), 0 0 6px #ffffff;
-      transform: translateY(-2px);
-    }
-
-    .social-tiktok:hover svg, .social-tiktok:active svg {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 8px #ffffff);
-    }
-
-    .social-telegram:hover, .social-telegram:active {
-      border-color: var(--telegram-blue);
-      background: rgba(34, 158, 217, 0.2);
-      color: var(--telegram-blue);
-      box-shadow: 0 0 16px var(--telegram-glow), 0 0 6px var(--telegram-blue);
-      transform: translateY(-2px);
-    }
-
-    .social-telegram:hover svg, .social-telegram:active svg {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 8px var(--telegram-blue));
+    @media (hover: hover) {
+      .social-tiktok:hover {
+        border-color: #ffffff;
+        background: rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        box-shadow: 0 0 16px var(--tiktok-glow), 0 0 6px #ffffff;
+        transform: translateY(-2px);
+      }
+      .social-tiktok:hover svg {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 8px #ffffff);
+      }
+      .social-telegram:hover {
+        border-color: var(--telegram-blue);
+        background: rgba(34, 158, 217, 0.2);
+        color: var(--telegram-blue);
+        box-shadow: 0 0 16px var(--telegram-glow), 0 0 6px var(--telegram-blue);
+        transform: translateY(-2px);
+      }
+      .social-telegram:hover svg {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 8px var(--telegram-blue));
+      }
     }
 
     .btn-install-pwa {
@@ -256,16 +256,17 @@
       transition: transform 0.2s ease;
     }
 
-    .btn-install-pwa:hover, .btn-install-pwa:active {
-      background: transparent;
-      color: var(--neon-green);
-      border-color: #fff;
-      box-shadow: 0 0 18px var(--green-glow), 0 0 8px #fff;
-      transform: translateY(-2px);
-    }
-
-    .btn-install-pwa:hover svg {
-      transform: translateY(2px);
+    @media (hover: hover) {
+      .btn-install-pwa:hover {
+        background: transparent;
+        color: var(--neon-green);
+        border-color: #fff;
+        box-shadow: 0 0 18px var(--green-glow), 0 0 8px #fff;
+        transform: translateY(-2px);
+      }
+      .btn-install-pwa:hover svg {
+        transform: translateY(2px);
+      }
     }
 
     @media (max-width: 480px) {
@@ -277,7 +278,6 @@
       }
     }
 
-    /* ESPACIO DE TRABAJO */
     .workspace {
       flex: 1;
       width: 100%;
@@ -587,6 +587,7 @@
       transform: scale(0.94);
     }
 
+    /* BOTONES DE ACCIÓN DE REPRODUCTOR */
     .btn-deck-action {
       background: rgba(0, 255, 102, 0.14);
       border: 1px solid rgba(0, 255, 102, 0.45);
@@ -602,15 +603,24 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
+      transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
       flex-shrink: 0;
       backdrop-filter: blur(8px);
+      outline: none;
     }
 
-    .btn-deck-action:active, .btn-deck-action.active {
-      transform: scale(0.94);
-      background: var(--neon-green);
-      color: #08090d;
+    /* Solo aplicar hover si el dispositivo cuenta con puntero real (ratón) */
+    @media (hover: hover) {
+      .btn-deck-action:hover {
+        background: rgba(0, 255, 102, 0.25);
+        color: #fff;
+      }
+    }
+
+    .btn-deck-action:active,
+    .btn-deck-action.active {
+      background: var(--neon-green) !important;
+      color: #08090d !important;
       box-shadow: 0 0 14px var(--green-glow);
     }
 
@@ -786,7 +796,6 @@
       transition: all 0.2s;
     }
 
-    /* Pestaña Chat oculta por defecto en la cabecera */
     #tabChat {
       display: none;
     }
@@ -907,6 +916,7 @@
 
   <header class="header-bar">
     <div class="brand">
+      <!-- SVG Cassette Corregido: Sin partes blancas residuales -->
       <svg class="brand-cassette-svg" viewBox="0 0 76 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="cassetteBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -914,8 +924,8 @@
             <stop offset="50.5%" stop-color="#00ff66"/>
           </linearGradient>
           <linearGradient id="cassetteBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="49.5%" stop-color="rgba(176, 38, 255, 0.18)"/>
-            <stop offset="50.5%" stop-color="rgba(0, 255, 102, 0.18)"/>
+            <stop offset="49.5%" stop-color="#140d21"/>
+            <stop offset="50.5%" stop-color="#0a1c12"/>
           </linearGradient>
           <linearGradient id="cassetteLabelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="49.5%" stop-color="#191326"/>
@@ -924,23 +934,23 @@
         </defs>
 
         <rect x="2" y="2" width="72" height="46" rx="6" fill="url(#cassetteBodyGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="2.5"/>
-        <circle cx="6" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
-        <circle cx="70" cy="6" r="1.5" fill="#ffffff" opacity="0.6"/>
-        <circle cx="6" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
-        <circle cx="70" cy="44" r="1.5" fill="#ffffff" opacity="0.6"/>
+        <circle cx="6" cy="6" r="1.5" fill="#161922"/>
+        <circle cx="70" cy="6" r="1.5" fill="#161922"/>
+        <circle cx="6" cy="44" r="1.5" fill="#161922"/>
+        <circle cx="70" cy="44" r="1.5" fill="#161922"/>
 
         <rect x="11" y="7" width="54" height="24" rx="3.5" fill="url(#cassetteLabelGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="1.4"/>
         <rect x="22" y="12" width="32" height="14" rx="2.5" fill="#08090d" stroke="url(#cassetteBorderGrad)" stroke-width="1"/>
 
         <g class="reel-rotate" style="transform-origin: 30px 19px;">
-          <circle cx="30" cy="19" r="4.5" fill="none" stroke="#b026ff" stroke-width="1.5"/>
+          <circle cx="30" cy="19" r="4.5" fill="#08090d" stroke="#b026ff" stroke-width="1.5"/>
           <circle cx="30" cy="19" r="1.8" fill="#b026ff"/>
           <line x1="30" y1="14.5" x2="30" y2="23.5" stroke="#b026ff" stroke-width="1"/>
           <line x1="25.5" y1="19" x2="34.5" y2="19" stroke="#b026ff" stroke-width="1"/>
         </g>
 
         <g class="reel-rotate" style="transform-origin: 46px 19px;">
-          <circle cx="46" cy="19" r="4.5" fill="none" stroke="#00ff66" stroke-width="1.5"/>
+          <circle cx="46" cy="19" r="4.5" fill="#08090d" stroke="#00ff66" stroke-width="1.5"/>
           <circle cx="46" cy="19" r="1.8" fill="#00ff66"/>
           <line x1="46" y1="14.5" x2="46" y2="23.5" stroke="#00ff66" stroke-width="1"/>
           <line x1="41.5" y1="19" x2="50.5" y2="19" stroke="#00ff66" stroke-width="1"/>
@@ -948,7 +958,7 @@
 
         <polygon points="17,47 23,37 53,37 59,47" fill="#0c0e15" stroke="url(#cassetteBorderGrad)" stroke-width="1.5"/>
         <circle cx="27" cy="42" r="1.8" fill="#b026ff"/>
-        <circle cx="38" cy="42" r="1.4" fill="#ffffff" opacity="0.4"/>
+        <circle cx="38" cy="42" r="1.4" fill="#161922"/>
         <circle cx="49" cy="42" r="1.8" fill="#00ff66"/>
       </svg>
 
@@ -1014,13 +1024,14 @@
         </div>
 
         <div class="playback-controls">
-          <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o pausar">
+          <!-- Botón Play / STOP -->
+          <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o detener">
             <svg id="playIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
             </svg>
           </button>
 
-          <!-- Botón de Chat (Independiente) -->
+          <!-- Botón de Chat -->
           <button class="btn-deck-action" id="btnDeckChat" title="Abrir Chat" aria-label="Abrir Chat">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
@@ -1049,7 +1060,7 @@
       </div>
     </section>
 
-    <!-- Panel de Comunidad (Staff siempre visible en PC) -->
+    <!-- Panel de Comunidad -->
     <section class="library-panel" id="libraryPanel">
       <div class="drawer-mobile-header">
         <div class="drawer-title" id="drawerTitleText">
@@ -1063,7 +1074,6 @@
 
       <div class="panel-header">
         <div class="tabs-group">
-          <!-- Pestaña Chat oculta por defecto, solo visible si se activa el chat -->
           <button class="tab-item" id="tabChat">Chat</button>
           <button class="tab-item active" id="tabStaff">Staff <span class="tab-pill">Online</span></button>
         </div>
@@ -1080,7 +1090,7 @@
           </iframe>
         </div>
 
-        <!-- Vista Staff (Activa por defecto) -->
+        <!-- Vista Staff -->
         <div class="view-content active" id="viewStaff">
           <div class="staff-container">
             <ul class="staff-grid">
@@ -1211,6 +1221,7 @@
         viewStaff.classList.add("active");
         viewChat.classList.remove("active");
         btnDeckChat.classList.remove("active");
+        btnDeckChat.blur(); // Remueve el foco residual en dispositivos móviles
       }
     }
 
@@ -1221,12 +1232,12 @@
         if (libraryPanel.classList.contains("drawer-open") && viewChat.classList.contains("active")) {
           libraryPanel.classList.remove("drawer-open");
           btnDeckChat.classList.remove("active");
+          btnDeckChat.blur();
         } else {
           activateTab("chat");
           libraryPanel.classList.add("drawer-open");
         }
       } else {
-        // En PC: alterna entre Chat y Staff
         if (viewChat.classList.contains("active")) {
           activateTab("staff");
         } else {
@@ -1237,6 +1248,8 @@
 
     // Botón Staff (al lado del Play en móvil)
     btnDeckStaff.addEventListener("click", () => {
+      btnDeckChat.classList.remove("active");
+      btnDeckChat.blur();
       if (libraryPanel.classList.contains("drawer-open") && viewStaff.classList.contains("active")) {
         libraryPanel.classList.remove("drawer-open");
       } else {
@@ -1249,6 +1262,7 @@
     btnCloseDrawer.addEventListener("click", () => {
       libraryPanel.classList.remove("drawer-open");
       btnDeckChat.classList.remove("active");
+      btnDeckChat.blur();
       activateTab("staff");
     });
 
@@ -1590,16 +1604,19 @@
     resizeCanvas();
 
     // ----------------------------------------------------
-    // REPRODUCCIÓN
+    // REPRODUCCIÓN: BOTÓN PLAY Y STOP COMPLETO
     // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
       if (!isPlaying) {
+        // PLAY: Inicia transmisión limpia con bust cache
         audio.src = STREAM_URL + "?nocache=" + Date.now();
         audio.play().catch(err => {
           console.warn("Autoplay en espera:", err);
         });
       } else {
+        // STOP: Detiene y purga completamente la conexión de red y búfer
         audio.pause();
+        audio.src = "";
         audio.removeAttribute("src");
         audio.load();
         setPlayingState(false);
@@ -1619,10 +1636,12 @@
       isPlaying = playing;
       if (playing) {
         playerDeck.classList.add("is-playing");
-        playIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+        // Cuadrado de STOP completo cuando está reproduciendo
+        playIcon.innerHTML = `<rect x="6" y="6" width="12" height="12" rx="1.5" />`;
         startEqualizer();
       } else {
         playerDeck.classList.remove("is-playing");
+        // Triángulo de PLAY cuando está detenido
         playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
         stopEqualizer();
       }
