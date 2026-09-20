@@ -1,22 +1,24 @@
-// NeXus ZonE Radio - Service Worker PWA Optimizado
-const CACHE_NAME = 'nexuszone-cache-v1.1.11';
+// NeXus ZonE Radio - Service Worker con Auto-Actualización
+const CACHE_NAME = 'nexuszone-cache-v1.1.15'; // Sube este número cada vez que actualices la web
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
-  './djs.json',
-  './staff.json'
+  './djs.json'
 ];
 
+// Instalación inmediata
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(CORE_ASSETS);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
+// Activación y limpieza inmediata de cachés viejas
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -27,10 +29,10 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Intercepción de red optimizada
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
 
-  // 1. Streaming y APIs externas: Red directa siempre
   if (
     url.includes('/stream') ||
     url.includes('streamerr.co') ||
@@ -40,26 +42,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Archivos dinámicos del Staff y configuración: Red primero con respaldo en caché
-  if (url.includes('staff.json') || url.includes('/staff/')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
-          }
-          return networkResponse;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // 3. Recursos estáticos base: Caché primero con respaldo en red
+  // Para archivos de la app: red primero, si falla usa caché
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
-    })
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+        }
+        return networkResponse;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
