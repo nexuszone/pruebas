@@ -634,6 +634,7 @@
       fill: var(--text-primary);
     }
 
+    /* SLIDER DE VOLUMEN: Morado #b026ff */
     .volume-slider {
       flex: 1;
       height: 5px;
@@ -819,7 +820,7 @@
     }
 
     /* ----------------------------------------------------
-       CONTENEDOR Y CUADRÍCULA DEL STAFF (5x4 EN PC)
+       ESTILOS DEL STAFF (FOTO GRANDE Y ESQUINAS)
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -830,44 +831,40 @@
       box-sizing: border-box;
     }
 
-    /* Móvil: lista vertical estándar */
     .staff-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 12px;
       list-style: none;
     }
 
-    /* PC: Cuadrícula de 5 columnas */
     @media (min-width: 900px) {
       .staff-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 12px;
+        gap: 14px;
       }
     }
 
-    /* Tarjeta individual de DJ en la cuadrícula */
     .staff-card {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 10px 12px;
+      border-radius: 18px;
+      padding: 18px 12px 34px 12px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
+      min-height: 170px;
     }
 
     @media (min-width: 900px) {
       .staff-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 14px 10px;
-        gap: 8px;
+        min-height: 195px;
+        padding: 16px 8px 36px 8px;
       }
     }
 
@@ -878,41 +875,38 @@
       box-shadow: 0 8px 22px rgba(176, 38, 255, 0.35);
     }
 
+    /* Imagen grande del DJ */
     .staff-avatar-img {
-      width: 48px;
-      height: 48px;
+      width: 78px;
+      height: 78px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--neon-purple);
+      border: 2.5px solid var(--neon-purple);
       flex-shrink: 0;
       background: #08090d;
-      box-shadow: 0 0 10px rgba(176, 38, 255, 0.35);
+      box-shadow: 0 0 14px rgba(176, 38, 255, 0.45);
+      margin-bottom: 8px;
+      transition: transform 0.2s ease;
     }
 
     @media (min-width: 900px) {
       .staff-avatar-img {
-        width: 60px;
-        height: 60px;
+        width: 100px;
+        height: 100px;
       }
+    }
+
+    .staff-card:hover .staff-avatar-img {
+      transform: scale(1.05);
     }
 
     .staff-info {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    @media (min-width: 900px) {
-      .staff-info {
-        align-items: center;
-        width: 100%;
-      }
+      width: 100%;
+      text-align: center;
     }
 
     .staff-name {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
@@ -921,44 +915,50 @@
       max-width: 100%;
     }
 
+    /* ESQUINA INFERIOR IZQUIERDA: Bandera y País */
     .staff-country-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 10px;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #e2e6f0;
+      background: rgba(8, 9, 13, 0.85);
+      padding: 2px 7px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
     }
 
     .staff-country-badge img {
-      width: 16px;
-      height: 11px;
+      width: 15px;
+      height: 10px;
       border-radius: 2px;
       object-fit: cover;
     }
 
+    /* ESQUINA INFERIOR DERECHA: Rol / Rango */
     .staff-badge {
-      align-self: flex-start;
-      background: rgba(0, 255, 102, 0.12);
-      border: 1px solid rgba(0, 255, 102, 0.4);
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      background: rgba(0, 255, 102, 0.15);
+      border: 1px solid rgba(0, 255, 102, 0.5);
       color: var(--neon-green);
       font-size: 10px;
       font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 10px;
+      padding: 2px 8px;
+      border-radius: 8px;
       letter-spacing: 0.4px;
       white-space: nowrap;
-    }
-
-    @media (min-width: 900px) {
-      .staff-badge {
-        align-self: center;
-        margin-top: 2px;
-      }
+      backdrop-filter: blur(4px);
     }
 
     /* ----------------------------------------------------
-       VENTANA MODAL AMPLIADA DEL DJ
+       VENTANA MODAL AMPLIADA
        ---------------------------------------------------- */
     .dj-modal-overlay {
       position: fixed;
@@ -1097,9 +1097,6 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 3px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
 
     .modal-info-text {
@@ -1275,7 +1272,7 @@
           </iframe>
         </div>
 
-        <!-- Vista Staff: Cuadrícula dinámica cargada por JSON -->
+        <!-- Vista Staff -->
         <div class="view-content active" id="viewStaff">
           <div class="staff-container">
             <ul class="staff-grid" id="staffListGrid">
@@ -1287,7 +1284,7 @@
     </section>
   </main>
 
-  <!-- MODAL PARA AMPLIAR LA TARJETA DEL DJ -->
+  <!-- MODAL AMPLIADO DEL DJ -->
   <div class="dj-modal-overlay" id="djModalOverlay">
     <div class="dj-modal-card">
       <button class="btn-close-modal" id="btnCloseModal" title="Cerrar">✕</button>
@@ -1418,7 +1415,7 @@
           renderStaffGrid(staffData);
         }
       } catch (err) {
-        console.warn("No se pudo cargar staff.json, cargando respaldo.", err);
+        console.warn("No se pudo cargar staff.json:", err);
       }
     }
 
@@ -1429,16 +1426,19 @@
         li.className = "staff-card";
 
         const flagUrl = dj.flag ? `https://flagcdn.com/24x18/${dj.flag.toLowerCase()}.png` : "";
+        const imgSrc = dj.image ? `${dj.image}?v=${Date.now()}` : "djs/nexusdj.webp";
 
         li.innerHTML = `
-          <img src="${dj.image}" class="staff-avatar-img" alt="${dj.name}" onerror="this.src='djs/nexusdj.webp'">
+          <img src="${imgSrc}" class="staff-avatar-img" alt="${dj.name}" onerror="this.onerror=null; this.src='djs/nexusdj.webp';">
           <div class="staff-info">
             <div class="staff-name">${dj.name}</div>
-            <div class="staff-country-badge">
-              ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
-              <span>${dj.country || "Internacional"}</span>
-            </div>
           </div>
+          <!-- Esquina Inferior Izquierda: Bandera + País -->
+          <div class="staff-country-badge">
+            ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
+            <span>${dj.country || "Int."}</span>
+          </div>
+          <!-- Esquina Inferior Derecha: Dueño / Rango -->
           <span class="staff-badge">${dj.badge || "Staff"}</span>
         `;
 
@@ -1448,8 +1448,13 @@
     }
 
     function openDjModal(dj) {
-      modalDjImg.src = dj.image || "djs/nexusdj.webp";
-      modalDjImg.onerror = () => { modalDjImg.src = "djs/nexusdj.webp"; };
+      const imgSrc = dj.image ? `${dj.image}?v=${Date.now()}` : "djs/nexusdj.webp";
+      modalDjImg.src = imgSrc;
+      modalDjImg.onerror = () => { 
+        modalDjImg.onerror = null; 
+        modalDjImg.src = "djs/nexusdj.webp"; 
+      };
+      
       modalDjName.textContent = dj.name;
       modalDjRole.textContent = dj.role || dj.badge || "Miembro del Staff";
       
