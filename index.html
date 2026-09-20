@@ -277,6 +277,7 @@
       }
     }
 
+    /* ESPACIO DE TRABAJO (2 COLUMNAS FIJAS EN PC) */
     .workspace {
       flex: 1;
       width: 100%;
@@ -367,7 +368,6 @@
       justify-content: center;
     }
 
-    /* CONTENEDOR CON FONDO NEGRO Y PROPORCIÓN PERFECTA */
     .cover-wrapper {
       width: 100%;
       max-width: min(84vw, 290px);
@@ -377,7 +377,7 @@
       border-radius: 20px;
       margin-bottom: 12px;
       position: relative;
-      background: #08090d;
+      background: rgba(13, 15, 23, 0.95);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
       overflow: hidden;
       display: flex;
@@ -396,12 +396,13 @@
       }
     }
 
-    /* IMAGEN ADAPTADA AL 100% SIN CORTES */
     .cover-img {
       width: 100%;
       height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       border-radius: inherit;
-      object-fit: contain; /* Muestra la imagen completa sin recortar bordes */
+      object-fit: contain;
       object-position: center;
       transform: scale(1);
       transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -413,7 +414,7 @@
     }
 
     .is-playing .cover-img {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
     .title-marquee-container {
@@ -561,7 +562,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
+      gap: 10px;
       width: 100%;
       padding: 4px 0;
     }
@@ -586,13 +587,14 @@
       transform: scale(0.94);
     }
 
-    .btn-open-panel {
-      background: rgba(0, 255, 102, 0.16);
-      border: 1px solid rgba(0, 255, 102, 0.55);
+    /* BOTONES DE ACCIÓN DEL PANEL */
+    .btn-deck-action {
+      background: rgba(0, 255, 102, 0.14);
+      border: 1px solid rgba(0, 255, 102, 0.45);
       color: var(--neon-green);
-      padding: 0 16px;
-      height: 44px;
-      border-radius: 22px;
+      padding: 0 14px;
+      height: 42px;
+      border-radius: 21px;
       font-family: inherit;
       font-size: 11px;
       font-weight: 800;
@@ -600,20 +602,26 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
       flex-shrink: 0;
       backdrop-filter: blur(8px);
     }
 
-    .btn-open-panel:active {
+    .btn-deck-action:active, .btn-deck-action.active {
       transform: scale(0.94);
       background: var(--neon-green);
       color: #08090d;
+      box-shadow: 0 0 14px var(--green-glow);
+    }
+
+    /* El botón de Staff en el reproductor solo se muestra en móviles */
+    .btn-deck-staff {
+      display: flex;
     }
 
     @media (min-width: 900px) {
-      .btn-open-panel {
+      .btn-deck-staff {
         display: none !important;
       }
     }
@@ -663,6 +671,7 @@
       box-shadow: 0 0 8px var(--neon-purple);
     }
 
+    /* PANEL LATERAL (FIJO EN PC, DRAWER EN MÓVIL) */
     .library-panel {
       position: fixed;
       top: 0;
@@ -969,7 +978,7 @@
     </div>
   </header>
 
-  <main class="workspace">
+  <main class="workspace" id="mainWorkspace">
     <section class="player-deck" id="playerDeck">
       <div class="player-bg-art" id="playerBgArt"></div>
 
@@ -1009,11 +1018,20 @@
             </svg>
           </button>
 
-          <button class="btn-open-panel" id="btnOpenPanel" title="Abrir Chat" aria-label="Abrir Chat">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+          <!-- Botón de Chat (Independiente) -->
+          <button class="btn-deck-action" id="btnDeckChat" title="Abrir Chat" aria-label="Abrir Chat">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
             </svg>
-            <span>Chat & Staff</span>
+            <span>Chat</span>
+          </button>
+
+          <!-- Botón de Staff (Visible solo en móvil al lado de Chat) -->
+          <button class="btn-deck-action btn-deck-staff" id="btnDeckStaff" title="Ver Staff" aria-label="Ver Staff">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+            <span>Staff</span>
           </button>
         </div>
 
@@ -1029,9 +1047,10 @@
       </div>
     </section>
 
+    <!-- Panel de Comunidad (Staff siempre visible en PC por defecto) -->
     <section class="library-panel" id="libraryPanel">
       <div class="drawer-mobile-header">
-        <div class="drawer-title">
+        <div class="drawer-title" id="drawerTitleText">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
           </svg>
@@ -1042,13 +1061,14 @@
 
       <div class="panel-header">
         <div class="tabs-group">
-          <button class="tab-item active" id="tabChat">Chat</button>
-          <button class="tab-item" id="tabStaff">Staff <span class="tab-pill">Online</span></button>
+          <button class="tab-item" id="tabChat">Chat</button>
+          <button class="tab-item active" id="tabStaff">Staff <span class="tab-pill">Online</span></button>
         </div>
       </div>
 
       <div class="tab-view-container">
-        <div class="view-content active" id="viewChat">
+        <!-- Vista Chat -->
+        <div class="view-content" id="viewChat">
           <iframe 
             src="https://chat.chatzona.org/index.html?theme=night#channel=Nexus_Zone" 
             class="chat-iframe"
@@ -1057,7 +1077,8 @@
           </iframe>
         </div>
 
-        <div class="view-content" id="viewStaff">
+        <!-- Vista Staff (Activa por defecto en PC) -->
+        <div class="view-content active" id="viewStaff">
           <div class="staff-container">
             <ul class="staff-grid">
               <li class="staff-card">
@@ -1138,7 +1159,8 @@
     const libraryPanel = document.getElementById("libraryPanel");
     const btnPlay = document.getElementById("btnPlay");
     const playIcon = document.getElementById("playIcon");
-    const btnOpenPanel = document.getElementById("btnOpenPanel");
+    const btnDeckChat = document.getElementById("btnDeckChat");
+    const btnDeckStaff = document.getElementById("btnDeckStaff");
     const btnCloseDrawer = document.getElementById("btnCloseDrawer");
     const sonicTitle = document.getElementById("sonic_title");
     const displayTitle = document.getElementById("display_title");
@@ -1167,6 +1189,56 @@
     let currentCoverUrl = "";
     let djMap = {};
     const coverMemoryCache = new Map();
+
+    // ----------------------------------------------------
+    // GESTIÓN DE VISTAS INDEPENDIENTES (PC Y MÓVIL)
+    // ----------------------------------------------------
+    function activateTab(tabName) {
+      if (tabName === "chat") {
+        tabChat.classList.add("active");
+        tabStaff.classList.remove("active");
+        viewChat.classList.add("active");
+        viewStaff.classList.remove("active");
+        btnDeckChat.classList.add("active");
+      } else {
+        tabStaff.classList.add("active");
+        tabChat.classList.remove("active");
+        viewStaff.classList.add("active");
+        viewChat.classList.remove("active");
+        btnDeckChat.classList.remove("active");
+      }
+    }
+
+    // Botón Chat (al lado del Play): En PC alterna entre Chat y Staff; en móvil abre el cajón en Chat
+    btnDeckChat.addEventListener("click", () => {
+      const isMobile = window.innerWidth < 900;
+      if (isMobile) {
+        activateTab("chat");
+        libraryPanel.classList.add("drawer-open");
+      } else {
+        // En PC: si el chat ya está activo, regresa a Staff; si no, muestra el chat
+        if (viewChat.classList.contains("active")) {
+          activateTab("staff");
+        } else {
+          activateTab("chat");
+        }
+      }
+    });
+
+    // Botón Staff (al lado del Play en móvil): Abre el cajón en la pestaña Staff
+    btnDeckStaff.addEventListener("click", () => {
+      activateTab("staff");
+      libraryPanel.classList.add("drawer-open");
+    });
+
+    // Cerrar cajón en móviles
+    btnCloseDrawer.addEventListener("click", () => {
+      libraryPanel.classList.remove("drawer-open");
+    });
+
+    // Pestañas internas del panel
+    tabChat.addEventListener("click", () => activateTab("chat"));
+    tabStaff.addEventListener("click", () => activateTab("staff"));
 
     async function loadDjMap() {
       try {
@@ -1337,20 +1409,6 @@
 
     setInterval(syncMetadataAPI, 6000);
     syncMetadataAPI();
-
-    tabChat.addEventListener("click", () => {
-      tabChat.classList.add("active");
-      tabStaff.classList.remove("active");
-      viewChat.classList.add("active");
-      viewStaff.classList.remove("active");
-    });
-
-    tabStaff.addEventListener("click", () => {
-      tabStaff.classList.add("active");
-      tabChat.classList.remove("active");
-      viewStaff.classList.add("active");
-      viewChat.classList.remove("active");
-    });
 
     // ----------------------------------------------------
     // ECUALIZADOR FFT REAL 28 BANDAS
@@ -1615,14 +1673,6 @@
       
       fetchAccurateCover(songOnly, artist);
     }
-
-    btnOpenPanel.addEventListener("click", () => {
-      libraryPanel.classList.add("drawer-open");
-    });
-
-    btnCloseDrawer.addEventListener("click", () => {
-      libraryPanel.classList.remove("drawer-open");
-    });
   </script>
 </body>
 </html>
