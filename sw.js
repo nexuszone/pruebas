@@ -1,11 +1,12 @@
 // NeXus ZonE Radio - Service Worker con Auto-Actualización
-const CACHE_NAME = 'nexuszone-cache-v1.1.15'; // Sube este número cada vez que actualices la web
+const CACHE_NAME = 'nexuszone-cache-v1.1.18'; // Sube este número cada vez que actualices la web
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
-  './djs.json'
+  './djs.json',
+  './staff.json'
 ];
 
 // Instalación inmediata
@@ -33,11 +34,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
 
+  // Excepciones que van directo a la red
   if (
     url.includes('/stream') ||
     url.includes('streamerr.co') ||
     url.includes('itunes.apple.com') ||
-    url.includes('flagcdn.com')
+    url.includes('flagcdn.com') ||
+    url.includes('/djs/') ||
+    url.includes('/staff/')
   ) {
     return;
   }
