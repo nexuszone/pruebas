@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.27"></script>
+  <script src="./staff.js?v=1.1.28"></script>
 
   <style>
     :root {
@@ -62,7 +62,6 @@
       overflow: hidden;
       position: fixed;
       inset: 0;
-      transition: opacity 0.2s ease; /* Transición suave para el reinicio limpio */
     }
 
     body {
@@ -1322,25 +1321,11 @@
 
   <script>
     // ----------------------------------------------------
-    // REINICIO LIMPIO AUTOMÁTICO AL ACTUALIZAR (SIMULA CIERRE Y APERTURA)
+    // SERVICE WORKER ESTABLE (ACTUALIZACIÓN EN SEGUNDO PLANO)
     // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          // Desvanece la pantalla un instante y recarga limpio
-          document.documentElement.style.opacity = '0';
-          setTimeout(() => {
-            window.location.reload();
-          }, 200);
-        }
-      });
-
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').then((reg) => {
-          reg.update();
-        }).catch(() => {});
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
 
