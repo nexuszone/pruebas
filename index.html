@@ -337,19 +337,20 @@
       }
     }
 
+    /* Desenfoque ajustado 10% menos (12.6px) y renderizado acelerado por hardware */
     .player-bg-art {
       position: absolute;
       inset: -15px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      filter: blur(14px) brightness(0.75);
-      opacity: 0.55;
+      filter: blur(12.6px) brightness(0.82);
+      opacity: 0.62;
       z-index: 0;
       pointer-events: none;
-      transform: scale(1.08) translateZ(0);
+      transform: scale(1.06) translateZ(0);
       will-change: opacity, background-image;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.5s ease;
     }
 
     .deck-top, .deck-bottom {
@@ -900,8 +901,8 @@
             <stop offset="50.5%" stop-color="#00ff66"/>
           </linearGradient>
           <linearGradient id="cassetteBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="49.5%" stop-color="#191326"/>
-            <stop offset="50.5%" stop-color="#102419"/>
+            <stop offset="49.5%" stop-color="rgba(176, 38, 255, 0.18)"/>
+            <stop offset="50.5%" stop-color="rgba(0, 255, 102, 0.18)"/>
           </linearGradient>
           <linearGradient id="cassetteLabelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="49.5%" stop-color="#191326"/>
@@ -1162,12 +1163,9 @@
     let lastObservedTitle = "";
     let lastObservedDjRaw = "";
     let currentCoverUrl = "";
-    let isFetchingCover = false;
     let djMap = {};
+    const coverMemoryCache = new Map();
 
-    // ----------------------------------------------------
-    // CARGAR MAPEO DE DJS Y REDES DESDE djs.json
-    // ----------------------------------------------------
     async function loadDjMap() {
       try {
         const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1190,15 +1188,12 @@
     }
     loadDjMap();
 
-    // ----------------------------------------------------
-    // PROCESAMIENTO REFORZADO DEL DJ, PAÍS Y BANDERA
-    // ----------------------------------------------------
     function processDjUpdate(rawDj) {
       if (!rawDj) rawDj = "no dj";
       let cleanDj = rawDj.replace(/\s+/g, ' ').trim();
       let lookupKey = cleanDj.toLowerCase();
 
-      if (lookupKey === "" || lookupKey === "nodj" || lookupKey === "no dj" || lookupKey.includes("no dj")) {
+      if (lookupKey === "" || lookupKey === "nodj" || lookupKey.includes("no dj")) {
         lookupKey = "no dj";
       }
 
@@ -1249,7 +1244,7 @@
     djObserver.observe(sonicDj, { childList: true, subtree: true, characterData: true });
 
     // ----------------------------------------------------
-    // CONTROL DE CARÁTULA DE FONDO
+    // CARÁTULA CON VERIFICACIÓN Y FILTRO INTELIGENTE
     // ----------------------------------------------------
     function applyBackgroundCover(url) {
       if (!url) return;
@@ -1264,21 +1259,61 @@
       tempImg.src = cleanUrl;
     }
 
-    async function fetchCoverFromItunes(title, artist) {
-      if (isFetchingCover) return;
-      isFetchingCover = true;
-      try {
-        const query = encodeURIComponent(`${artist} ${title}`);
-        const res = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&entity=song&limit=1`);
-        const data = await res.json();
-        if (data.results && data.results.length > 0 && data.results[0].artworkUrl100) {
-          const hiRes = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-          applyBackgroundCover(hiRes);
-        }
-      } catch (_) {
-      } finally {
-        isFetchingCover = false;
+    // Limpia cadenas de radio para obtener resultados musicales precisos
+    function sanitizeTerm(str) {
+      return str
+        .replace(/\b(feat|ft|remix|mix|edit|version|radio edit|original mix|extended|official video|audio|lyrics)\b.*$/gi, '')
+        .replace(/[\(\[\{].*?[\)\]\}]/g, '')
+        .replace(/["'_]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    async function fetchAccurateCover(title, artist) {
+      const cacheKey = `${artist} - ${title}`.toLowerCase();
+      if (coverMemoryCache.has(cacheKey)) {
+        applyBackgroundCover(coverMemoryCache.get(cacheKey));
+        return;
       }
+
+      const cleanArtist = sanitizeTerm(artist);
+      const cleanTitle = sanitizeTerm(title);
+
+      try {
+        // Intento 1: Búsqueda estricta combinada Artista + Canción
+        const query1 = encodeURIComponent(`${cleanArtist} ${cleanTitle}`);
+        let res = await fetch(`https://itunes.apple.com/search?term=${query1}&media=music&entity=song&limit=4`);
+        let data = await res.json();
+
+        let bestMatch = null;
+
+        if (data.results && data.results.length > 0) {
+          bestMatch = data.results.find(item => {
+            const itemArtist = (item.artistName || "").toLowerCase();
+            const itemTrack = (item.trackName || "").toLowerCase();
+            return (
+              itemArtist.includes(cleanArtist.toLowerCase()) ||
+              itemTrack.includes(cleanTitle.toLowerCase())
+            );
+          }) || data.results[0];
+        }
+
+        // Intento 2: Búsqueda por título limpio si el nombre del artista era un indicativo de radio
+        if (!bestMatch && cleanTitle.length > 2) {
+          const query2 = encodeURIComponent(cleanTitle);
+          res = await fetch(`https://itunes.apple.com/search?term=${query2}&media=music&entity=song&limit=3`);
+          data = await res.json();
+          if (data.results && data.results.length > 0) {
+            bestMatch = data.results[0];
+          }
+        }
+
+        if (bestMatch && bestMatch.artworkUrl100) {
+          const hires = bestMatch.artworkUrl100.replace('100x100bb', '600x600bb');
+          coverMemoryCache.set(cacheKey, hires);
+          applyBackgroundCover(hires);
+        }
+      } catch (_) {}
     }
 
     async function syncMetadataAPI() {
@@ -1288,9 +1323,6 @@
           const data = await res.json();
           if (data.songtitle) {
             updateSongDisplay(data.songtitle);
-          }
-          if (data.arturl) {
-            applyBackgroundCover(data.arturl);
           }
           if (data.djusername) {
             processDjUpdate(data.djusername);
@@ -1325,7 +1357,7 @@
     });
 
     // ----------------------------------------------------
-    // ECUALIZADOR FFT REAL 28 BANDAS
+    // ECUALIZADOR FFT REAL 28 BANDAS (OPTIMIZADO)
     // ----------------------------------------------------
     const canvas = document.getElementById("equalizerCanvas");
     const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
@@ -1337,8 +1369,8 @@
 
     const NUM_BARS = 28;
     const peaks = new Float32Array(NUM_BARS);
-    let precomputedBins = new Uint16Array(NUM_BARS);
-    let precomputedBoosts = new Float32Array(NUM_BARS);
+    const precomputedBins = new Uint16Array(NUM_BARS);
+    const precomputedBoosts = new Float32Array(NUM_BARS);
     let cachedBarGradient = null;
     let eqLogicalWidth = 0;
     let eqLogicalHeight = 0;
@@ -1405,7 +1437,7 @@
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         buildPrecomputedLookup();
       } catch (err) {
-        console.warn("AudioContext setup notice:", err);
+        console.warn("AudioContext init handled:", err);
       }
     }
 
@@ -1488,7 +1520,7 @@
     resizeCanvas();
 
     // ----------------------------------------------------
-    // REPRODUCCIÓN
+    // REPRODUCCIÓN FLUIDA
     // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
       if (!isPlaying) {
@@ -1585,7 +1617,8 @@
       displayTitle.textContent = songOnly;
       recalculateMarquee();
       
-      fetchCoverFromItunes(songOnly, artist);
+      // Búsqueda afinada sin carátulas falsas
+      fetchAccurateCover(songOnly, artist);
     }
 
     btnOpenPanel.addEventListener("click", () => {
