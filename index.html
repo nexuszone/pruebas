@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.24"></script>
+  <script src="./staff.js?v=1.1.25"></script>
 
   <style>
     :root {
@@ -622,6 +622,8 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       min-height: 34px;
       backdrop-filter: blur(8px);
+      width: 100%; /* Forzamos ancho completo seguro */
+      flex-shrink: 0;
     }
 
     .vol-icon {
@@ -638,6 +640,7 @@
 
     .volume-slider {
       flex: 1;
+      width: 100%;
       height: 5px;
       -webkit-appearance: none;
       appearance: none;
@@ -1331,6 +1334,11 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Forzamos un redimensionamiento global inmediato al arrancar para corregir el viewport en móviles tras recargas PWA
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 50);
+
       let deferredPrompt = null;
       const btnInstallPwa = document.getElementById("btnInstallPwa");
 
@@ -1954,11 +1962,8 @@
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
-        // Usamos requestAnimationFrame doble para forzar que el navegador pinte el gradiente correctamente tras la recarga PWA
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
-          });
+          volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
         });
       }
 
@@ -1976,7 +1981,7 @@
         updateVolumeVisual(1);
       });
 
-      // Inicialización garantizada del volumen en el primer render
+      // Pintado inicial asegurado
       updateVolumeVisual(parseFloat(volumeControl.value));
 
       function recalculateMarquee() {
