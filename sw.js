@@ -1,12 +1,12 @@
-// NeXus ZonE Radio - Service Worker con Auto-Actualización
-const CACHE_NAME = 'nexuszone-cache-v1.1.18'; // Sube este número cada vez que actualices la web
+// NeXus ZonE Radio - Service Worker v1.1.19
+const CACHE_NAME = 'nexuszone-cache-v1.1.19';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
-  './djs.json',
-  './staff.json'
+  './djs.json'
+  // Nota: staff.json NO va aquí para que lea siempre los cambios al instante
 ];
 
 // Instalación inmediata
@@ -30,23 +30,24 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Intercepción de red optimizada
+// Intercepción de red
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
 
-  // Excepciones que van directo a la red
+  // Si es stream, APIs externas, carpetas de imágenes o el staff.json, van directo a la red sin caché
   if (
     url.includes('/stream') ||
     url.includes('streamerr.co') ||
     url.includes('itunes.apple.com') ||
     url.includes('flagcdn.com') ||
+    url.includes('staff.json') ||
     url.includes('/djs/') ||
     url.includes('/staff/')
   ) {
     return;
   }
 
-  // Para archivos de la app: red primero, si falla usa caché
+  // Para el resto de archivos de la app: red primero, si falla usa caché
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
