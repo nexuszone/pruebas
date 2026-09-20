@@ -97,7 +97,7 @@
       gap: 12px;
     }
 
-    /* Cassette Vectorial limpio sin partes blancas indeseadas */
+    /* Cassette Vectorial limpio */
     .brand-cassette-svg {
       width: 40px;
       height: 28px;
@@ -567,8 +567,9 @@
       padding: 4px 0;
     }
 
+    /* BOTÓN PLAY / STOP: Morado #b026ff idéntico a NeXus */
     .btn-play-hero {
-      background: var(--neon-purple);
+      background: #b026ff !important;
       border: none;
       color: white;
       width: 58px;
@@ -578,7 +579,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 6px 20px var(--purple-glow);
+      box-shadow: 0 6px 20px rgba(176, 38, 255, 0.6) !important;
       transition: transform 0.2s, box-shadow 0.2s;
       flex-shrink: 0;
     }
@@ -587,7 +588,6 @@
       transform: scale(0.94);
     }
 
-    /* BOTONES DE ACCIÓN DE REPRODUCTOR */
     .btn-deck-action {
       background: rgba(0, 255, 102, 0.14);
       border: 1px solid rgba(0, 255, 102, 0.45);
@@ -609,7 +609,6 @@
       outline: none;
     }
 
-    /* Solo aplicar hover si el dispositivo cuenta con puntero real (ratón) */
     @media (hover: hover) {
       .btn-deck-action:hover {
         background: rgba(0, 255, 102, 0.25);
@@ -658,12 +657,13 @@
       fill: var(--text-primary);
     }
 
+    /* SLIDER DE VOLUMEN: Morado #b026ff idéntico a NeXus */
     .volume-slider {
       flex: 1;
       height: 5px;
       -webkit-appearance: none;
       appearance: none;
-      background: linear-gradient(to right, var(--neon-purple) 100%, rgba(255, 255, 255, 0.15) 100%);
+      background: linear-gradient(to right, #b026ff 100%, rgba(255, 255, 255, 0.15) 100%);
       border-radius: 6px;
       outline: none;
       cursor: pointer;
@@ -676,7 +676,7 @@
       border-radius: 50%;
       background: #fff;
       cursor: pointer;
-      box-shadow: 0 0 8px var(--neon-purple);
+      box-shadow: 0 0 8px #b026ff;
     }
 
     .library-panel {
@@ -874,7 +874,7 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--neon-purple), var(--neon-green));
+      background: linear-gradient(135deg, #b026ff, var(--neon-green));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -916,7 +916,7 @@
 
   <header class="header-bar">
     <div class="brand">
-      <!-- SVG Cassette Corregido: Sin partes blancas residuales -->
+      <!-- SVG Cassette Limpio sin zonas blancas -->
       <svg class="brand-cassette-svg" viewBox="0 0 76 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="cassetteBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -934,10 +934,10 @@
         </defs>
 
         <rect x="2" y="2" width="72" height="46" rx="6" fill="url(#cassetteBodyGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="2.5"/>
-        <circle cx="6" cy="6" r="1.5" fill="#161922"/>
-        <circle cx="70" cy="6" r="1.5" fill="#161922"/>
-        <circle cx="6" cy="44" r="1.5" fill="#161922"/>
-        <circle cx="70" cy="44" r="1.5" fill="#161922"/>
+        <circle cx="6" cy="6" r="1.5" fill="#252936"/>
+        <circle cx="70" cy="6" r="1.5" fill="#252936"/>
+        <circle cx="6" cy="44" r="1.5" fill="#252936"/>
+        <circle cx="70" cy="44" r="1.5" fill="#252936"/>
 
         <rect x="11" y="7" width="54" height="24" rx="3.5" fill="url(#cassetteLabelGrad)" stroke="url(#cassetteBorderGrad)" stroke-width="1.4"/>
         <rect x="22" y="12" width="32" height="14" rx="2.5" fill="#08090d" stroke="url(#cassetteBorderGrad)" stroke-width="1"/>
@@ -958,7 +958,7 @@
 
         <polygon points="17,47 23,37 53,37 59,47" fill="#0c0e15" stroke="url(#cassetteBorderGrad)" stroke-width="1.5"/>
         <circle cx="27" cy="42" r="1.8" fill="#b026ff"/>
-        <circle cx="38" cy="42" r="1.4" fill="#161922"/>
+        <circle cx="38" cy="42" r="1.4" fill="#252936"/>
         <circle cx="49" cy="42" r="1.8" fill="#00ff66"/>
       </svg>
 
@@ -1203,9 +1203,6 @@
     let djMap = {};
     const coverMemoryCache = new Map();
 
-    // ----------------------------------------------------
-    // GESTIÓN DE VISTAS INDEPENDIENTES (PC Y MÓVIL)
-    // ----------------------------------------------------
     function activateTab(tabName) {
       if (tabName === "chat") {
         tabChat.style.display = "flex";
@@ -1221,11 +1218,10 @@
         viewStaff.classList.add("active");
         viewChat.classList.remove("active");
         btnDeckChat.classList.remove("active");
-        btnDeckChat.blur(); // Remueve el foco residual en dispositivos móviles
+        btnDeckChat.blur();
       }
     }
 
-    // Botón Chat (al lado del Play)
     btnDeckChat.addEventListener("click", () => {
       const isMobile = window.innerWidth < 900;
       if (isMobile) {
@@ -1246,7 +1242,6 @@
       }
     });
 
-    // Botón Staff (al lado del Play en móvil)
     btnDeckStaff.addEventListener("click", () => {
       btnDeckChat.classList.remove("active");
       btnDeckChat.blur();
@@ -1258,7 +1253,6 @@
       }
     });
 
-    // Cerrar cajón en móviles
     btnCloseDrawer.addEventListener("click", () => {
       libraryPanel.classList.remove("drawer-open");
       btnDeckChat.classList.remove("active");
@@ -1266,7 +1260,6 @@
       activateTab("staff");
     });
 
-    // Pestañas internas
     tabChat.addEventListener("click", () => activateTab("chat"));
     tabStaff.addEventListener("click", () => activateTab("staff"));
 
@@ -1441,7 +1434,7 @@
     syncMetadataAPI();
 
     // ----------------------------------------------------
-    // ECUALIZADOR FFT REAL 28 BANDAS
+    // ECUALIZADOR FFT REAL 28 BANDAS: Morado Neón #b026ff
     // ----------------------------------------------------
     const canvas = document.getElementById("equalizerCanvas");
     const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
@@ -1608,13 +1601,11 @@
     // ----------------------------------------------------
     btnPlay.addEventListener("click", () => {
       if (!isPlaying) {
-        // PLAY: Inicia transmisión limpia con bust cache
         audio.src = STREAM_URL + "?nocache=" + Date.now();
         audio.play().catch(err => {
           console.warn("Autoplay en espera:", err);
         });
       } else {
-        // STOP: Detiene y purga completamente la conexión de red y búfer
         audio.pause();
         audio.src = "";
         audio.removeAttribute("src");
@@ -1636,12 +1627,10 @@
       isPlaying = playing;
       if (playing) {
         playerDeck.classList.add("is-playing");
-        // Cuadrado de STOP completo cuando está reproduciendo
         playIcon.innerHTML = `<rect x="6" y="6" width="12" height="12" rx="1.5" />`;
         startEqualizer();
       } else {
         playerDeck.classList.remove("is-playing");
-        // Triángulo de PLAY cuando está detenido
         playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
         stopEqualizer();
       }
@@ -1650,7 +1639,7 @@
     function updateVolumeVisual(val) {
       audio.volume = val;
       const pct = Math.round(val * 100);
-      volumeControl.style.background = `linear-gradient(to right, var(--neon-purple) ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
+      volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
     }
 
     volumeControl.addEventListener("input", (e) => {
