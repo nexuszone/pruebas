@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.15"></script>
+  <script src="./staff.js?v=1.1.17"></script>
 
   <style>
     :root {
@@ -1049,7 +1049,6 @@
       justify-content: center;
     }
 
-    /* Píldora idéntica para el rol en la ventana modal */
     .modal-dj-role-pill {
       display: inline-block;
       background: rgba(0, 255, 102, 0.15);
@@ -1327,9 +1326,23 @@
   <audio id="audioSource" preload="none" crossorigin="anonymous"></audio>
 
   <script>
+    // ----------------------------------------------------
+    // SERVICE WORKER CON AUTO-REINICIO AL ACTUALIZAR
+    // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
+      let refreshing = false;
+
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          reg.update();
+        }).catch(() => {});
       });
     }
 
