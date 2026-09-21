@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.32"></script>
+  <script src="./staff.js?v=1.1.35"></script>
 
   <style>
     :root {
@@ -352,8 +352,12 @@
       min-height: 0;
       flex: 1;
       justify-content: center;
+      perspective: 1000px; /* Perspectiva para el holograma 3D */
     }
 
+    /* ----------------------------------------------------
+       OPCIÓN 5: HOLOGRAMA 3D CON INCLINACIÓN AL PÉNDULO
+       ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
       max-width: min(84vw, 290px);
@@ -371,6 +375,10 @@
       justify-content: center;
       border: 1px solid rgba(255, 255, 255, 0.16);
       flex-shrink: 1;
+      transform-style: preserve-3d;
+      transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform;
     }
 
     @media (min-width: 900px) {
@@ -390,17 +398,30 @@
       border-radius: inherit;
       object-fit: contain;
       object-position: center;
-      transform: scale(1);
-      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
     }
 
+    /* Estado activo al reproducir: oscilación pendular 3D de bajo consumo */
     .is-playing .cover-wrapper {
       border-color: var(--neon-purple);
-      box-shadow: 0 14px 34px var(--purple-glow), 0 0 20px rgba(0, 255, 102, 0.2);
+      box-shadow: 
+        0 16px 36px rgba(0, 0, 0, 0.9),
+        0 0 24px var(--purple-glow), 
+        0 0 14px rgba(0, 255, 102, 0.25);
+      animation: gentlePendulumTilt 6.5s ease-in-out infinite alternate;
     }
 
-    .is-playing .cover-img {
-      transform: scale(1.03);
+    @keyframes gentlePendulumTilt {
+      0% {
+        transform: translate3d(0, 0px, 0) rotateY(-2.5deg) rotateX(1.5deg);
+      }
+      50% {
+        transform: translate3d(0, -3.5px, 0) rotateY(0.5deg) rotateX(0.5deg);
+      }
+      100% {
+        transform: translate3d(0, -1px, 0) rotateY(2.5deg) rotateX(-1.5deg);
+      }
     }
 
     .title-marquee-container {
@@ -1170,7 +1191,7 @@
 
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
-          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
+          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
         </svg>
       </a>
 
@@ -1333,7 +1354,7 @@
       });
     }
 
-    // DESBLOQUEO INICIAL DE AUDIO EN MÓVILES AL PRIMER TOQUE
+    // DESBLOQUEO DE HARDWARE DE AUDIO EN MÓVILES AL PRIMER TOQUE
     document.body.addEventListener('touchstart', function initMobile() {
       if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1461,7 +1482,7 @@
               <div class="staff-name">${dj.name}</div>
             </div>
             <div class="staff-country-badge">
-              ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}" loading="lazy">` : ""}
+              ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
               <span>${dj.country || "Int."}</span>
             </div>
             <span class="staff-badge">${dj.badge || "Staff"}</span>
@@ -1906,7 +1927,7 @@
       resizeCanvas();
 
       // ----------------------------------------------------
-      // REPRODUCCIÓN NATIVA SIN TRABAS (IGUAL QUE EN TU PÁGINA)
+      // REPRODUCCIÓN DIRECTA SIN LATENCIAS
       // ----------------------------------------------------
       btnPlay.addEventListener("click", () => {
         if (!isPlaying) {
