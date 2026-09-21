@@ -21,25 +21,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.43"></script>
+  <script src="./staff.js?v=1.1.44"></script>
 
   <style>
-    @property --border-angle {
-      syntax: '<angle>';
-      inherits: false;
-      initial-value: 0deg;
-    }
-    @property --stop-green {
-      syntax: '<percentage>';
-      inherits: false;
-      initial-value: 100%;
-    }
-    @property --stop-purple {
-      syntax: '<percentage>';
-      inherits: false;
-      initial-value: 100%;
-    }
-
     :root {
       --bg-main: #08090d;
       --surface-1: rgba(12, 14, 20, 0.68);
@@ -328,7 +312,7 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN EXCLUSIVAMENTE VERDE Y MORADO
+       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN FLUIDA (VERDE / MORADO)
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -351,6 +335,7 @@
       will-change: transform;
       padding: 3px;
       border: 1px solid rgba(255, 255, 255, 0.16);
+      overflow: hidden;
     }
 
     @media (min-width: 900px) {
@@ -362,29 +347,39 @@
       }
     }
 
+    /* Contenedor giratorio impulsado por GPU para la estela de luz */
     .cover-wrapper::before {
       content: '';
       position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      padding: 2.5px;
+      inset: -50%;
       background: conic-gradient(
-        from var(--border-angle),
+        from 0deg,
         #00ff66 0deg,
-        #00ff66 var(--stop-green),
-        #b026ff var(--stop-green),
-        #b026ff var(--stop-purple),
-        #00ff66 var(--stop-purple),
-        #00ff66 360deg
+        #00ff66 180deg,
+        #b026ff 180deg,
+        #b026ff 360deg
       );
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
       pointer-events: none;
       opacity: 0;
-      z-index: 6;
+      z-index: 1;
       transition: opacity 0.5s ease;
+    }
+
+    /* Capa interna para enmascarar el borde y dejar solo el trazo neón perimetral */
+    .cover-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: 2.5px;
+      border-radius: calc(20px - 2px);
+      background: #08090d;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @media (min-width: 900px) {
+      .cover-wrapper::after {
+        border-radius: calc(24px - 2px);
+      }
     }
 
     .cover-img {
@@ -392,18 +387,13 @@
       height: 100%;
       max-width: 100%;
       max-height: 100%;
-      border-radius: calc(20px - 3px);
+      border-radius: inherit;
       object-fit: contain;
       object-position: center;
       transform: translate3d(0, 0, 0);
       will-change: transform;
-      background: #08090d;
-    }
-
-    @media (min-width: 900px) {
-      .cover-img {
-        border-radius: calc(24px - 3px);
-      }
+      position: relative;
+      z-index: 3;
     }
 
     .is-playing .cover-wrapper {
@@ -417,72 +407,16 @@
 
     .is-playing .cover-wrapper::before {
       opacity: 1;
-      animation: exactGreenPurpleSequence 24s linear infinite;
+      animation: neonBorderRotateSmooth 12s linear infinite;
     }
 
-    /* Secuencia exacta: Vuelta entera verde -> Media/Media -> Vuelta entera morada -> Cuartos/Tres cuartos -> Fluido sin cortes */
-    @keyframes exactGreenPurpleSequence {
-      /* Fase 1: Vuelta entera verde neón */
+    /* Rotación limpia y fluida de la estela bicolor verde/morado */
+    @keyframes neonBorderRotateSmooth {
       0% {
-        --border-angle: 0deg;
-        --stop-green: 360deg;
-        --stop-purple: 360deg;
+        transform: rotate(0deg);
       }
-      18% {
-        --border-angle: 360deg;
-        --stop-green: 360deg;
-        --stop-purple: 360deg;
-      }
-
-      /* Fase 2: Transición limpia a Media vuelta verde y Media vuelta morada */
-      23% {
-        --stop-green: 180deg;
-        --stop-purple: 360deg;
-      }
-      41% {
-        --border-angle: 1080deg;
-        --stop-green: 180deg;
-        --stop-purple: 360deg;
-      }
-
-      /* Fase 3: Transición limpia a Vuelta entera morada */
-      46% {
-        --stop-green: 0deg;
-        --stop-purple: 360deg;
-      }
-      64% {
-        --border-angle: 1800deg;
-        --stop-green: 0deg;
-        --stop-purple: 360deg;
-      }
-
-      /* Fase 4: Un cuarto de vuelta verde (90deg) y tres cuartos morados */
-      69% {
-        --stop-green: 90deg;
-        --stop-purple: 360deg;
-      }
-      82% {
-        --border-angle: 2520deg;
-        --stop-green: 90deg;
-        --stop-purple: 360deg;
-      }
-
-      /* Fase 5: Tres cuartos de vuelta verde (270deg) y un cuarto morado */
-      87% {
-        --stop-green: 270deg;
-        --stop-purple: 360deg;
-      }
-      98% {
-        --border-angle: 3240deg;
-        --stop-green: 270deg;
-        --stop-purple: 360deg;
-      }
-
-      /* Cierre perfecto idéntico al 0% para fundir sin saltos */
       100% {
-        --border-angle: 3600deg;
-        --stop-green: 360deg;
-        --stop-purple: 360deg;
+        transform: rotate(360deg);
       }
     }
 
