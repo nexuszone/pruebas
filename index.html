@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.31"></script>
+  <script src="./staff.js?v=1.1.32"></script>
 
   <style>
     :root {
@@ -1170,7 +1170,7 @@
 
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
-          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
+          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
         </svg>
       </a>
 
@@ -1321,17 +1321,33 @@
     </div>
   </div>
 
-  <audio id="audioSource" preload="none" crossorigin="anonymous"></audio>
+  <audio id="audioSource" crossorigin="anonymous" preload="none"></audio>
 
   <script>
     // ----------------------------------------------------
-    // SERVICE WORKER ESTABLE
+    // SERVICE WORKER ESTABLE (ACTUALIZACIÓN EN SEGUNDO PLANO)
     // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
+
+    // DESBLOQUEO INICIAL DE AUDIO EN MÓVILES AL PRIMER TOQUE
+    document.body.addEventListener('touchstart', function initMobile() {
+      if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+        audioCtx.suspend();
+      }
+      document.body.removeEventListener('touchstart', initMobile);
+    }, { once: true, passive: true });
+
+    let audioCtx = null;
+    let analyser = null;
+    let dataArray = null;
+    let mediaNode = null;
+    let eqAnimId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
       let deferredPrompt = null;
@@ -1414,8 +1430,6 @@
       let currentCoverUrl = "";
       let djMap = {};
       const coverMemoryCache = new Map();
-      let targetUserVolume = 1;
-      let fadeInInterval = null;
 
       // ----------------------------------------------------
       // CARGAR STAFF DESDE staff.js GLOBAL
@@ -1733,15 +1747,10 @@
       syncMetadataAPI();
 
       // ----------------------------------------------------
-      // ECUALIZADOR FFT REAL 28 BANDAS (TIEMPO REAL)
+      // ECUALIZADOR FFT REAL 28 BANDAS
       // ----------------------------------------------------
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
-      let audioCtx = null;
-      let analyser = null;
-      let dataArray = null;
-      let mediaNode = null;
-      let eqAnimId = null;
 
       const NUM_BARS = 28;
       const peaks = new Float32Array(NUM_BARS);
@@ -1794,18 +1803,18 @@
       }
 
       function setupWebAudioPipeline() {
-        if (audioCtx) {
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          return;
-        }
+        if (analyser) return;
         try {
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          audioCtx = new AudioContextClass();
+          if (!audioCtx) {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContextClass();
+          }
+
           analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 256;
+          analyser.fftSize = 512;
           analyser.minDecibels = -85;
           analyser.maxDecibels = -10;
-          analyser.smoothingTimeConstant = 0.65;
+          analyser.smoothingTimeConstant = 0.82;
 
           mediaNode = audioCtx.createMediaElementSource(audio);
           mediaNode.connect(analyser);
@@ -1842,7 +1851,6 @@
         eqAnimId = requestAnimationFrame(drawEqualizer);
         ctx.clearRect(0, 0, eqLogicalWidth, eqLogicalHeight);
 
-        // Lectura real de la música en tiempo real
         analyser.getByteFrequencyData(dataArray);
 
         const barSpacing = Math.max(2, Math.floor(eqLogicalWidth / 130));
@@ -1898,58 +1906,34 @@
       resizeCanvas();
 
       // ----------------------------------------------------
-      // REPRODUCCIÓN SUAVE ANTI-PETARDEO (FADE-IN LIMPIO)
+      // REPRODUCCIÓN NATIVA SIN TRABAS (IGUAL QUE EN TU PÁGINA)
       // ----------------------------------------------------
-      function startSmoothAudio() {
-        if (fadeInInterval) clearInterval(fadeInInterval);
-        audio.volume = 0;
-        let cur = 0;
-        const target = targetUserVolume;
-        const step = target / 15;
-
-        fadeInInterval = setInterval(() => {
-          cur = Math.min(target, cur + step);
-          audio.volume = cur;
-          if (cur >= target) {
-            clearInterval(fadeInInterval);
-            fadeInInterval = null;
-          }
-        }, 12);
-      }
-
       btnPlay.addEventListener("click", () => {
         if (!isPlaying) {
-          // Preparamos el pipeline de Web Audio antes del primer frame sonoro
-          setupWebAudioPipeline();
+          if (!audioCtx) {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioContextClass) audioCtx = new AudioContextClass();
+          }
           if (audioCtx && audioCtx.state === 'suspended') {
             audioCtx.resume();
           }
 
-          audio.volume = 0; // Entra en silencio absoluto para evitar el golpe inicial
-          audio.src = STREAM_URL + "?nocache=" + Date.now();
-          audio.load();
+          setupWebAudioPipeline();
+
+          if (audio.src !== STREAM_URL) {
+            audio.src = STREAM_URL;
+          }
 
           audio.play().then(() => {
             setPlayingState(true);
-            startSmoothAudio();
           }).catch(err => {
-            console.warn("Play bloqueado:", err);
+            console.error("Error play:", err);
             setPlayingState(false);
           });
         } else {
-          if (fadeInInterval) clearInterval(fadeInInterval);
           audio.pause();
-          audio.src = "";
-          audio.removeAttribute("src");
-          audio.load();
+          audio.src = '';
           setPlayingState(false);
-        }
-      });
-
-      audio.addEventListener("playing", () => {
-        if (!isPlaying) {
-          setPlayingState(true);
-          startSmoothAudio();
         }
       });
 
@@ -1957,9 +1941,9 @@
         setPlayingState(false);
       });
 
-      audio.addEventListener("stalled", () => {
+      audio.addEventListener("error", () => {
         if (isPlaying) {
-          audio.src = STREAM_URL + "?nocache=" + Date.now();
+          audio.src = STREAM_URL;
           audio.play().catch(() => {});
         }
       });
@@ -1978,10 +1962,7 @@
       }
 
       function updateVolumeVisual(val) {
-        targetUserVolume = val;
-        if (!fadeInInterval) {
-          audio.volume = val;
-        }
+        audio.volume = val;
         const pct = Math.round(val * 100);
         volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
       }
@@ -2000,7 +1981,6 @@
         updateVolumeVisual(1);
       });
 
-      // Inicialización garantizada del volumen
       updateVolumeVisual(parseFloat(volumeControl.value));
 
       function recalculateMarquee() {
