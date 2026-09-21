@@ -21,15 +21,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.37"></script>
+  <script src="./staff.js?v=1.1.46"></script>
 
   <style>
-    @property --border-angle {
-      syntax: '<angle>';
-      inherits: false;
-      initial-value: 0deg;
-    }
-
     :root {
       --bg-main: #08090d;
       --surface-1: rgba(12, 14, 20, 0.68);
@@ -318,7 +312,7 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN PERIMETRAL
+       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN LIGERA
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -341,6 +335,7 @@
       will-change: transform;
       padding: 3px;
       border: 1px solid rgba(255, 255, 255, 0.16);
+      overflow: hidden;
     }
 
     @media (min-width: 900px) {
@@ -355,27 +350,34 @@
     .cover-wrapper::before {
       content: '';
       position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      padding: 2.5px;
+      inset: -50%;
       background: conic-gradient(
-        from var(--border-angle),
-        transparent 0%,
-        var(--neon-purple) 20%,
-        transparent 35%,
-        transparent 50%,
-        var(--neon-green) 70%,
-        transparent 85%,
-        transparent 100%
+        from 0deg,
+        #00ff66 0deg,
+        #00ff66 180deg,
+        #b026ff 180deg,
+        #b026ff 360deg
       );
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
       pointer-events: none;
       opacity: 0;
-      z-index: 6;
-      transition: opacity 0.4s ease;
+      z-index: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    .cover-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: 2.5px;
+      border-radius: calc(20px - 2px);
+      background: #08090d;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @media (min-width: 900px) {
+      .cover-wrapper::after {
+        border-radius: calc(24px - 2px);
+      }
     }
 
     .cover-img {
@@ -383,50 +385,38 @@
       height: 100%;
       max-width: 100%;
       max-height: 100%;
-      border-radius: calc(20px - 3px);
+      border-radius: inherit;
       object-fit: contain;
       object-position: center;
       transform: translate3d(0, 0, 0);
       will-change: transform;
-      background: #08090d;
-    }
-
-    @media (min-width: 900px) {
-      .cover-img {
-        border-radius: calc(24px - 3px);
-      }
+      position: relative;
+      z-index: 3;
     }
 
     .is-playing .cover-wrapper {
       border-color: transparent;
       box-shadow: 
         0 16px 36px rgba(0, 0, 0, 0.9),
-        0 0 22px rgba(176, 38, 255, 0.5), 
-        0 0 16px rgba(0, 255, 102, 0.3);
+        0 0 22px rgba(176, 38, 255, 0.45), 
+        0 0 16px rgba(0, 255, 102, 0.35);
       animation: gentlePendulumTilt 6.5s ease-in-out infinite alternate;
     }
 
     .is-playing .cover-wrapper::before {
       opacity: 1;
-      animation: cyberNeonBorderSpin 4s linear infinite;
+      animation: neonBorderRotateSmooth 12s linear infinite;
     }
 
-    @keyframes cyberNeonBorderSpin {
-      to {
-        --border-angle: 360deg;
-      }
+    @keyframes neonBorderRotateSmooth {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     @keyframes gentlePendulumTilt {
-      0% {
-        transform: translate3d(0, 0px, 0) rotateY(-2.5deg) rotateX(1.5deg);
-      }
-      50% {
-        transform: translate3d(0, -3.5px, 0) rotateY(0.5deg) rotateX(0.5deg);
-      }
-      100% {
-        transform: translate3d(0, -1px, 0) rotateY(2.5deg) rotateX(-1.5deg);
-      }
+      0% { transform: translate3d(0, 0px, 0) rotateY(-2.5deg) rotateX(1.5deg); }
+      50% { transform: translate3d(0, -3.5px, 0) rotateY(0.5deg) rotateX(0.5deg); }
+      100% { transform: translate3d(0, -1px, 0) rotateY(2.5deg) rotateX(-1.5deg); }
     }
 
     .title-marquee-container {
@@ -1064,7 +1054,6 @@
 
     .modal-dj-name {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px;
       font-weight: 800;
       color: #fff;
       display: flex;
@@ -1189,7 +1178,7 @@
     <div class="header-actions">
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
-          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
+          <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 2.52-1.12 4.84-2.9 6.24-1.72 1.36-3.92 1.9-6.09 1.49-2.17-.41-4.13-1.73-5.36-3.59-1.23-1.86-1.6-4.22-1.02-6.42.58-2.2 2.05-4.08 4.03-5.19 1.98-1.11 4.37-1.36 6.54-.69v4.08c-1.14-.36-2.38-.26-3.46.29-1.08.55-1.91 1.53-2.26 2.71-.35 1.18-.18 2.48.47 3.54.65 1.06 1.73 1.82 2.96 2.09 1.23.27 2.52.02 3.58-.69 1.06-.71 1.79-1.85 1.99-3.11.08-.51.12-1.02.12-1.54V.02h-2.68z"/>
         </svg>
       </a>
 
@@ -1340,7 +1329,7 @@
     </div>
   </div>
 
-  <audio id="audioSource" crossorigin="anonymous" preload="none"></audio>
+  <audio id="audioSource" preload="none"></audio>
 
   <script>
     // ----------------------------------------------------
@@ -1369,7 +1358,6 @@
     let eqAnimId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Manejo transparente de PWA: el navegador mostrará el prompt nativo
       window.addEventListener('beforeinstallprompt', (e) => {
         // Permitimos que el navegador use su interfaz nativa de instalación
       });
@@ -1743,7 +1731,7 @@
       syncMetadataAPI();
 
       // ----------------------------------------------------
-      // ECUALIZADOR FFT REAL 28 BANDAS
+      // ECUALIZADOR FFT REAL 28 BANDAS (SIN FUGA DE MEMORIA)
       // ----------------------------------------------------
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
@@ -1814,7 +1802,8 @@
 
           mediaNode = audioCtx.createMediaElementSource(audio);
           mediaNode.connect(analyser);
-          analyser.connect(audioCtx.destination);
+          // OJO: NUNCA conectar analyser a audioCtx.destination con live streams continuos
+          // El elemento <audio> ya suena directo sin retener gigabytes en memoria.
 
           dataArray = new Uint8Array(analyser.frequencyBinCount);
           buildPrecomputedLookup();
@@ -1902,7 +1891,7 @@
       resizeCanvas();
 
       // ----------------------------------------------------
-      // REPRODUCCIÓN DIRECTA SIN LATENCIAS
+      // REPRODUCCIÓN DIRECTA LIMPIA DE MEMORIA
       // ----------------------------------------------------
       btnPlay.addEventListener("click", () => {
         if (!isPlaying) {
@@ -1929,6 +1918,7 @@
         } else {
           audio.pause();
           audio.src = '';
+          audio.load();
           setPlayingState(false);
         }
       });
@@ -1941,6 +1931,14 @@
         if (isPlaying) {
           audio.src = STREAM_URL;
           audio.play().catch(() => {});
+        }
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopEqualizer();
+        } else if (isPlaying) {
+          startEqualizer();
         }
       });
 
