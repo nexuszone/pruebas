@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.40"></script>
+  <script src="./staff.js?v=1.1.41"></script>
 
   <style>
     @property --border-angle {
@@ -32,7 +32,7 @@
     @property --g-stop1 {
       syntax: '<percentage>';
       inherits: false;
-      initial-value: 20%;
+      initial-value: 28%;
     }
     @property --g-stop2 {
       syntax: '<percentage>';
@@ -42,7 +42,7 @@
     @property --g-stop3 {
       syntax: '<percentage>';
       inherits: false;
-      initial-value: 70%;
+      initial-value: 50%;
     }
 
     :root {
@@ -333,8 +333,8 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN DINÁMICA ASIMÉTRICA
-       (VERDE / MORADO EN PATRONES ALEATORIOS SIN PERDER RENDIMIENTO)
+       CARÁTULA: PÉNDULO 3D + ESTELA DINÁMICA ULTRA-SUAVE
+       (CADENCIA RELAJADA DE 18 SEGUNDOS SIN CORTES)
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -368,7 +368,6 @@
       }
     }
 
-    /* Anillo cónico perimetral procesado por GPU */
     .cover-wrapper::before {
       content: '';
       position: absolute;
@@ -378,13 +377,13 @@
       background: conic-gradient(
         from var(--border-angle),
         transparent 0%,
-        var(--c1, var(--neon-green)) 5%,
+        var(--c1, var(--neon-green)) 4%,
         var(--c1, var(--neon-green)) var(--g-stop1),
-        transparent calc(var(--g-stop1) + 6%),
+        transparent calc(var(--g-stop1) + 8%),
         transparent var(--g-stop2),
-        var(--c2, var(--neon-purple)) calc(var(--g-stop2) + 5%),
-        var(--c2, var(--neon-purple)) var(--g-stop3),
-        transparent calc(var(--g-stop3) + 6%),
+        var(--c2, transparent) calc(var(--g-stop2) + 4%),
+        var(--c2, transparent) var(--g-stop3),
+        transparent calc(var(--g-stop3) + 8%),
         transparent 100%
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -394,7 +393,7 @@
       pointer-events: none;
       opacity: 0;
       z-index: 6;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.5s ease;
     }
 
     .cover-img {
@@ -427,100 +426,104 @@
 
     .is-playing .cover-wrapper::before {
       opacity: 1;
-      animation: neonDynamicPatternSpin 10s linear infinite;
+      animation: neonDynamicPatternSpin 18s linear infinite;
     }
 
-    /* Coreografía dinámica asimétrica: Vuelta entera, mitades, cuartos y 3/4 en bucle */
+    /* Coreografía fluida y suave de 18 segundos sin saltos ni cortes */
     @keyframes neonDynamicPatternSpin {
       /* 1. Vuelta completa Verde Neón */
       0% {
         --border-angle: 0deg;
         --c1: #00ff66;
         --c2: transparent;
-        --g-stop1: 30%;
-        --g-stop2: 40%;
-        --g-stop3: 40%;
+        --g-stop1: 28%;
+        --g-stop2: 50%;
+        --g-stop3: 50%;
       }
-      19.9% {
-        --c1: #00ff66;
-        --c2: transparent;
-        --g-stop1: 30%;
-      }
-
-      /* 2. Media vuelta Verde y Media Morada */
-      20% {
+      18% {
         --border-angle: 360deg;
         --c1: #00ff66;
-        --c2: #b026ff;
-        --g-stop1: 40%;
+        --c2: transparent;
+        --g-stop1: 28%;
         --g-stop2: 50%;
-        --g-stop3: 90%;
-      }
-      39.9% {
-        --c1: #00ff66;
-        --c2: #b026ff;
-        --g-stop1: 40%;
-        --g-stop2: 50%;
-        --g-stop3: 90%;
+        --g-stop3: 50%;
       }
 
-      /* 3. Vuelta completa Morado Neón */
-      40% {
+      /* 2. Transición hacia Media vuelta Verde y Media Morada */
+      23% {
+        --c1: #00ff66;
+        --c2: #b026ff;
+        --g-stop1: 38%;
+        --g-stop2: 50%;
+        --g-stop3: 88%;
+      }
+      38% {
         --border-angle: 720deg;
-        --c1: #b026ff;
-        --c2: transparent;
-        --g-stop1: 32%;
-        --g-stop2: 45%;
-        --g-stop3: 45%;
-      }
-      59.9% {
-        --c1: #b026ff;
-        --c2: transparent;
-        --g-stop1: 32%;
-      }
-
-      /* 4. Un cuarto Verde persiguiendo tres cuartos Morados */
-      60% {
-        --border-angle: 1080deg;
         --c1: #00ff66;
         --c2: #b026ff;
-        --g-stop1: 18%; /* Cuarto de vuelta */
-        --g-stop2: 25%;
-        --g-stop3: 85%; /* Tres cuartos */
+        --g-stop1: 38%;
+        --g-stop2: 50%;
+        --g-stop3: 88%;
       }
-      79.9% {
+
+      /* 3. Transición hacia Vuelta completa Morado Neón */
+      43% {
+        --c1: #b026ff;
+        --c2: transparent;
+        --g-stop1: 30%;
+        --g-stop2: 50%;
+        --g-stop3: 50%;
+      }
+      58% {
+        --border-angle: 1080deg;
+        --c1: #b026ff;
+        --c2: transparent;
+        --g-stop1: 30%;
+        --g-stop2: 50%;
+        --g-stop3: 50%;
+      }
+
+      /* 4. Transición hacia Un cuarto Verde y Tres cuartos Morados */
+      63% {
         --c1: #00ff66;
         --c2: #b026ff;
         --g-stop1: 18%;
-        --g-stop2: 25%;
-        --g-stop3: 85%;
+        --g-stop2: 26%;
+        --g-stop3: 84%;
       }
-
-      /* 5. Tres cuartos Verde y un cuarto Morado */
-      80% {
+      78% {
         --border-angle: 1440deg;
         --c1: #00ff66;
         --c2: #b026ff;
-        --g-stop1: 65%; /* Tres cuartos */
-        --g-stop2: 72%;
-        --g-stop3: 92%; /* Un cuarto */
+        --g-stop1: 18%;
+        --g-stop2: 26%;
+        --g-stop3: 84%;
       }
-      99.9% {
+
+      /* 5. Transición hacia Tres cuartos Verde y Un cuarto Morado */
+      83% {
         --c1: #00ff66;
         --c2: #b026ff;
-        --g-stop1: 65%;
-        --g-stop2: 72%;
+        --g-stop1: 64%;
+        --g-stop2: 74%;
+        --g-stop3: 92%;
+      }
+      93% {
+        --c1: #00ff66;
+        --c2: #b026ff;
+        --g-stop1: 64%;
+        --g-stop2: 74%;
         --g-stop3: 92%;
       }
 
-      /* 6. Cierre de ciclo y reinicio fluido a la vuelta verde */
+      /* 6. Enlace 100% idéntico al 0% para eliminar cualquier salto o parpadeo */
       100% {
         --border-angle: 1800deg;
         --c1: #00ff66;
         --c2: transparent;
-        --g-stop1: 30%;
-        --g-stop2: 40%;
-        --g-stop3: 40%;
+        --g-stop1: 28%;
+        --g-stop2: 50%;
+        --g-stop3: 50%;
       }
     }
 
