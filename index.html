@@ -21,9 +21,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.35"></script>
+  <script src="./staff.js?v=1.1.37"></script>
 
   <style>
+    @property --border-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+
     :root {
       --bg-main: #08090d;
       --surface-1: rgba(12, 14, 20, 0.68);
@@ -220,50 +226,6 @@
       }
     }
 
-    .btn-install-pwa {
-      display: none;
-      align-items: center;
-      gap: 6px;
-      height: 36px;
-      padding: 0 12px;
-      border-radius: 12px;
-      background: transparent;
-      border: 1px solid var(--neon-green);
-      color: var(--neon-green);
-      font-family: inherit;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.6px;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
-    }
-
-    .btn-install-pwa svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
-
-    @media (hover: hover) {
-      .btn-install-pwa:hover {
-        background: transparent;
-        color: var(--neon-green);
-        border-color: #fff;
-        box-shadow: 0 0 18px var(--green-glow), 0 0 8px #fff;
-        transform: translateY(-2px);
-      }
-      .btn-install-pwa:hover svg {
-        transform: translateY(2px);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .btn-install-pwa span { display: none; }
-      .btn-install-pwa { padding: 0 10px; }
-    }
-
     .workspace {
       flex: 1;
       width: 100%;
@@ -352,11 +314,11 @@
       min-height: 0;
       flex: 1;
       justify-content: center;
-      perspective: 1000px; /* Perspectiva para el holograma 3D */
+      perspective: 1000px;
     }
 
     /* ----------------------------------------------------
-       OPCIÓN 5: HOLOGRAMA 3D CON INCLINACIÓN AL PÉNDULO
+       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN PERIMETRAL
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -369,16 +331,16 @@
       position: relative;
       background: rgba(13, 15, 23, 0.95);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.16);
       flex-shrink: 1;
       transform-style: preserve-3d;
       transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
-      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
       will-change: transform;
+      padding: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
     @media (min-width: 900px) {
@@ -390,26 +352,69 @@
       }
     }
 
+    .cover-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2.5px;
+      background: conic-gradient(
+        from var(--border-angle),
+        transparent 0%,
+        var(--neon-purple) 20%,
+        transparent 35%,
+        transparent 50%,
+        var(--neon-green) 70%,
+        transparent 85%,
+        transparent 100%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 6;
+      transition: opacity 0.4s ease;
+    }
+
     .cover-img {
       width: 100%;
       height: 100%;
       max-width: 100%;
       max-height: 100%;
-      border-radius: inherit;
+      border-radius: calc(20px - 3px);
       object-fit: contain;
       object-position: center;
       transform: translate3d(0, 0, 0);
       will-change: transform;
+      background: #08090d;
     }
 
-    /* Estado activo al reproducir: oscilación pendular 3D de bajo consumo */
+    @media (min-width: 900px) {
+      .cover-img {
+        border-radius: calc(24px - 3px);
+      }
+    }
+
     .is-playing .cover-wrapper {
-      border-color: var(--neon-purple);
+      border-color: transparent;
       box-shadow: 
         0 16px 36px rgba(0, 0, 0, 0.9),
-        0 0 24px var(--purple-glow), 
-        0 0 14px rgba(0, 255, 102, 0.25);
+        0 0 22px rgba(176, 38, 255, 0.5), 
+        0 0 16px rgba(0, 255, 102, 0.3);
       animation: gentlePendulumTilt 6.5s ease-in-out infinite alternate;
+    }
+
+    .is-playing .cover-wrapper::before {
+      opacity: 1;
+      animation: cyberNeonBorderSpin 4s linear infinite;
+    }
+
+    @keyframes cyberNeonBorderSpin {
+      to {
+        --border-angle: 360deg;
+      }
     }
 
     @keyframes gentlePendulumTilt {
@@ -1182,13 +1187,6 @@
     </div>
     
     <div class="header-actions">
-      <button class="btn-install-pwa" id="btnInstallPwa" title="Instalar aplicación">
-        <svg viewBox="0 0 24 24">
-          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
-        </svg>
-        <span>Instalar</span>
-      </button>
-
       <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn social-tiktok" id="linkTiktok" title="TikTok" aria-label="TikTok">
         <svg viewBox="0 0 24 24">
           <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-1.02-.9-.46-1.72-1.06-2.42-1.78v8.9c-.03 2.92-2.35 5.37-5.27 5.42-3.02.06-5.55-2.39-5.59-5.41-.03-3.04 2.47-5.55 5.51-5.57.57 0 1.13.09 1.67.26v4.13c-.43-.17-.9-.26-1.39-.25-1.01.01-1.85.84-1.85 1.85 0 1.02.84 1.85 1.85 1.85 1.03 0 1.87-.84 1.87-1.87V.02z"/>
@@ -1371,33 +1369,10 @@
     let eqAnimId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      let deferredPrompt = null;
-      const btnInstallPwa = document.getElementById("btnInstallPwa");
-
+      // Manejo transparente de PWA: el navegador mostrará el prompt nativo
       window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        btnInstallPwa.style.display = "inline-flex";
+        // Permitimos que el navegador use su interfaz nativa de instalación
       });
-
-      btnInstallPwa.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          btnInstallPwa.style.display = 'none';
-        }
-        deferredPrompt = null;
-      });
-
-      window.addEventListener('appinstalled', () => {
-        btnInstallPwa.style.display = 'none';
-        deferredPrompt = null;
-      });
-
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        btnInstallPwa.style.display = 'none';
-      }
 
       const STREAM_URL = "https://mars.streamerr.co/8434/stream";
       const STATS_URL = "https://mars.streamerr.co/8434/stats?json=1";
