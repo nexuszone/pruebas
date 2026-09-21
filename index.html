@@ -21,9 +21,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.48"></script>
+  <script src="./staff.js?v=1.1.49"></script>
 
   <style>
+    @property --border-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+
     :root {
       --bg-main: #08090d;
       --surface-1: rgba(12, 14, 20, 0.68);
@@ -312,7 +318,7 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + BORDE NEÓN DUAL PERIMETRAL
+       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN PERIMETRAL EXACTA
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -335,7 +341,6 @@
       will-change: transform;
       padding: 3px;
       border: 1px solid rgba(255, 255, 255, 0.16);
-      overflow: hidden;
     }
 
     @media (min-width: 900px) {
@@ -347,13 +352,14 @@
       }
     }
 
-    /* Contenedor giratorio de la estela neón (GPU acelerado sin congelarse) */
     .cover-wrapper::before {
       content: '';
       position: absolute;
-      inset: -55%;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2.5px;
       background: conic-gradient(
-        from 0deg,
+        from var(--border-angle),
         transparent 0%,
         var(--neon-purple) 20%,
         transparent 35%,
@@ -362,27 +368,14 @@
         transparent 85%,
         transparent 100%
       );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
       pointer-events: none;
       opacity: 0;
-      z-index: 1;
+      z-index: 6;
       transition: opacity 0.4s ease;
-    }
-
-    /* Capa interna para enmascarar el fondo y dejar visible solo el borde */
-    .cover-wrapper::after {
-      content: '';
-      position: absolute;
-      inset: 2.5px;
-      border-radius: calc(20px - 2px);
-      background: #08090d;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    @media (min-width: 900px) {
-      .cover-wrapper::after {
-        border-radius: calc(24px - 2px);
-      }
     }
 
     .cover-img {
@@ -390,13 +383,18 @@
       height: 100%;
       max-width: 100%;
       max-height: 100%;
-      border-radius: inherit;
+      border-radius: calc(20px - 3px);
       object-fit: contain;
       object-position: center;
       transform: translate3d(0, 0, 0);
       will-change: transform;
-      position: relative;
-      z-index: 3;
+      background: #08090d;
+    }
+
+    @media (min-width: 900px) {
+      .cover-img {
+        border-radius: calc(24px - 3px);
+      }
     }
 
     .is-playing .cover-wrapper {
@@ -414,11 +412,8 @@
     }
 
     @keyframes cyberNeonBorderSpin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
+      to {
+        --border-angle: 360deg;
       }
     }
 
@@ -1344,8 +1339,10 @@
     </div>
   </div>
 
-  <!-- Audio nativo con crossorigin para habilitar Web Audio sin bloqueos -->
-  <audio id="audioSource" crossorigin="anonymous" preload="none"></audio>
+  <!-- ARQUITECTURA EXACTA DE CASTLE: FUENTE FIJA NATIVA SIN CAMBIOS DE SRC -->
+  <audio id="audioSource" crossorigin="anonymous">
+    <source src="https://mars.streamerr.co/8434/stream" type="audio/mpeg">
+  </audio>
 
   <script>
     // ----------------------------------------------------
@@ -1363,20 +1360,9 @@
     let mediaNode = null;
     let eqAnimId = null;
 
-    // Desbloqueo de hardware de audio en móviles al primer toque
-    document.body.addEventListener('touchstart', function initMobile() {
-      if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContextClass();
-        audioCtx.suspend();
-      }
-      document.body.removeEventListener('touchstart', initMobile);
-    }, { once: true, passive: true });
-
     document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener('beforeinstallprompt', (e) => {});
 
-      const STREAM_URL = "https://mars.streamerr.co/8434/stream";
       const STATS_URL = "https://mars.streamerr.co/8434/stats?json=1";
       const DEFAULT_COVER = "djs/nexusdj.webp";
 
@@ -1789,28 +1775,28 @@
         }
       }
 
-      function setupWebAudioPipeline() {
-        if (analyser) return;
-        try {
-          if (!audioCtx) {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContextClass();
+      // GRAFO DE AUDIO EXACTO DE CASTLE: CREACIÓN ÚNICA SIN RECONEXIONES
+      async function setupAudioContext() {
+        if (!audioCtx) {
+          try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 512;
+            analyser.minDecibels = -75;
+            analyser.maxDecibels = -8;
+            analyser.smoothingTimeConstant = 0.7;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+            mediaNode = audioCtx.createMediaElementSource(audio);
+            mediaNode.connect(analyser);
+            analyser.connect(audioCtx.destination);
+            buildPrecomputedLookup();
+          } catch (e) {
+            console.warn("AudioContext setup:", e);
           }
-
-          analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 512;
-          analyser.minDecibels = -85;
-          analyser.maxDecibels = -10;
-          analyser.smoothingTimeConstant = 0.82;
-
-          mediaNode = audioCtx.createMediaElementSource(audio);
-          mediaNode.connect(analyser);
-          analyser.connect(audioCtx.destination); // Enlace vital para escuchar el sonido
-
-          dataArray = new Uint8Array(analyser.frequencyBinCount);
-          buildPrecomputedLookup();
-        } catch (err) {
-          console.warn("AudioContext setup:", err);
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          await audioCtx.resume();
         }
       }
 
@@ -1892,45 +1878,33 @@
       window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
       resizeCanvas();
 
-      // REPRODUCCIÓN ESTABLE Y LIMPIA
-      btnPlay.addEventListener("click", () => {
-        if (!isPlaying) {
-          if (!audioCtx) {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            if (AudioContextClass) audioCtx = new AudioContextClass();
-          }
-
-          setupWebAudioPipeline();
-
-          if (audioCtx && audioCtx.state === 'suspended') {
-            audioCtx.resume();
-          }
-
-          if (audio.src !== STREAM_URL) {
-            audio.src = STREAM_URL;
-          }
-
-          audio.play().then(() => {
-            setPlayingState(true);
-          }).catch(err => {
-            console.error("Error play:", err);
-            setPlayingState(false);
-          });
-        } else {
+      // MÉTODO TOGGLE EXACTO DE CASTLE: SIN REASIGNAR AUDIO.SRC NI AUDIO.LOAD()
+      async function togglePlay() {
+        if (isPlaying) {
+          isPlaying = false;
+          stopEqualizer();
           audio.pause();
-          audio.src = '';
           setPlayingState(false);
+        } else {
+          await setupAudioContext();
+          try {
+            await audio.play();
+            isPlaying = true;
+            setPlayingState(true);
+            startEqualizer();
+          } catch (e) {
+            console.error("Error al reproducir audio:", e);
+          }
         }
-      });
+      }
+
+      btnPlay.addEventListener("click", togglePlay);
 
       audio.addEventListener("pause", () => {
-        setPlayingState(false);
-      });
-
-      audio.addEventListener("error", () => {
         if (isPlaying) {
-          audio.src = STREAM_URL;
-          audio.play().catch(() => {});
+          isPlaying = false;
+          setPlayingState(false);
+          stopEqualizer();
         }
       });
 
@@ -1943,15 +1917,12 @@
       });
 
       function setPlayingState(playing) {
-        isPlaying = playing;
         if (playing) {
           playerDeck.classList.add("is-playing");
           playIcon.innerHTML = `<rect x="6" y="6" width="12" height="12" rx="1.5" />`;
-          startEqualizer();
         } else {
           playerDeck.classList.remove("is-playing");
           playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
-          stopEqualizer();
         }
       }
 
