@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.47"></script>
+  <script src="./staff.js?v=1.1.48"></script>
 
   <style>
     :root {
@@ -311,6 +311,9 @@
       perspective: 1000px;
     }
 
+    /* ----------------------------------------------------
+       CARÁTULA: PÉNDULO 3D + BORDE NEÓN DUAL PERIMETRAL
+       ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
       max-width: min(84vw, 290px);
@@ -344,23 +347,28 @@
       }
     }
 
+    /* Contenedor giratorio de la estela neón (GPU acelerado sin congelarse) */
     .cover-wrapper::before {
       content: '';
       position: absolute;
-      inset: -50%;
+      inset: -55%;
       background: conic-gradient(
         from 0deg,
-        #00ff66 0deg,
-        #00ff66 180deg,
-        #b026ff 180deg,
-        #b026ff 360deg
+        transparent 0%,
+        var(--neon-purple) 20%,
+        transparent 35%,
+        transparent 50%,
+        var(--neon-green) 70%,
+        transparent 85%,
+        transparent 100%
       );
       pointer-events: none;
       opacity: 0;
       z-index: 1;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
     }
 
+    /* Capa interna para enmascarar el fondo y dejar visible solo el borde */
     .cover-wrapper::after {
       content: '';
       position: absolute;
@@ -395,25 +403,35 @@
       border-color: transparent;
       box-shadow: 
         0 16px 36px rgba(0, 0, 0, 0.9),
-        0 0 22px rgba(176, 38, 255, 0.45), 
-        0 0 16px rgba(0, 255, 102, 0.35);
+        0 0 22px rgba(176, 38, 255, 0.5), 
+        0 0 16px rgba(0, 255, 102, 0.3);
       animation: gentlePendulumTilt 6.5s ease-in-out infinite alternate;
     }
 
     .is-playing .cover-wrapper::before {
       opacity: 1;
-      animation: neonBorderRotateSmooth 12s linear infinite;
+      animation: cyberNeonBorderSpin 4s linear infinite;
     }
 
-    @keyframes neonBorderRotateSmooth {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes cyberNeonBorderSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     @keyframes gentlePendulumTilt {
-      0% { transform: translate3d(0, 0px, 0) rotateY(-2.5deg) rotateX(1.5deg); }
-      50% { transform: translate3d(0, -3.5px, 0) rotateY(0.5deg) rotateX(0.5deg); }
-      100% { transform: translate3d(0, -1px, 0) rotateY(2.5deg) rotateX(-1.5deg); }
+      0% {
+        transform: translate3d(0, 0px, 0) rotateY(-2.5deg) rotateX(1.5deg);
+      }
+      50% {
+        transform: translate3d(0, -3.5px, 0) rotateY(0.5deg) rotateX(0.5deg);
+      }
+      100% {
+        transform: translate3d(0, -1px, 0) rotateY(2.5deg) rotateX(-1.5deg);
+      }
     }
 
     .title-marquee-container {
@@ -1326,7 +1344,8 @@
     </div>
   </div>
 
-  <audio id="audioSource" preload="none"></audio>
+  <!-- Audio nativo con crossorigin para habilitar Web Audio sin bloqueos -->
+  <audio id="audioSource" crossorigin="anonymous" preload="none"></audio>
 
   <script>
     // ----------------------------------------------------
@@ -1340,12 +1359,11 @@
 
     let audioCtx = null;
     let analyser = null;
-    let gainNode = null;
     let dataArray = null;
     let mediaNode = null;
     let eqAnimId = null;
 
-    // Desbloqueo inicial al primer toque en móvil
+    // Desbloqueo de hardware de audio en móviles al primer toque
     document.body.addEventListener('touchstart', function initMobile() {
       if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1771,7 +1789,6 @@
         }
       }
 
-      // CONFIGURACIÓN DE AUDIO SIN FUGA DE MEMORIA
       function setupWebAudioPipeline() {
         if (analyser) return;
         try {
@@ -1786,13 +1803,9 @@
           analyser.maxDecibels = -10;
           analyser.smoothingTimeConstant = 0.82;
 
-          gainNode = audioCtx.createGain();
-          gainNode.gain.value = parseFloat(volumeControl.value);
-
           mediaNode = audioCtx.createMediaElementSource(audio);
           mediaNode.connect(analyser);
-          analyser.connect(gainNode);
-          gainNode.connect(audioCtx.destination); // Salida correcta hacia altavoces
+          analyser.connect(audioCtx.destination); // Enlace vital para escuchar el sonido
 
           dataArray = new Uint8Array(analyser.frequencyBinCount);
           buildPrecomputedLookup();
@@ -1879,7 +1892,7 @@
       window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
       resizeCanvas();
 
-      // REPRODUCCIÓN Y PARADA CON LIMPIEZA DE BÚFER
+      // REPRODUCCIÓN ESTABLE Y LIMPIA
       btnPlay.addEventListener("click", () => {
         if (!isPlaying) {
           if (!audioCtx) {
@@ -1904,13 +1917,8 @@
             setPlayingState(false);
           });
         } else {
-          // Parada con liberación de memoria en el navegador
           audio.pause();
-          audio.removeAttribute("src");
-          audio.load();
-          if (audioCtx && audioCtx.state === 'running') {
-            audioCtx.suspend(); // Detiene el procesamiento continuo en RAM
-          }
+          audio.src = '';
           setPlayingState(false);
         }
       });
@@ -1949,9 +1957,6 @@
 
       function updateVolumeVisual(val) {
         audio.volume = val;
-        if (gainNode) {
-          gainNode.gain.value = val;
-        }
         const pct = Math.round(val * 100);
         volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
       }
