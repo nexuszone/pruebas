@@ -57,6 +57,16 @@ window.STAFF_MEMBERS = [
     "country": "El Salvador",
     "flag": "sv",
     "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
-    "description": "Experta en generos Urbanos y música de actualidad"
+    "description": "Programa generos Urbanos y música de actualidad"
   },
+  {
+    "name": "NeXusDj",
+    "image": "djs/ca.webp",
+    "role": "Bot & Dj",
+    "badge": "Bot",
+    "country": "España",
+    "flag": "es",
+    "schedule": "24/7 Gestiona la biblioteca musical cuando no hay dj para que siempre estes acompañado de buena música",
+    "description": "Música variada"
+  }
 ];
