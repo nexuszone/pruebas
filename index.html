@@ -21,13 +21,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.42"></script>
+  <script src="./staff.js?v=1.1.43"></script>
 
   <style>
     @property --border-angle {
       syntax: '<angle>';
       inherits: false;
       initial-value: 0deg;
+    }
+    @property --stop-green {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 100%;
+    }
+    @property --stop-purple {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 100%;
     }
 
     :root {
@@ -318,8 +328,7 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + ESTELA DE PLASMA LÍQUIDO 
-       (TRANSICIÓN 100% FLUIDA Y CONTINUA SIN CORTES)
+       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN EXCLUSIVAMENTE VERDE Y MORADO
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -353,7 +362,6 @@
       }
     }
 
-    /* Anillo cónico con mezcla progresiva de plasma (Verde / Morado) */
     .cover-wrapper::before {
       content: '';
       position: absolute;
@@ -363,9 +371,10 @@
       background: conic-gradient(
         from var(--border-angle),
         #00ff66 0deg,
-        #b026ff 90deg,
-        #00ff66 180deg,
-        #b026ff 270deg,
+        #00ff66 var(--stop-green),
+        #b026ff var(--stop-green),
+        #b026ff var(--stop-purple),
+        #00ff66 var(--stop-purple),
         #00ff66 360deg
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -375,7 +384,7 @@
       pointer-events: none;
       opacity: 0;
       z-index: 6;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.5s ease;
     }
 
     .cover-img {
@@ -401,28 +410,79 @@
       border-color: transparent;
       box-shadow: 
         0 16px 36px rgba(0, 0, 0, 0.9),
-        0 0 24px rgba(176, 38, 255, 0.45), 
+        0 0 22px rgba(176, 38, 255, 0.45), 
         0 0 16px rgba(0, 255, 102, 0.35);
       animation: gentlePendulumTilt 6.5s ease-in-out infinite alternate;
     }
 
     .is-playing .cover-wrapper::before {
       opacity: 1;
-      /* Ciclo ultra-largo de 30 segundos: rotación y fundido de plasma continuo sin ningún corte */
-      animation: plasmaColorCycle 30s linear infinite;
+      animation: exactGreenPurpleSequence 24s linear infinite;
     }
 
-    @keyframes plasmaColorCycle {
+    /* Secuencia exacta: Vuelta entera verde -> Media/Media -> Vuelta entera morada -> Cuartos/Tres cuartos -> Fluido sin cortes */
+    @keyframes exactGreenPurpleSequence {
+      /* Fase 1: Vuelta entera verde neón */
       0% {
         --border-angle: 0deg;
-        filter: hue-rotate(0deg) saturate(1);
+        --stop-green: 360deg;
+        --stop-purple: 360deg;
       }
-      50% {
-        filter: hue-rotate(180deg) saturate(1.25);
-      }
-      100% {
+      18% {
         --border-angle: 360deg;
-        filter: hue-rotate(360deg) saturate(1);
+        --stop-green: 360deg;
+        --stop-purple: 360deg;
+      }
+
+      /* Fase 2: Transición limpia a Media vuelta verde y Media vuelta morada */
+      23% {
+        --stop-green: 180deg;
+        --stop-purple: 360deg;
+      }
+      41% {
+        --border-angle: 1080deg;
+        --stop-green: 180deg;
+        --stop-purple: 360deg;
+      }
+
+      /* Fase 3: Transición limpia a Vuelta entera morada */
+      46% {
+        --stop-green: 0deg;
+        --stop-purple: 360deg;
+      }
+      64% {
+        --border-angle: 1800deg;
+        --stop-green: 0deg;
+        --stop-purple: 360deg;
+      }
+
+      /* Fase 4: Un cuarto de vuelta verde (90deg) y tres cuartos morados */
+      69% {
+        --stop-green: 90deg;
+        --stop-purple: 360deg;
+      }
+      82% {
+        --border-angle: 2520deg;
+        --stop-green: 90deg;
+        --stop-purple: 360deg;
+      }
+
+      /* Fase 5: Tres cuartos de vuelta verde (270deg) y un cuarto morado */
+      87% {
+        --stop-green: 270deg;
+        --stop-purple: 360deg;
+      }
+      98% {
+        --border-angle: 3240deg;
+        --stop-green: 270deg;
+        --stop-purple: 360deg;
+      }
+
+      /* Cierre perfecto idéntico al 0% para fundir sin saltos */
+      100% {
+        --border-angle: 3600deg;
+        --stop-green: 360deg;
+        --stop-purple: 360deg;
       }
     }
 
