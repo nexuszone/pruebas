@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.49"></script>
+  <script src="./staff.js?v=1.1.50"></script>
 
   <style>
     @property --border-angle {
@@ -32,7 +32,7 @@
 
     :root {
       --bg-main: #08090d;
-      --surface-1: rgba(12, 14, 20, 0.68);
+      --surface-1: rgba(12, 14, 20, 0.72);
       --surface-2: rgba(28, 32, 45, 0.75);
       --border-subtle: rgba(255, 255, 255, 0.12);
       --border-focus: rgba(176, 38, 255, 0.5);
@@ -87,8 +87,8 @@
       align-items: center;
       border-bottom: 1px solid var(--border-subtle);
       background: rgba(8, 9, 13, 0.95);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       flex-shrink: 0;
       z-index: 50;
     }
@@ -273,8 +273,6 @@
       overflow: hidden;
       box-sizing: border-box;
       position: relative;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
     }
 
     @media (min-width: 900px) {
@@ -292,12 +290,12 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      filter: blur(12.6px) brightness(0.82);
-      opacity: 0.62;
+      filter: blur(16px) brightness(0.7);
+      opacity: 0.5;
       z-index: 0;
       pointer-events: none;
-      transform: scale(1.06) translateZ(0);
-      will-change: opacity, background-image;
+      transform: scale(1.05) translateZ(0);
+      will-change: opacity;
       transition: opacity 0.5s ease;
     }
 
@@ -314,11 +312,10 @@
       min-height: 0;
       flex: 1;
       justify-content: center;
-      perspective: 1000px;
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN PERIMETRAL
+       CARÁTULA ESTABLE (CERO SATURACIÓN DE VRAM)
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -329,18 +326,16 @@
       border-radius: 20px;
       margin-bottom: 12px;
       position: relative;
-      background: rgba(13, 15, 23, 0.95);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
+      background: #0d0e15;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 1;
-      transform-style: preserve-3d;
-      transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
-      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
-      will-change: transform;
       padding: 3px;
       border: 1px solid rgba(255, 255, 255, 0.16);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform;
     }
 
     @media (min-width: 900px) {
@@ -352,6 +347,7 @@
       }
     }
 
+    /* Borde de neón continuo usando gradiente cónico ligero sin capas sobredimensionadas */
     .cover-wrapper::before {
       content: '';
       position: absolute;
@@ -362,10 +358,10 @@
         from var(--border-angle),
         transparent 0%,
         var(--neon-purple) 20%,
-        transparent 35%,
+        transparent 38%,
         transparent 50%,
         var(--neon-green) 70%,
-        transparent 85%,
+        transparent 88%,
         transparent 100%
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -374,7 +370,7 @@
       mask-composite: exclude;
       pointer-events: none;
       opacity: 0;
-      z-index: 6;
+      z-index: 4;
       transition: opacity 0.4s ease;
     }
 
@@ -386,9 +382,9 @@
       border-radius: calc(20px - 3px);
       object-fit: contain;
       object-position: center;
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
       background: #08090d;
+      position: relative;
+      z-index: 2;
     }
 
     @media (min-width: 900px) {
@@ -400,32 +396,20 @@
     .is-playing .cover-wrapper {
       border-color: transparent;
       box-shadow: 
-        0 16px 36px rgba(0, 0, 0, 0.9),
-        0 0 22px rgba(176, 38, 255, 0.5), 
-        0 0 16px rgba(0, 255, 102, 0.3);
-      animation: gentlePendulumTilt 6.5s ease-in-out infinite alternate;
+        0 14px 34px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(176, 38, 255, 0.4), 
+        0 0 14px rgba(0, 255, 102, 0.25);
+      transform: translateY(-2px);
     }
 
     .is-playing .cover-wrapper::before {
       opacity: 1;
-      animation: cyberNeonBorderSpin 4s linear infinite;
+      animation: neonBorderRotate 4.5s linear infinite;
     }
 
-    @keyframes cyberNeonBorderSpin {
+    @keyframes neonBorderRotate {
       to {
         --border-angle: 360deg;
-      }
-    }
-
-    @keyframes gentlePendulumTilt {
-      0% {
-        transform: translate3d(0, 0px, 0) rotateY(-2.5deg) rotateX(1.5deg);
-      }
-      50% {
-        transform: translate3d(0, -3.5px, 0) rotateY(0.5deg) rotateX(0.5deg);
-      }
-      100% {
-        transform: translate3d(0, -1px, 0) rotateY(2.5deg) rotateX(-1.5deg);
       }
     }
 
@@ -488,7 +472,6 @@
       padding: 3px 14px;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
     }
 
     .emit-label {
@@ -610,7 +593,6 @@
       gap: 6px;
       transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
       flex-shrink: 0;
-      backdrop-filter: blur(8px);
       outline: none;
     }
 
@@ -647,7 +629,6 @@
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       min-height: 34px;
-      backdrop-filter: blur(8px);
       width: 100%;
       flex-shrink: 0;
     }
@@ -694,8 +675,6 @@
       height: 100%;
       height: var(--app-height);
       background: rgba(10, 12, 17, 0.98);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
       z-index: 100;
       padding: calc(10px + env(safe-area-inset-top, 0px)) 14px calc(12px + env(safe-area-inset-bottom, 0px)) 14px;
       display: flex;
@@ -957,7 +936,6 @@
       padding: 2px 7px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(4px);
     }
 
     .staff-country-badge img {
@@ -980,18 +958,13 @@
       border-radius: 8px;
       letter-spacing: 0.4px;
       white-space: nowrap;
-      backdrop-filter: blur(4px);
     }
 
-    /* ----------------------------------------------------
-       VENTANA MODAL AMPLIADA
-       ---------------------------------------------------- */
+    /* MODAL */
     .dj-modal-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       z-index: 200;
       display: flex;
       align-items: center;
@@ -1084,7 +1057,6 @@
       letter-spacing: 0.6px;
       text-transform: uppercase;
       margin-top: 6px;
-      backdrop-filter: blur(4px);
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
@@ -1339,78 +1311,75 @@
     </div>
   </div>
 
-  <!-- AUDIO CON FUENTE ESTÁTICA IDÉNTICA AL REPRODUCTOR QUE NO FALLA -->
-  <audio id="audioSource" crossorigin="anonymous">
-    <source src="https://mars.streamerr.co/8434/stream" type="audio/mpeg">
-  </audio>
+  <!-- ESTRUCTURA IDÉNTICA A CASTLE: FIJA Y LIMPIA -->
+  <audio id="audioSource" crossorigin="anonymous" preload="none"></audio>
 
   <script>
-    // ----------------------------------------------------
-    // SERVICE WORKER ESTABLE (ACTUALIZACIÓN EN SEGUNDO PLANO)
-    // ----------------------------------------------------
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
 
+    const STREAM_URL = "https://mars.streamerr.co/8434/stream";
+    const STATS_URL = "https://mars.streamerr.co/8434/stats?json=1";
+    const DEFAULT_COVER = "djs/nexusdj.webp";
+
+    const audio = document.getElementById("audioSource");
+    const playerDeck = document.getElementById("playerDeck");
+    const playerBgArt = document.getElementById("playerBgArt");
+    const libraryPanel = document.getElementById("libraryPanel");
+    const btnPlay = document.getElementById("btnPlay");
+    const playIcon = document.getElementById("playIcon");
+    const btnDeckChat = document.getElementById("btnDeckChat");
+    const btnDeckStaff = document.getElementById("btnDeckStaff");
+    const btnCloseDrawer = document.getElementById("btnCloseDrawer");
+    const sonicTitle = document.getElementById("sonic_title");
+    const displayTitle = document.getElementById("display_title");
+    const marqueeContainer = document.getElementById("marqueeContainer");
+    const sonicDj = document.getElementById("sonic_dj");
+    const displayDj = document.getElementById("display_dj");
+    const trackArtist = document.getElementById("trackArtist");
+    const coverImg = document.getElementById("coverImg");
+    const djCountryRow = document.getElementById("djCountryRow");
+    const djCountryName = document.getElementById("djCountryName");
+    const djFlagImg = document.getElementById("djFlagImg");
+    const volumeControl = document.getElementById("volumeControl");
+    const volMuteBtn = document.getElementById("volMuteBtn");
+    const volMaxBtn = document.getElementById("volMaxBtn");
+    const linkTiktok = document.getElementById("linkTiktok");
+    const linkTelegram = document.getElementById("linkTelegram");
+
+    const tabChat = document.getElementById("tabChat");
+    const tabStaff = document.getElementById("tabStaff");
+    const viewChat = document.getElementById("viewChat");
+    const viewStaff = document.getElementById("viewStaff");
+
+    const staffListGrid = document.getElementById("staffListGrid");
+    const djModalOverlay = document.getElementById("djModalOverlay");
+    const btnCloseModal = document.getElementById("btn-close-modal");
+    const modalDjImg = document.getElementById("modalDjImg");
+    const modalDjName = document.getElementById("modalDjName");
+    const modalDjRole = document.getElementById("modalDjRole");
+    const modalDjFlag = document.getElementById("modalDjFlag");
+    const modalDjCountryName = document.getElementById("modalDjCountryName");
+    const modalDjDesc = document.getElementById("modalDjDesc");
+    const modalDjSchedule = document.getElementById("modalDjSchedule");
+
+    let isPlaying = false;
     let audioCtx = null;
     let analyser = null;
     let dataArray = null;
-    let mediaNode = null;
     let eqAnimId = null;
 
+    let lastObservedTitle = "";
+    let lastObservedDjRaw = "";
+    let currentCoverUrl = "";
+    let djMap = {};
+    const coverMemoryCache = new Map();
+
     document.addEventListener("DOMContentLoaded", () => {
-      window.addEventListener('beforeinstallprompt', (e) => {});
-
-      const audio = document.getElementById("audioSource");
-      const playerDeck = document.getElementById("playerDeck");
-      const playerBgArt = document.getElementById("playerBgArt");
-      const libraryPanel = document.getElementById("libraryPanel");
-      const btnPlay = document.getElementById("btnPlay");
-      const playIcon = document.getElementById("playIcon");
-      const btnDeckChat = document.getElementById("btnDeckChat");
-      const btnDeckStaff = document.getElementById("btnDeckStaff");
-      const btnCloseDrawer = document.getElementById("btnCloseDrawer");
-      const sonicTitle = document.getElementById("sonic_title");
-      const displayTitle = document.getElementById("display_title");
-      const marqueeContainer = document.getElementById("marqueeContainer");
-      const sonicDj = document.getElementById("sonic_dj");
-      const displayDj = document.getElementById("display_dj");
-      const trackArtist = document.getElementById("trackArtist");
-      const coverImg = document.getElementById("coverImg");
-      const djCountryRow = document.getElementById("djCountryRow");
-      const djCountryName = document.getElementById("djCountryName");
-      const djFlagImg = document.getElementById("djFlagImg");
-      const volumeControl = document.getElementById("volumeControl");
-      const volMuteBtn = document.getElementById("volMuteBtn");
-      const volMaxBtn = document.getElementById("volMaxBtn");
-      const linkTiktok = document.getElementById("linkTiktok");
-      const linkTelegram = document.getElementById("linkTelegram");
-
-      const tabChat = document.getElementById("tabChat");
-      const tabStaff = document.getElementById("tabStaff");
-      const viewChat = document.getElementById("viewChat");
-      const viewStaff = document.getElementById("viewStaff");
-
-      const staffListGrid = document.getElementById("staffListGrid");
-      const djModalOverlay = document.getElementById("djModalOverlay");
-      const btnCloseModal = document.getElementById("btn-close-modal");
-      const modalDjImg = document.getElementById("modalDjImg");
-      const modalDjName = document.getElementById("modalDjName");
-      const modalDjRole = document.getElementById("modalDjRole");
-      const modalDjFlag = document.getElementById("modalDjFlag");
-      const modalDjCountryName = document.getElementById("modalDjCountryName");
-      const modalDjDesc = document.getElementById("modalDjDesc");
-      const modalDjSchedule = document.getElementById("modalDjSchedule");
-
-      let isPlaying = false;
-      let lastObservedTitle = "";
-      let lastObservedDjRaw = "";
-      let currentCoverUrl = "";
-      let djMap = {};
-      const coverMemoryCache = new Map();
-
+      // 1. CARGA DE STAFF
       function loadStaffMembers() {
         try {
           if (window.STAFF_MEMBERS && Array.isArray(window.STAFF_MEMBERS)) {
@@ -1486,6 +1455,7 @@
 
       loadStaffMembers();
 
+      // 2. TABS
       function activateTab(tabName) {
         if (tabName === "chat") {
           tabChat.style.display = "flex";
@@ -1546,6 +1516,7 @@
       tabChat.addEventListener("click", () => activateTab("chat"));
       tabStaff.addEventListener("click", () => activateTab("staff"));
 
+      // 3. MAPA DE DJS
       async function loadDjMap() {
         try {
           const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1645,54 +1616,38 @@
           .trim();
       }
 
-      async function fetchAccurateCover(title, artist) {
-        const cacheKey = `${artist} - ${title}`.toLowerCase();
-        if (coverMemoryCache.has(cacheKey)) {
-          applyBackgroundCover(coverMemoryCache.get(cacheKey));
-          return;
-        }
-
-        const cleanArtist = sanitizeTerm(artist);
-        const cleanTitle = sanitizeTerm(title);
-
-        try {
-          const query1 = encodeURIComponent(`${cleanArtist} ${cleanTitle}`);
-          let res = await fetch(`https://itunes.apple.com/search?term=${query1}&media=music&entity=song&limit=4`);
-          let data = await res.json();
-
-          let bestMatch = null;
-
-          if (data.results && data.results.length > 0) {
-            bestMatch = data.results.find(item => {
-              const itemArtist = (item.artistName || "").toLowerCase();
-              const itemTrack = (item.trackName || "").toLowerCase();
-              return (
-                itemArtist.includes(cleanArtist.toLowerCase()) ||
-                itemTrack.includes(cleanTitle.toLowerCase())
-              );
-            }) || data.results[0];
+      let fetchCoverTimeout = null;
+      function fetchAccurateCover(title, artist) {
+        if (fetchCoverTimeout) clearTimeout(fetchCoverTimeout);
+        fetchCoverTimeout = setTimeout(async () => {
+          const cacheKey = `${artist} - ${title}`.toLowerCase();
+          if (coverMemoryCache.has(cacheKey)) {
+            applyBackgroundCover(coverMemoryCache.get(cacheKey));
+            return;
           }
 
-          if (!bestMatch && cleanTitle.length > 2) {
-            const query2 = encodeURIComponent(cleanTitle);
-            res = await fetch(`https://itunes.apple.com/search?term=${query2}&media=music&entity=song&limit=3`);
-            data = await res.json();
-            if (data.results && data.results.length > 0) {
-              bestMatch = data.results[0];
+          const cleanArtist = sanitizeTerm(artist);
+          const cleanTitle = sanitizeTerm(title);
+
+          try {
+            const query1 = encodeURIComponent(`${cleanArtist} ${cleanTitle}`);
+            let res = await fetch(`https://itunes.apple.com/search?term=${query1}&media=music&entity=song&limit=2`);
+            let data = await res.json();
+
+            let bestMatch = (data.results && data.results[0]) ? data.results[0] : null;
+
+            if (bestMatch && bestMatch.artworkUrl100) {
+              const hires = bestMatch.artworkUrl100.replace('100x100bb', '600x600bb');
+              coverMemoryCache.set(cacheKey, hires);
+              applyBackgroundCover(hires);
             }
-          }
-
-          if (bestMatch && bestMatch.artworkUrl100) {
-            const hires = bestMatch.artworkUrl100.replace('100x100bb', '600x600bb');
-            coverMemoryCache.set(cacheKey, hires);
-            applyBackgroundCover(hires);
-          }
-        } catch (_) {}
+          } catch (_) {}
+        }, 1200);
       }
 
       async function syncMetadataAPI() {
         try {
-          const res = await fetch("https://mars.streamerr.co/8434/stats?json=1&t=" + Date.now());
+          const res = await fetch(STATS_URL + "&t=" + Date.now());
           if (res.ok) {
             const data = await res.json();
             if (data.songtitle) {
@@ -1713,12 +1668,10 @@
       });
       titleObserver.observe(sonicTitle, { childList: true, subtree: true, characterData: true });
 
-      setInterval(syncMetadataAPI, 6000);
+      setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ----------------------------------------------------
-      // ECUALIZADOR FFT REAL 28 BANDAS
-      // ----------------------------------------------------
+      // 4. CANVAS ECUALIZADOR (GPU FRIENDLY)
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
@@ -1772,7 +1725,7 @@
         }
       }
 
-      // CONFIGURACIÓN IDÉNTICA AL REPRODUCTOR QUE NUNCA FALLA
+      // 5. MOTOR DE AUDIO EXACTO DE CASTLE: SE CREA UNA SOLA VEZ
       async function setupAudioContext() {
         if (!audioCtx) {
           try {
@@ -1781,15 +1734,15 @@
             analyser.fftSize = 512;
             analyser.minDecibels = -75;
             analyser.maxDecibels = -8;
-            analyser.smoothingTimeConstant = 0.7;
+            analyser.smoothingTimeConstant = 0.75;
             dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-            mediaNode = audioCtx.createMediaElementSource(audio);
-            mediaNode.connect(analyser);
+            const source = audioCtx.createMediaElementSource(audio);
+            source.connect(analyser);
             analyser.connect(audioCtx.destination);
             buildPrecomputedLookup();
           } catch (e) {
-            console.warn("Web Audio API warning:", e);
+            console.warn("Web Audio API:", e);
           }
         }
         if (audioCtx && audioCtx.state === 'suspended') {
@@ -1818,10 +1771,8 @@
           return;
         }
 
-        eqAnimId = requestAnimationFrame(drawEqualizer);
-        ctx.clearRect(0, 0, eqLogicalWidth, eqLogicalHeight);
-
         analyser.getByteFrequencyData(dataArray);
+        ctx.clearRect(0, 0, eqLogicalWidth, eqLogicalHeight);
 
         const barSpacing = Math.max(2, Math.floor(eqLogicalWidth / 130));
         const barWidth = Math.max(2, Math.floor((eqLogicalWidth - (NUM_BARS - 1) * barSpacing) / NUM_BARS));
@@ -1857,13 +1808,15 @@
             ctx.fillRect(x, peakY - 3, barWidth, 2);
           }
         }
+
+        eqAnimId = requestAnimationFrame(drawEqualizer);
       }
 
       window.addEventListener("resize", resizeCanvas, { passive: true });
       window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
       resizeCanvas();
 
-      // REPRODUCCIÓN IDÉNTICA A LA DE TU WEB SIN ERRORES DE MEMORIA
+      // 6. TOGGLE PLAY ESTILO CASTLE: SIN REASIGNAR AUDIO.SRC
       async function togglePlay() {
         if (isPlaying) {
           isPlaying = false;
@@ -1872,13 +1825,23 @@
             eqAnimId = null;
           }
           audio.pause();
-          setPlayingState(false);
+          audio.src = '';
+          audio.load();
+
+          playerDeck.classList.remove("is-playing");
+          playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+          renderIdleBars();
         } else {
           await setupAudioContext();
           try {
+            audio.src = STREAM_URL;
+            audio.load();
             await audio.play();
+
             isPlaying = true;
-            setPlayingState(true);
+            playerDeck.classList.add("is-playing");
+            playIcon.innerHTML = `<rect x="6" y="6" width="12" height="12" rx="1.5" />`;
+
             if (!eqAnimId) {
               eqAnimId = requestAnimationFrame(drawEqualizer);
             }
@@ -1896,24 +1859,12 @@
             cancelAnimationFrame(eqAnimId);
             eqAnimId = null;
           }
-        } else {
-          if (isPlaying && !eqAnimId) {
-            eqAnimId = requestAnimationFrame(drawEqualizer);
-          }
+        } else if (isPlaying && !eqAnimId) {
+          eqAnimId = requestAnimationFrame(drawEqualizer);
         }
       });
 
-      function setPlayingState(playing) {
-        if (playing) {
-          playerDeck.classList.add("is-playing");
-          playIcon.innerHTML = `<rect x="6" y="6" width="12" height="12" rx="1.5" />`;
-        } else {
-          playerDeck.classList.remove("is-playing");
-          playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
-          renderIdleBars();
-        }
-      }
-
+      // 7. VOLUMEN
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
@@ -1936,6 +1887,7 @@
 
       updateVolumeVisual(parseFloat(volumeControl.value));
 
+      // 8. MARQUESINA
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
         displayTitle.style.transform = "translateX(0)";
