@@ -318,7 +318,7 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN PERIMETRAL EXACTA
+       CARÁTULA: PÉNDULO 3D + ESTELA NEÓN PERIMETRAL
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
@@ -1339,7 +1339,7 @@
     </div>
   </div>
 
-  <!-- ARQUITECTURA EXACTA DE CASTLE: FUENTE FIJA NATIVA SIN CAMBIOS DE SRC -->
+  <!-- AUDIO CON FUENTE ESTÁTICA IDÉNTICA AL REPRODUCTOR QUE NO FALLA -->
   <audio id="audioSource" crossorigin="anonymous">
     <source src="https://mars.streamerr.co/8434/stream" type="audio/mpeg">
   </audio>
@@ -1362,9 +1362,6 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener('beforeinstallprompt', (e) => {});
-
-      const STATS_URL = "https://mars.streamerr.co/8434/stats?json=1";
-      const DEFAULT_COVER = "djs/nexusdj.webp";
 
       const audio = document.getElementById("audioSource");
       const playerDeck = document.getElementById("playerDeck");
@@ -1695,7 +1692,7 @@
 
       async function syncMetadataAPI() {
         try {
-          const res = await fetch(STATS_URL + "&t=" + Date.now());
+          const res = await fetch("https://mars.streamerr.co/8434/stats?json=1&t=" + Date.now());
           if (res.ok) {
             const data = await res.json();
             if (data.songtitle) {
@@ -1775,7 +1772,7 @@
         }
       }
 
-      // GRAFO DE AUDIO EXACTO DE CASTLE: CREACIÓN ÚNICA SIN RECONEXIONES
+      // CONFIGURACIÓN IDÉNTICA AL REPRODUCTOR QUE NUNCA FALLA
       async function setupAudioContext() {
         if (!audioCtx) {
           try {
@@ -1792,7 +1789,7 @@
             analyser.connect(audioCtx.destination);
             buildPrecomputedLookup();
           } catch (e) {
-            console.warn("AudioContext setup:", e);
+            console.warn("Web Audio API warning:", e);
           }
         }
         if (audioCtx && audioCtx.state === 'suspended') {
@@ -1862,27 +1859,18 @@
         }
       }
 
-      function startEqualizer() {
-        if (!eqAnimId) eqAnimId = requestAnimationFrame(drawEqualizer);
-      }
-
-      function stopEqualizer() {
-        if (eqAnimId) {
-          cancelAnimationFrame(eqAnimId);
-          eqAnimId = null;
-        }
-        renderIdleBars();
-      }
-
       window.addEventListener("resize", resizeCanvas, { passive: true });
       window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
       resizeCanvas();
 
-      // MÉTODO TOGGLE EXACTO DE CASTLE: SIN REASIGNAR AUDIO.SRC NI AUDIO.LOAD()
+      // REPRODUCCIÓN IDÉNTICA A LA DE TU WEB SIN ERRORES DE MEMORIA
       async function togglePlay() {
         if (isPlaying) {
           isPlaying = false;
-          stopEqualizer();
+          if (eqAnimId) {
+            cancelAnimationFrame(eqAnimId);
+            eqAnimId = null;
+          }
           audio.pause();
           setPlayingState(false);
         } else {
@@ -1891,28 +1879,27 @@
             await audio.play();
             isPlaying = true;
             setPlayingState(true);
-            startEqualizer();
+            if (!eqAnimId) {
+              eqAnimId = requestAnimationFrame(drawEqualizer);
+            }
           } catch (e) {
-            console.error("Error al reproducir audio:", e);
+            console.error("Error al iniciar audio:", e);
           }
         }
       }
 
       btnPlay.addEventListener("click", togglePlay);
 
-      audio.addEventListener("pause", () => {
-        if (isPlaying) {
-          isPlaying = false;
-          setPlayingState(false);
-          stopEqualizer();
-        }
-      });
-
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
-          stopEqualizer();
-        } else if (isPlaying) {
-          startEqualizer();
+          if (eqAnimId) {
+            cancelAnimationFrame(eqAnimId);
+            eqAnimId = null;
+          }
+        } else {
+          if (isPlaying && !eqAnimId) {
+            eqAnimId = requestAnimationFrame(drawEqualizer);
+          }
         }
       });
 
@@ -1923,6 +1910,7 @@
         } else {
           playerDeck.classList.remove("is-playing");
           playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+          renderIdleBars();
         }
       }
 
