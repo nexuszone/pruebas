@@ -228,7 +228,6 @@
       overflow: hidden;
     }
 
-    /* ANCHURA ORIGINAL DEL REPRODUCTOR RESTAURADA */
     @media (min-width: 900px) {
       .workspace {
         display: grid;
@@ -247,16 +246,6 @@
         gap: 20px;
         padding: 12px 24px 14px 24px;
       }
-    }
-
-    /* CONTENEDOR ENVOLVENTE EN PC QUE ESCALA PROPORCIONALMENTE SIN DEFORMARSE */
-    .deck-scaler-container {
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .player-deck {
@@ -281,9 +270,6 @@
         border: 1px solid var(--border-subtle);
         border-radius: clamp(14px, 2vh, 22px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        /* Permite que en resoluciones de menor altura el contenido mantenga sus dimensiones exactas */
-        height: 100%;
-        max-height: 100%;
       }
     }
 
@@ -302,15 +288,15 @@
       transition: opacity 0.5s ease;
     }
 
-    /* 1. CARÁTULA: 95% ANCHO, MÁRGENES IGUALES Y PROPORCIÓN 1:1 BLOQUEADA */
+    /* 1. CARÁTULA: CUADRADA AL 95% CON MÁRGENES EQUILIBRADOS */
     .cover-wrapper {
-      width: 95%;
+      width: min(95%, calc(100dvh - 360px));
       max-width: 95%;
       aspect-ratio: 1 / 1;
       height: auto;
       border-radius: clamp(16px, 2.2vh, 22px);
-      margin-top: clamp(28px, 5vh, 48px);
-      margin-bottom: clamp(28px, 5vh, 48px);
+      margin-top: clamp(22px, 3.8vh, 42px);
+      margin-bottom: clamp(22px, 3.8vh, 42px);
       position: relative;
       background: #0d0e15;
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
@@ -324,14 +310,6 @@
       will-change: transform;
       z-index: 2;
       min-height: 0;
-    }
-
-    /* En resoluciones PC con altura reducida, escala proporcionalmente de forma idéntica sin aplastar */
-    @media (min-width: 900px) and (max-height: 850px) {
-      .cover-wrapper {
-        width: min(95%, calc((100vh - 440px)));
-        max-width: min(95%, calc((100vh - 440px)));
-      }
     }
 
     .cover-wrapper::before {
@@ -393,10 +371,10 @@
       }
     }
 
-    /* 2. ZONA INTERMEDIA: TEXTO ARRIBA Y BOTONES CENTRADOS SIN MONTARSE */
+    /* 2. ZONA INTERMEDIA */
     .deck-mid-section {
       width: 100%;
-      flex: 1 1 auto;
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -510,7 +488,7 @@
       display: inline-block;
     }
 
-    /* CONTENEDOR BOTONES: CENTRADO VERTICAL ELÁSTICO SIN COLISIONAR */
+    /* CONTENEDOR BOTONES: CENTRADO VERTICAL */
     .deck-buttons-container {
       width: 100%;
       margin: auto 0;
@@ -529,7 +507,7 @@
       width: 100%;
     }
 
-    /* BOTÓN PLAY GRANDE */
+    /* BOTÓN PLAY */
     .btn-play-hero {
       background: #b026ff !important;
       border: none;
@@ -585,7 +563,7 @@
       }
     }
 
-    /* 3. PARTE INFERIOR: ECUALIZADOR Y BARRA DE VOLUMEN */
+    /* 3. PARTE INFERIOR: ECUALIZADOR Y BARRA DE VOLUMEN ESTILO CASTLE RADIO (MORADA) */
     .deck-bottom {
       width: 100%;
       display: flex;
@@ -617,31 +595,35 @@
     .volume-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: clamp(2px, 0.5vh, 4px) 12px;
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      min-height: clamp(24px, 3.2vh, 30px);
+      gap: 10px;
+      padding: 4px 10px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      min-height: 34px;
       width: 100%;
       flex-shrink: 0;
     }
 
     .vol-icon {
-      width: clamp(13px, 1.8vh, 16px);
-      height: clamp(13px, 1.8vh, 16px);
-      fill: var(--text-secondary);
+      width: 16px;
+      height: 16px;
+      fill: var(--text-muted);
       cursor: pointer;
       flex-shrink: 0;
+      transition: fill 0.2s;
+    }
+
+    .vol-icon:hover {
+      fill: var(--text-primary);
     }
 
     .volume-slider {
       flex: 1;
-      width: 100%;
-      height: 4px;
+      height: 5px;
       -webkit-appearance: none;
       appearance: none;
-      background: linear-gradient(to right, #b026ff 100%, rgba(255, 255, 255, 0.15) 100%);
+      background: linear-gradient(to right, #b026ff 100%, rgba(255, 255, 255, 0.1) 100%);
       border-radius: 6px;
       outline: none;
       cursor: pointer;
@@ -649,8 +631,8 @@
 
     .volume-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: clamp(11px, 1.6vh, 14px);
-      height: clamp(11px, 1.6vh, 14px);
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: #fff;
       cursor: pointer;
@@ -1220,12 +1202,12 @@
     <section class="player-deck" id="playerDeck">
       <div class="player-bg-art" id="playerBgArt"></div>
 
-      <!-- 1. ARRIBA: CARÁTULA CUADRADA AL 95% CON MÁRGENES SIMÉTRICOS -->
+      <!-- 1. ARRIBA: CARÁTULA CUADRADA AL 95% CON MÁRGENES Y ADAPTACIÓN EN PANTALLAS BAJAS -->
       <div class="cover-wrapper">
         <img src="djs/nexusdj.webp" id="coverImg" class="cover-img" alt="Foto del DJ">
       </div>
       
-      <!-- 2. ZONA INTERMEDIA: INFORMACIÓN Y BOTONES CENTRADOS SIN MONTARSE -->
+      <!-- 2. ZONA INTERMEDIA: INFORMACIÓN Y BOTONES CENTRADOS -->
       <div class="deck-mid-section">
         <div class="deck-info-container">
           <div class="title-marquee-container" id="marqueeContainer">
@@ -1272,7 +1254,7 @@
         </div>
       </div>
 
-      <!-- 3. ABAJO: ECUALIZADOR Y BARRA DE VOLUMEN -->
+      <!-- 3. ABAJO: ECUALIZADOR Y BARRA DE VOLUMEN ESTILO CASTLE RADIO (MORADA) -->
       <div class="deck-bottom">
         <div class="equalizer-canvas-container">
           <canvas id="equalizerCanvas"></canvas>
@@ -1915,7 +1897,7 @@
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
-        volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.15) ${pct}%)`;
+        volumeControl.style.background = `linear-gradient(to right, #b026ff ${pct}%, rgba(255, 255, 255, 0.1) ${pct}%)`;
       }
 
       volumeControl.addEventListener("input", (e) => {

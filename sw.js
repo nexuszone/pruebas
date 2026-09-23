@@ -1,5 +1,5 @@
-// NeXus ZonE Radio - Service Worker v1.1.83
-const CACHE_NAME = 'nexuszone-cache-v1.1.83';
+// NeXus ZonE Radio - Service Worker v1.1.84
+const CACHE_NAME = 'nexuszone-cache-v1.1.84';
 const CORE_ASSETS = [
   './',
   './index.html',
