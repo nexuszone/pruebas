@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.62"></script>
+  <script src="./staff.js?v=1.1.63"></script>
 
   <style>
     @property --border-angle {
@@ -412,7 +412,6 @@
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
     }
 
-    /* TAMAÑO UNIFICADO DEL TÍTULO DE CANCIÓN */
     #display_title {
       font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
@@ -459,7 +458,6 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* TAMAÑO UNIFICADO: "Emitiendo:" */
     .emit-label {
       color: var(--neon-purple);
       font-size: clamp(15px, 2vh, 19px);
@@ -468,7 +466,6 @@
       text-shadow: 0 0 10px var(--purple-glow);
     }
 
-    /* TAMAÑO UNIFICADO: Nombre del DJ en reproductor */
     #display_dj {
       display: inline-block;
       color: var(--neon-green);
@@ -788,7 +785,7 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: TARJETAS CON PAÍS A LA IZQ Y FUNDADOR A LA DERECHA
+       STAFF: 5 COLUMNAS × 3 FILAS ADAPTADAS Y CENTRADAS
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -887,7 +884,7 @@
       margin: 1px 0;
     }
 
-    /* NOMBRE DEL DJ EN STAFF UNIFICADO AL TAMAÑO DEL TÍTULO */
+    /* NOMBRE DEL DJ EN STAFF: EXACTAMENTE EL MISMO TAMAÑO QUE EL TÍTULO */
     .staff-name {
       font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
@@ -1019,10 +1016,8 @@
       border-color: var(--neon-purple);
     }
 
-    /* FOTO DEL MODAL CON LAS MISMAS MEDIDAS EXACTAS */
+    /* FOTO DEL MODAL: REGLA BASE DINÁMICA (JS LE ASIGNA EL TAMAÑO EXACTO) */
     .modal-dj-avatar {
-      height: clamp(80px, 15vh, 130px);
-      width: clamp(80px, 15vh, 130px);
       aspect-ratio: 1 / 1;
       border-radius: clamp(6px, 1vh, 12px);
       object-fit: cover;
@@ -1414,18 +1409,31 @@
             </div>
           `;
 
-          li.addEventListener("click", () => openDjModal(dj));
+          li.addEventListener("click", () => openDjModal(dj, li));
           staffListGrid.appendChild(li);
         });
       }
 
-      function openDjModal(dj) {
+      // MODAL CON CLONACIÓN EXACTA DE TAMAÑO EN PÍXELES DE LA TARJETA
+      function openDjModal(dj, cardElement) {
         const imgSrc = dj.image ? `${dj.image}` : "djs/nexusdj.webp";
         modalDjImg.src = imgSrc;
         modalDjImg.onerror = () => { 
           modalDjImg.onerror = null; 
           modalDjImg.src = "djs/nexusdj.webp"; 
         };
+
+        // Medir la foto de la tarjeta para clonar el tamaño exacto al milímetro
+        if (cardElement) {
+          const cardImg = cardElement.querySelector(".staff-avatar-img");
+          if (cardImg) {
+            const rect = cardImg.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+              modalDjImg.style.width = `${Math.round(rect.width)}px`;
+              modalDjImg.style.height = `${Math.round(rect.height)}px`;
+            }
+          }
+        }
         
         modalDjName.textContent = dj.name;
         modalDjRole.textContent = dj.role || dj.badge || "Miembro del Staff";
@@ -1680,7 +1688,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ECUALIZADOR (CASTLE RADIO BASE + PALETA NEXUS)
+      // ECUALIZADOR
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
