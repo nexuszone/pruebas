@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.60"></script>
+  <script src="./staff.js?v=1.1.61"></script>
 
   <style>
     @property --border-angle {
@@ -412,8 +412,9 @@
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
     }
 
+    /* TAMAÑO UNIFICADO DE TEXTO */
     #display_title {
-      font-size: clamp(14px, 1.8vh, 18px);
+      font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
       white-space: nowrap;
       display: inline-block;
@@ -458,18 +459,20 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    /* TAMAÑO UNIFICADO: "Emitiendo:" */
     .emit-label {
       color: var(--neon-purple);
-      font-size: clamp(11px, 1.45vh, 14px);
+      font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
       letter-spacing: 0.5px;
       text-shadow: 0 0 10px var(--purple-glow);
     }
 
+    /* TAMAÑO UNIFICADO: Nombre del DJ en reproductor */
     #display_dj {
       display: inline-block;
       color: var(--neon-green);
-      font-size: clamp(11px, 1.45vh, 14px);
+      font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
       letter-spacing: 0.5px;
       text-shadow: 0 0 10px var(--green-glow);
@@ -785,7 +788,7 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: TARJETAS CON FOTOS MAXIMIZADAS Y CENTRADO COMPLETO
+       STAFF: TARJETAS CON PAÍS A LA IZQ Y FUNDADOR A LA DERECHA
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
@@ -856,7 +859,6 @@
       box-shadow: 0 6px 18px rgba(176, 38, 255, 0.35);
     }
 
-    /* FOTO DEL STAFF LLENANDO EL MÁXIMO ESPACIO */
     .staff-avatar-img {
       flex: 1;
       min-height: 0;
@@ -895,15 +897,15 @@
       line-height: 1.15;
     }
 
-    /* CONTENEDOR INFERIOR CENTRADO: PAÍS Y BADGE */
+    /* FILA INFERIOR: PAÍS A LA IZQUIERDA Y BADGE A LA DERECHA */
     .staff-bottom-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 4px;
+      justify-content: space-between; /* Distribuye a los extremos */
       width: 100%;
-      padding: 0 2px;
+      padding: 0 4px;
       flex-shrink: 0;
+      box-sizing: border-box;
     }
 
     .staff-country-badge {
@@ -922,7 +924,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 50%;
+      max-width: 48%;
     }
 
     .staff-country-badge img {
@@ -948,7 +950,7 @@
       text-transform: none;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 50%;
+      max-width: 48%;
     }
 
     /* MODAL */
@@ -1029,7 +1031,7 @@
       flex-shrink: 0;
     }
 
-    /* SEPARACIÓN EQUILIBRADA PARA QUE NO QUEDE PEGADO */
+    /* TAMAÑO UNIFICADO DEL NOMBRE DEL DJ EN EL MODAL */
     .modal-dj-name {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
@@ -1038,7 +1040,7 @@
       align-items: center;
       gap: 8px;
       justify-content: center;
-      font-size: clamp(17px, 2.2vh, 20px);
+      font-size: clamp(15px, 2vh, 19px);
       margin: clamp(4px, 0.8vh, 8px) 0 clamp(2px, 0.4vh, 4px) 0;
       text-transform: none;
       line-height: 1.2;
@@ -1676,7 +1678,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ECUALIZADOR
+      // ECUALIZADOR (CASTLE RADIO BASE + PALETA NEXUS)
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
