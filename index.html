@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.56"></script>
+  <script src="./staff.js?v=1.1.57"></script>
 
   <style>
     @property --border-angle {
@@ -231,9 +231,9 @@
     @media (min-width: 900px) {
       .workspace {
         display: grid;
-        grid-template-columns: minmax(300px, 28vw) 1fr;
-        gap: clamp(10px, 1.4vw, 20px);
-        padding: clamp(8px, 1.2vh, 14px) clamp(12px, 1.6vw, 24px);
+        grid-template-columns: minmax(300px, 27vw) 1fr;
+        gap: clamp(10px, 1.3vw, 18px);
+        padding: clamp(6px, 1vh, 12px) clamp(10px, 1.4vw, 20px);
         max-width: 1920px;
         margin: 0 auto;
         box-sizing: border-box;
@@ -242,17 +242,17 @@
 
     @media (min-width: 1440px) {
       .workspace {
-        grid-template-columns: 440px 1fr;
-        gap: 22px;
-        padding: 14px 28px 16px 28px;
+        grid-template-columns: 420px 1fr;
+        gap: 20px;
+        padding: 12px 24px 14px 24px;
       }
     }
 
     .player-deck {
       background: var(--surface-1);
       border-radius: 0;
-      padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px);
-      padding-bottom: calc(clamp(8px, 1.2vh, 14px) + env(safe-area-inset-bottom, 0px));
+      padding: clamp(6px, 1vh, 12px) clamp(8px, 1vw, 14px);
+      padding-bottom: calc(clamp(6px, 1vh, 12px) + env(safe-area-inset-bottom, 0px));
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -303,15 +303,17 @@
       justify-content: center;
     }
 
-    /* CARÁTULA PRINCIPAL */
+    /* ----------------------------------------------------
+       CARÁTULA DEL DJ AMPLIADA PROPORCIONALMENTE
+       ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
-      max-width: min(85vw, min(33vh, 300px));
+      max-width: min(85vw, min(36vh, 320px));
       aspect-ratio: 1 / 1;
       height: auto;
-      max-height: min(85vw, min(33vh, 300px));
+      max-height: min(85vw, min(36vh, 320px));
       border-radius: clamp(16px, 2.2vh, 22px);
-      margin-bottom: clamp(4px, 0.8vh, 8px);
+      margin-bottom: clamp(3px, 0.6vh, 6px);
       position: relative;
       background: #0d0e15;
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
@@ -327,18 +329,18 @@
 
     @media (min-width: 900px) and (min-height: 800px) {
       .cover-wrapper {
-        max-width: min(38vh, 330px);
-        max-height: min(38vh, 330px);
+        max-width: min(38vh, 340px);
+        max-height: min(38vh, 340px);
         border-radius: 24px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
       }
     }
 
     @media (min-width: 900px) and (max-height: 799px) {
       .cover-wrapper {
-        max-width: min(31vh, 260px);
-        max-height: min(31vh, 260px);
-        margin-bottom: 5px;
+        max-width: min(33vh, 275px);
+        max-height: min(33vh, 275px);
+        margin-bottom: 4px;
       }
     }
 
@@ -442,12 +444,12 @@
       text-overflow: ellipsis;
       max-width: 100%;
       text-align: center;
-      margin-bottom: clamp(2px, 0.5vh, 4px);
+      margin-bottom: clamp(1px, 0.4vh, 3px);
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     }
 
     .meta-dj-row {
-      margin-bottom: clamp(2px, 0.5vh, 4px);
+      margin-bottom: clamp(1px, 0.4vh, 3px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -501,15 +503,14 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: clamp(4px, 0.8vh, 8px);
-      margin-top: 2px;
+      gap: clamp(3px, 0.6vh, 6px);
+      margin-top: 1px;
       flex-shrink: 0;
     }
 
-    /* ECUALIZADOR */
     .equalizer-canvas-container {
       width: 100%;
-      height: clamp(28px, 4.2vh, 42px);
+      height: clamp(26px, 3.8vh, 38px);
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -538,8 +539,8 @@
       background: #b026ff !important;
       border: none;
       color: white;
-      width: clamp(44px, 5.6vh, 56px);
-      height: clamp(44px, 5.6vh, 56px);
+      width: clamp(42px, 5.2vh, 52px);
+      height: clamp(42px, 5.2vh, 52px);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -551,8 +552,8 @@
     }
 
     .btn-play-hero svg {
-      width: clamp(18px, 2.6vh, 26px);
-      height: clamp(18px, 2.6vh, 26px);
+      width: clamp(18px, 2.5vh, 24px);
+      height: clamp(18px, 2.5vh, 24px);
     }
 
     .btn-play-hero:active {
@@ -564,10 +565,10 @@
       border: 1px solid rgba(0, 255, 102, 0.45);
       color: var(--neon-green);
       padding: 0 14px;
-      height: clamp(32px, 4.2vh, 40px);
+      height: clamp(30px, 3.8vh, 38px);
       border-radius: 20px;
       font-family: inherit;
-      font-size: clamp(10px, 1.3vh, 11px);
+      font-size: clamp(10px, 1.25vh, 11px);
       font-weight: 800;
       letter-spacing: 0.5px;
       cursor: pointer;
@@ -593,11 +594,11 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: clamp(3px, 0.6vh, 5px) 12px;
+      padding: clamp(2px, 0.5vh, 4px) 12px;
       background: rgba(0, 0, 0, 0.45);
       border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      min-height: clamp(26px, 3.4vh, 32px);
+      min-height: clamp(24px, 3.2vh, 30px);
       width: 100%;
       flex-shrink: 0;
     }
@@ -662,7 +663,7 @@
         background: var(--surface-1);
         border: 1px solid var(--border-subtle);
         border-radius: clamp(14px, 2vh, 22px);
-        padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px);
+        padding: clamp(6px, 1vh, 12px) clamp(8px, 1vw, 14px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         transform: none !important;
         visibility: visible !important;
@@ -713,7 +714,7 @@
 
     .panel-header {
       display: flex;
-      margin-bottom: clamp(4px, 0.8vh, 8px);
+      margin-bottom: clamp(3px, 0.6vh, 6px);
       flex-shrink: 0;
     }
 
@@ -721,11 +722,11 @@
       display: flex;
       background: var(--surface-2);
       border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 3px;
+      border-radius: 10px;
+      padding: 2px;
       gap: 4px;
       width: 100%;
-      max-width: 240px;
+      max-width: 220px;
     }
 
     .tab-item {
@@ -733,10 +734,10 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      padding: clamp(4px, 0.8vh, 8px) 10px;
+      padding: clamp(3px, 0.6vh, 6px) 10px;
       font-family: inherit;
       font-weight: 700;
-      font-size: clamp(10px, 1.3vh, 12px);
+      font-size: clamp(10px, 1.25vh, 12px);
       letter-spacing: 0.5px;
       border-radius: 8px;
       cursor: pointer;
@@ -785,16 +786,19 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: TARJETAS CON FOTOS MAXIMIZADAS + TEXTOS SIN FORZAR MAYÚSCULAS
+       STAFF: 5 COLUMNAS × 3 FILAS ADAPTADAS Y CENTRADAS
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: clamp(4px, 0.8vh, 8px);
-      overflow-y: auto;
+      padding: clamp(3px, 0.6vh, 6px);
       box-sizing: border-box;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .staff-grid {
@@ -802,13 +806,20 @@
       grid-template-columns: 1fr;
       gap: 6px;
       list-style: none;
+      width: 100%;
     }
 
-    /* 5 COLUMNAS FIJAS EN TODAS LAS RESOLUCIONES DE ESCRITORIO */
+    /* 5 COLUMNAS × 3 FILAS FIJAS EN TODAS LAS RESOLUCIONES DE ESCRITORIO */
     @media (min-width: 900px) {
+      .staff-container {
+        overflow: hidden; /* Encaje perfecto sin scroll en escritorio */
+      }
       .staff-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        grid-template-rows: repeat(3, 1fr) !important;
+        height: 100%;
         gap: clamp(4px, 0.6vw, 8px);
+        align-content: stretch;
       }
     }
 
@@ -819,34 +830,36 @@
       justify-content: center;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
-      border-radius: clamp(10px, 1.4vh, 16px);
-      /* Reducción máxima de márgenes para maximizar la imagen */
-      padding: clamp(2px, 0.4vh, 5px) 2px clamp(20px, 2.6vh, 26px) 2px;
+      border-radius: clamp(8px, 1.2vh, 14px);
+      padding: clamp(2px, 0.4vh, 4px) 2px clamp(18px, 2.5vh, 24px) 2px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      height: clamp(120px, 24vh, 220px);
+      height: 100%;
+      min-height: 0;
       content-visibility: auto;
     }
 
     .staff-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       border-color: var(--neon-purple);
       background: rgba(176, 38, 255, 0.08);
-      box-shadow: 0 8px 22px rgba(176, 38, 255, 0.35);
+      box-shadow: 0 6px 18px rgba(176, 38, 255, 0.35);
     }
 
-    /* FOTO DEL STAFF MÁS GRANDE AÚN */
+    /* FOTO DEL STAFF MAXIMIZADA Y DINÁMICA */
     .staff-avatar-img {
-      width: clamp(80px, 16.5vh, 138px);
-      height: clamp(80px, 16.5vh, 138px);
-      border-radius: clamp(8px, 1.2vh, 14px);
+      width: clamp(65px, 14vh, 125px);
+      height: clamp(65px, 14vh, 125px);
+      max-width: 90%;
+      aspect-ratio: 1 / 1;
+      border-radius: clamp(6px, 1vh, 12px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
-      flex-shrink: 0;
+      flex-shrink: 1;
       background: #08090d;
-      box-shadow: 0 0 12px rgba(176, 38, 255, 0.35);
+      box-shadow: 0 0 10px rgba(176, 38, 255, 0.35);
       margin-bottom: clamp(1px, 0.3vh, 3px);
       transition: transform 0.2s ease;
     }
@@ -859,62 +872,63 @@
       width: 100%;
       text-align: center;
       padding: 0 2px;
+      flex-shrink: 0;
     }
 
     .staff-name {
-      font-size: clamp(11px, 1.5vh, 14px);
+      font-size: clamp(11px, 1.45vh, 14px);
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 100%;
-      line-height: 1.2;
+      line-height: 1.15;
     }
 
-    /* PAÍS Y BADGE: RESPETAN MAYÚSCULAS/MINÚSCULAS Y COMPARTEN ESCALA */
+    /* PAÍS Y BADGE: RESPETAN MAYÚSCULAS/MINÚSCULAS Y TAMAÑO */
     .staff-country-badge {
       position: absolute;
-      bottom: clamp(3px, 0.5vh, 6px);
-      left: clamp(3px, 0.5vh, 6px);
+      bottom: clamp(2px, 0.4vh, 5px);
+      left: clamp(3px, 0.4vh, 6px);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      font-size: clamp(10px, 1.3vh, 12px);
+      gap: 3px;
+      font-size: clamp(9px, 1.2vh, 11.5px);
       font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.9);
-      padding: 2px 6px;
-      border-radius: 6px;
+      padding: 1px 5px;
+      border-radius: 5px;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      text-transform: none; /* Respeta mayúsculas y minúsculas */
+      text-transform: none;
     }
 
     .staff-country-badge img {
-      width: clamp(14px, 1.8vh, 18px);
-      height: clamp(9px, 1.2vh, 12px);
+      width: clamp(12px, 1.6vh, 16px);
+      height: clamp(8px, 1.1vh, 11px);
       border-radius: 2px;
       object-fit: cover;
     }
 
     .staff-badge {
       position: absolute;
-      bottom: clamp(3px, 0.5vh, 6px);
-      right: clamp(3px, 0.5vh, 6px);
+      bottom: clamp(2px, 0.4vh, 5px);
+      right: clamp(3px, 0.4vh, 6px);
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(10px, 1.3vh, 12px); /* Mismo tamaño exacto que el país */
+      font-size: clamp(9px, 1.2vh, 11.5px);
       font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 6px;
-      letter-spacing: 0.4px;
+      padding: 1px 6px;
+      border-radius: 5px;
+      letter-spacing: 0.3px;
       white-space: nowrap;
       box-shadow: 0 0 8px rgba(0, 255, 102, 0.2);
-      text-transform: none; /* Respeta mayúsculas y minúsculas ("Fundador & Dj") */
+      text-transform: none;
     }
 
-    /* MODAL: IMAGEN Y TEXTOS CON EL MISMO TAMAÑO Y RESPETO A MAYÚSCULAS */
+    /* MODAL */
     .dj-modal-overlay {
       position: fixed;
       inset: 0;
@@ -978,7 +992,6 @@
       border-color: var(--neon-purple);
     }
 
-    /* IMAGEN EN EL MODAL AL MISMO TAMAÑO QUE EN LA TARJETA PRINCIPAL */
     .modal-dj-avatar {
       width: clamp(80px, 16.5vh, 138px);
       height: clamp(80px, 16.5vh, 138px);
@@ -999,7 +1012,7 @@
       gap: 8px;
       justify-content: center;
       font-size: 20px;
-      text-transform: none; /* Respeta mayúsculas y minúsculas */
+      text-transform: none;
     }
 
     .modal-dj-role-pill {
@@ -1007,12 +1020,12 @@
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(10px, 1.3vh, 12px); /* Mismo tamaño que en la tarjeta */
+      font-size: clamp(9px, 1.2vh, 11.5px);
       font-weight: 800;
       padding: 3px 10px;
       border-radius: 8px;
       letter-spacing: 0.4px;
-      text-transform: none; /* Respeta mayúsculas y minúsculas */
+      text-transform: none;
       margin-top: 4px;
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
@@ -1021,11 +1034,11 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: clamp(10px, 1.3vh, 12px); /* Mismo tamaño que en la tarjeta */
+      font-size: clamp(9px, 1.2vh, 11.5px);
       font-weight: 700;
       color: #e2e6f0;
       margin-top: 4px;
-      text-transform: none; /* Respeta mayúsculas y minúsculas */
+      text-transform: none;
     }
 
     .modal-dj-country img {
@@ -1052,13 +1065,12 @@
       border-radius: 10px;
     }
 
-    /* Mismo tamaño exacto que el rol/país y respetando mayúsculas y minúsculas */
     .modal-info-title {
-      font-size: clamp(10px, 1.3vh, 12px);
+      font-size: clamp(9px, 1.2vh, 11.5px);
       font-weight: 800;
       color: var(--neon-green);
       letter-spacing: 0.4px;
-      text-transform: none; /* Respeta mayúsculas y minúsculas */
+      text-transform: none;
       margin-bottom: 2px;
     }
 
@@ -1066,7 +1078,7 @@
       font-size: 12px;
       color: #e2e6f0;
       line-height: 1.4;
-      text-transform: none; /* Respeta mayúsculas y minúsculas */
+      text-transform: none;
     }
   </style>
 </head>
@@ -1633,10 +1645,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ----------------------------------------------------
-      // MOTOR ECUALIZADOR (PORTADO EXACTO DE CASTLE RADIO)
-      // MORADO (#b026ff) A VERDE (#00ff66) CON PICOS EN GRIS PLATA (#d0d5e2)
-      // ----------------------------------------------------
+      // ECUALIZADOR (CASTLE RADIO BASE + PALETA NEXUS)
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
@@ -1675,8 +1684,8 @@
         ctx.scale(dpr, dpr);
 
         cachedBarGradient = ctx.createLinearGradient(0, eqLogicalHeight, 0, 0);
-        cachedBarGradient.addColorStop(0, "#b026ff"); // Base morada neón
-        cachedBarGradient.addColorStop(1, "#00ff66"); // Cúspide verde neón
+        cachedBarGradient.addColorStop(0, "#b026ff");
+        cachedBarGradient.addColorStop(1, "#00ff66");
 
         buildPrecomputedLookup();
 
@@ -1753,7 +1762,6 @@
           }
         }
 
-        // Picos superiores flotantes en tono gris plata metálico
         ctx.fillStyle = "#d0d5e2";
         for (let i = 0; i < NUM_BARS; i++) {
           if (peaks[i] > 5) {
