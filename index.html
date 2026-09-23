@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.55"></script>
+  <script src="./staff.js?v=1.1.56"></script>
 
   <style>
     @property --border-angle {
@@ -303,7 +303,7 @@
       justify-content: center;
     }
 
-    /* CARÁTULA DEL DJ */
+    /* CARÁTULA PRINCIPAL */
     .cover-wrapper {
       width: 100%;
       max-width: min(85vw, min(33vh, 300px));
@@ -506,7 +506,7 @@
       flex-shrink: 0;
     }
 
-    /* ECUALIZADOR ADAPTADO AL ESTILO DE CASTLE RADIO */
+    /* ECUALIZADOR */
     .equalizer-canvas-container {
       width: 100%;
       height: clamp(28px, 4.2vh, 42px);
@@ -785,13 +785,13 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: TARJETAS CON FOTOS MAXIMIZADAS + DATOS MÁS GRANDES
+       STAFF: TARJETAS CON FOTOS MAXIMIZADAS + TEXTOS SIN FORZAR MAYÚSCULAS
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: clamp(4px, 0.8vh, 10px);
+      padding: clamp(4px, 0.8vh, 8px);
       overflow-y: auto;
       box-sizing: border-box;
       -webkit-overflow-scrolling: touch;
@@ -800,7 +800,7 @@
     .staff-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: 6px;
       list-style: none;
     }
 
@@ -808,7 +808,7 @@
     @media (min-width: 900px) {
       .staff-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-        gap: clamp(6px, 0.7vw, 10px);
+        gap: clamp(4px, 0.6vw, 8px);
       }
     }
 
@@ -820,13 +820,12 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
       border-radius: clamp(10px, 1.4vh, 16px);
-      /* Reducción estricta de márgenes interiores */
-      padding: clamp(3px, 0.5vh, 6px) 2px clamp(22px, 3.2vh, 30px) 2px;
+      /* Reducción máxima de márgenes para maximizar la imagen */
+      padding: clamp(2px, 0.4vh, 5px) 2px clamp(20px, 2.6vh, 26px) 2px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      /* Altura calculada para encajar exactamente 3 filas completas sin desbordar */
       height: clamp(120px, 24vh, 220px);
       content-visibility: auto;
     }
@@ -838,22 +837,22 @@
       box-shadow: 0 8px 22px rgba(176, 38, 255, 0.35);
     }
 
-    /* FOTO DEL STAFF MÁS GRANDE */
+    /* FOTO DEL STAFF MÁS GRANDE AÚN */
     .staff-avatar-img {
-      width: clamp(72px, 15vh, 126px);
-      height: clamp(72px, 15vh, 126px);
+      width: clamp(80px, 16.5vh, 138px);
+      height: clamp(80px, 16.5vh, 138px);
       border-radius: clamp(8px, 1.2vh, 14px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
       flex-shrink: 0;
       background: #08090d;
       box-shadow: 0 0 12px rgba(176, 38, 255, 0.35);
-      margin-bottom: clamp(2px, 0.4vh, 4px);
+      margin-bottom: clamp(1px, 0.3vh, 3px);
       transition: transform 0.2s ease;
     }
 
     .staff-card:hover .staff-avatar-img {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
 
     .staff-info {
@@ -873,25 +872,26 @@
       line-height: 1.2;
     }
 
-    /* PAÍS Y BADGE MÁS GRANDES Y LEGIBLES */
+    /* PAÍS Y BADGE: RESPETAN MAYÚSCULAS/MINÚSCULAS Y COMPARTEN ESCALA */
     .staff-country-badge {
       position: absolute;
-      bottom: clamp(4px, 0.6vh, 7px);
-      left: clamp(4px, 0.6vh, 8px);
+      bottom: clamp(3px, 0.5vh, 6px);
+      left: clamp(3px, 0.5vh, 6px);
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: clamp(10px, 1.2vh, 12px); /* Letra del país ampliada */
-      font-weight: 800;
+      font-size: clamp(10px, 1.3vh, 12px);
+      font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.9);
       padding: 2px 6px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      text-transform: none; /* Respeta mayúsculas y minúsculas */
     }
 
     .staff-country-badge img {
-      width: clamp(14px, 1.8vh, 18px); /* Bandera ampliada */
+      width: clamp(14px, 1.8vh, 18px);
       height: clamp(9px, 1.2vh, 12px);
       border-radius: 2px;
       object-fit: cover;
@@ -899,21 +899,22 @@
 
     .staff-badge {
       position: absolute;
-      bottom: clamp(4px, 0.6vh, 7px);
-      right: clamp(4px, 0.6vh, 8px);
+      bottom: clamp(3px, 0.5vh, 6px);
+      right: clamp(3px, 0.5vh, 6px);
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9.5px, 1.2vh, 11.5px); /* Letra de "Fundador / Staff" ampliada */
+      font-size: clamp(10px, 1.3vh, 12px); /* Mismo tamaño exacto que el país */
       font-weight: 800;
       padding: 2px 7px;
       border-radius: 6px;
       letter-spacing: 0.4px;
       white-space: nowrap;
       box-shadow: 0 0 8px rgba(0, 255, 102, 0.2);
+      text-transform: none; /* Respeta mayúsculas y minúsculas ("Fundador & Dj") */
     }
 
-    /* MODAL: TAMAÑOS DE TEXTO SINCRONIZADOS CON LA TARJETA */
+    /* MODAL: IMAGEN Y TEXTOS CON EL MISMO TAMAÑO Y RESPETO A MAYÚSCULAS */
     .dj-modal-overlay {
       position: fixed;
       inset: 0;
@@ -977,14 +978,15 @@
       border-color: var(--neon-purple);
     }
 
+    /* IMAGEN EN EL MODAL AL MISMO TAMAÑO QUE EN LA TARJETA PRINCIPAL */
     .modal-dj-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 18px;
+      width: clamp(80px, 16.5vh, 138px);
+      height: clamp(80px, 16.5vh, 138px);
+      border-radius: clamp(8px, 1.2vh, 14px);
       object-fit: cover;
-      border: 3px solid var(--neon-purple);
+      border: 2px solid var(--neon-purple);
       box-shadow: 0 8px 24px var(--purple-glow);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       background: #08090d;
     }
 
@@ -997,6 +999,7 @@
       gap: 8px;
       justify-content: center;
       font-size: 20px;
+      text-transform: none; /* Respeta mayúsculas y minúsculas */
     }
 
     .modal-dj-role-pill {
@@ -1004,12 +1007,12 @@
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9.5px, 1.2vh, 11.5px); /* Mismo tamaño que en la tarjeta */
+      font-size: clamp(10px, 1.3vh, 12px); /* Mismo tamaño que en la tarjeta */
       font-weight: 800;
       padding: 3px 10px;
       border-radius: 8px;
       letter-spacing: 0.4px;
-      text-transform: uppercase;
+      text-transform: none; /* Respeta mayúsculas y minúsculas */
       margin-top: 4px;
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
@@ -1018,14 +1021,15 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: clamp(10px, 1.2vh, 12px); /* Mismo tamaño que en la tarjeta */
-      font-weight: 800;
+      font-size: clamp(10px, 1.3vh, 12px); /* Mismo tamaño que en la tarjeta */
+      font-weight: 700;
       color: #e2e6f0;
       margin-top: 4px;
+      text-transform: none; /* Respeta mayúsculas y minúsculas */
     }
 
     .modal-dj-country img {
-      width: clamp(14px, 1.8vh, 18px); /* Misma proporción */
+      width: clamp(14px, 1.8vh, 18px);
       height: clamp(9px, 1.2vh, 12px);
       border-radius: 2px;
       object-fit: cover;
@@ -1048,12 +1052,13 @@
       border-radius: 10px;
     }
 
+    /* Mismo tamaño exacto que el rol/país y respetando mayúsculas y minúsculas */
     .modal-info-title {
-      font-size: 10px;
+      font-size: clamp(10px, 1.3vh, 12px);
       font-weight: 800;
       color: var(--neon-green);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-transform: none; /* Respeta mayúsculas y minúsculas */
       margin-bottom: 2px;
     }
 
@@ -1061,6 +1066,7 @@
       font-size: 12px;
       color: #e2e6f0;
       line-height: 1.4;
+      text-transform: none; /* Respeta mayúsculas y minúsculas */
     }
   </style>
 </head>
@@ -1628,8 +1634,8 @@
       syncMetadataAPI();
 
       // ----------------------------------------------------
-      // MOTOR ECUALIZADOR (PORTADO EXACTO DEL INDEX DE CASTLE RADIO)
-      // COLORES: MORADO (#b026ff), VERDE (#00ff66) Y GRIS METÁLICO (#d0d5e2)
+      // MOTOR ECUALIZADOR (PORTADO EXACTO DE CASTLE RADIO)
+      // MORADO (#b026ff) A VERDE (#00ff66) CON PICOS EN GRIS PLATA (#d0d5e2)
       // ----------------------------------------------------
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
@@ -1645,11 +1651,11 @@
       function buildPrecomputedLookup() {
         const minIndex = 1;
         const binCount = analyser ? analyser.frequencyBinCount : 128;
-        const maxIndex = Math.max(2, Math.floor(binCount * 0.65)); //[cite: 4]
+        const maxIndex = Math.max(2, Math.floor(binCount * 0.65));
         for (let i = 0; i < NUM_BARS; i++) {
-          const fraction = i / (NUM_BARS - 1); //[cite: 4]
-          precomputedBins[i] = Math.min(maxIndex, Math.floor(minIndex * Math.pow(maxIndex / minIndex, fraction))); //[cite: 4]
-          precomputedBoosts[i] = 1 + Math.pow(fraction, 1.7) * 0.92; //[cite: 4]
+          const fraction = i / (NUM_BARS - 1);
+          precomputedBins[i] = Math.min(maxIndex, Math.floor(minIndex * Math.pow(maxIndex / minIndex, fraction)));
+          precomputedBoosts[i] = 1 + Math.pow(fraction, 1.7) * 0.92;
         }
       }
 
@@ -1668,10 +1674,9 @@
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
 
-        // Gradiente exacto adaptado a NeXus: Morado a Verde[cite: 4]
         cachedBarGradient = ctx.createLinearGradient(0, eqLogicalHeight, 0, 0);
-        cachedBarGradient.addColorStop(0, "#b026ff"); // Base morada neón[cite: 4]
-        cachedBarGradient.addColorStop(1, "#00ff66"); // Cúspide verde neón[cite: 4]
+        cachedBarGradient.addColorStop(0, "#b026ff"); // Base morada neón
+        cachedBarGradient.addColorStop(1, "#00ff66"); // Cúspide verde neón
 
         buildPrecomputedLookup();
 
@@ -1685,10 +1690,10 @@
           try {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 256; // Parámetro exacto de Castle Radio[cite: 4]
-            analyser.minDecibels = -80; //[cite: 4]
-            analyser.maxDecibels = -10; //[cite: 4]
-            analyser.smoothingTimeConstant = 0.58; // Respuesta balística suave[cite: 4]
+            analyser.fftSize = 256;
+            analyser.minDecibels = -80;
+            analyser.maxDecibels = -10;
+            analyser.smoothingTimeConstant = 0.58;
             dataArray = new Uint8Array(analyser.frequencyBinCount);
 
             const source = audioCtx.createMediaElementSource(audio);
@@ -1707,12 +1712,12 @@
       function renderIdleBars() {
         if (!ctx || eqLogicalWidth <= 0 || eqLogicalHeight <= 0) return;
         ctx.clearRect(0, 0, eqLogicalWidth, eqLogicalHeight);
-        const barSpacing = Math.max(2, Math.floor(eqLogicalWidth / 130)); //[cite: 4]
-        const barWidth = Math.max(2, Math.floor((eqLogicalWidth - (NUM_BARS - 1) * barSpacing) / NUM_BARS)); //[cite: 4]
-        ctx.fillStyle = "rgba(255, 255, 255, 0.12)"; // Base inactiva de Castle[cite: 4]
+        const barSpacing = Math.max(2, Math.floor(eqLogicalWidth / 130));
+        const barWidth = Math.max(2, Math.floor((eqLogicalWidth - (NUM_BARS - 1) * barSpacing) / NUM_BARS));
+        ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
         for (let i = 0; i < NUM_BARS; i++) {
-          ctx.fillRect(i * (barWidth + barSpacing), eqLogicalHeight - 3, barWidth, 3); //[cite: 4]
-          peaks[i] = 0; //[cite: 4]
+          ctx.fillRect(i * (barWidth + barSpacing), eqLogicalHeight - 3, barWidth, 3);
+          peaks[i] = 0;
         }
       }
 
@@ -1722,38 +1727,37 @@
           return;
         }
 
-        eqAnimId = requestAnimationFrame(drawEqualizer); //[cite: 4]
-        ctx.clearRect(0, 0, eqLogicalWidth, eqLogicalHeight); //[cite: 4]
-        analyser.getByteFrequencyData(dataArray); //[cite: 4]
+        eqAnimId = requestAnimationFrame(drawEqualizer);
+        ctx.clearRect(0, 0, eqLogicalWidth, eqLogicalHeight);
+        analyser.getByteFrequencyData(dataArray);
 
-        const barSpacing = Math.max(2, Math.floor(eqLogicalWidth / 130)); //[cite: 4]
-        const barWidth = Math.max(2, Math.floor((eqLogicalWidth - (NUM_BARS - 1) * barSpacing) / NUM_BARS)); //[cite: 4]
-        const H = eqLogicalHeight; //[cite: 4]
+        const barSpacing = Math.max(2, Math.floor(eqLogicalWidth / 130));
+        const barWidth = Math.max(2, Math.floor((eqLogicalWidth - (NUM_BARS - 1) * barSpacing) / NUM_BARS));
+        const H = eqLogicalHeight;
 
-        ctx.fillStyle = cachedBarGradient || "#00ff66"; //[cite: 4]
+        ctx.fillStyle = cachedBarGradient || "#00ff66";
         for (let i = 0; i < NUM_BARS; i++) {
-          const val = dataArray[precomputedBins[i]] || 0; //[cite: 4]
-          const norm = Math.min(1, (val / 255) * precomputedBoosts[i]); //[cite: 4]
-          let barHeight = Math.pow(norm, 1.22) * H * 1.3; // Curva idéntica[cite: 4]
-          if (barHeight < 3) barHeight = 3; //[cite: 4]
-          else if (barHeight > H) barHeight = H; //[cite: 4]
+          const val = dataArray[precomputedBins[i]] || 0;
+          const norm = Math.min(1, (val / 255) * precomputedBoosts[i]);
+          let barHeight = Math.pow(norm, 1.22) * H * 1.3;
+          if (barHeight < 3) barHeight = 3;
+          else if (barHeight > H) barHeight = H;
 
-          const x = i * (barWidth + barSpacing); //[cite: 4]
-          ctx.fillRect(x, H - barHeight, barWidth, barHeight); //[cite: 4]
+          const x = i * (barWidth + barSpacing);
+          ctx.fillRect(x, H - barHeight, barWidth, barHeight);
 
-          // Balística de picos flotantes[cite: 4]
           if (barHeight >= peaks[i]) {
-            peaks[i] = barHeight; //[cite: 4]
+            peaks[i] = barHeight;
           } else {
-            peaks[i] = Math.max(0, peaks[i] - 1.9); // Gravedad de caída de picos[cite: 4]
+            peaks[i] = Math.max(0, peaks[i] - 1.9);
           }
         }
 
-        // Picos en tono gris plata metálico (#d0d5e2)
+        // Picos superiores flotantes en tono gris plata metálico
         ctx.fillStyle = "#d0d5e2";
         for (let i = 0; i < NUM_BARS; i++) {
-          if (peaks[i] > 5) { //[cite: 4]
-            ctx.fillRect(i * (barWidth + barSpacing), H - peaks[i] - 3, barWidth, 2); //[cite: 4]
+          if (peaks[i] > 5) {
+            ctx.fillRect(i * (barWidth + barSpacing), H - peaks[i] - 3, barWidth, 2);
           }
         }
       }
