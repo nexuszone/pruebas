@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.67"></script>
+  <script src="./staff.js?v=1.1.68"></script>
 
   <style>
     @property --border-angle {
@@ -490,23 +490,26 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: clamp(4px, 0.8vh, 8px);
-      margin-top: auto;
+      flex: 1;
+      min-height: 0;
+      justify-content: space-between;
+      margin-top: 4px;
       flex-shrink: 0;
     }
 
-    /* CONTROLES CENTRADOS VERTICALMENTE ENTRE EL PAÍS Y EL ECUALIZADOR */
+    /* CONTROLES CENTRADOS VERTICALMENTE CON FLEXIBLE HEIGHT */
     .playback-controls {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       width: 100%;
-      padding: clamp(3px, 0.8vh, 8px) 0;
+      flex: 1;
+      min-height: 0;
       margin: auto 0;
     }
 
-    /* BOTÓN PLAY MÁS GRANDE */
+    /* BOTÓN PLAY GRANDE Y VISIBLE */
     .btn-play-hero {
       background: #b026ff !important;
       border: none;
@@ -562,7 +565,7 @@
       }
     }
 
-    /* ECUALIZADOR ENCIMA DE LA BARRA DE VOLUMEN */
+    /* ECUALIZADOR FIJO ENCIMA DE LA BARRA DE VOLUMEN */
     .equalizer-canvas-container {
       width: 100%;
       height: clamp(26px, 3.8vh, 38px);
@@ -571,6 +574,7 @@
       justify-content: center;
       overflow: hidden;
       contain: strict;
+      flex-shrink: 0;
     }
 
     #equalizerCanvas {
@@ -1216,7 +1220,7 @@
       </div>
 
       <div class="deck-bottom">
-        <!-- 1. BOTONES CENTRADOS VERTICALMENTE ENTRE EL PAÍS Y EL ECUALIZADOR -->
+        <!-- 1. BOTONES CENTRADOS VERTICALMENTE CON FLEXIBLE HEIGHT -->
         <div class="playback-controls">
           <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o detener">
             <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
@@ -1239,7 +1243,7 @@
           </button>
         </div>
 
-        <!-- 2. ECUALIZADOR ENCIMA DE LA BARRA DE VOLUMEN -->
+        <!-- 2. ECUALIZADOR -->
         <div class="equalizer-canvas-container">
           <canvas id="equalizerCanvas"></canvas>
         </div>
