@@ -10,7 +10,7 @@ window.STAFF_MEMBERS = [
     "description": "Sesiones de música electrónica de los 2000s, dance, techno y eurodance."
   },
   {
-    "name": "AdharaCanis",
+    "name": "Amatista",
     "image": "djs/nexusdj.webp",
     "role": "Admin & Dj",
     "badge": "Admin",
