@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.51"></script>
+  <script src="./staff.js?v=1.1.53"></script>
 
   <style>
     @property --border-angle {
@@ -79,7 +79,7 @@
     }
 
     .header-bar {
-      height: 52px;
+      height: clamp(44px, 6vh, 56px);
       padding: 0 16px;
       padding-top: env(safe-area-inset-top, 0px);
       display: flex;
@@ -95,7 +95,6 @@
 
     @media (min-width: 900px) {
       .header-bar {
-        height: 54px;
         padding: 0 24px;
       }
     }
@@ -103,12 +102,12 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand-cassette-svg {
-      width: 36px;
-      height: 36px;
+      width: clamp(28px, 4vh, 36px);
+      height: clamp(28px, 4vh, 36px);
       flex-shrink: 0;
       filter: drop-shadow(0 0 8px rgba(176, 38, 255, 0.5)) drop-shadow(0 0 10px rgba(0, 255, 102, 0.4));
       transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -122,7 +121,7 @@
     .brand-name {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 19px;
+      font-size: clamp(16px, 2.2vh, 19px);
       letter-spacing: 0.8px;
       display: flex;
       align-items: center;
@@ -182,9 +181,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
+      width: clamp(30px, 4vh, 36px);
+      height: clamp(30px, 4vh, 36px);
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-subtle);
       color: #ffffff;
@@ -195,41 +194,15 @@
     }
 
     .social-btn svg {
-      width: 18px;
-      height: 18px;
+      width: clamp(15px, 2vh, 18px);
+      height: clamp(15px, 2vh, 18px);
       fill: currentColor;
-      transition: transform 0.2s ease, filter 0.2s ease;
-    }
-
-    @media (hover: hover) {
-      .social-tiktok:hover {
-        border-color: #ffffff;
-        background: rgba(255, 255, 255, 0.18);
-        color: #ffffff;
-        box-shadow: 0 0 16px var(--tiktok-glow), 0 0 6px #ffffff;
-        transform: translateY(-2px);
-      }
-      .social-tiktok:hover svg {
-        transform: scale(1.1);
-        filter: drop-shadow(0 0 8px #ffffff);
-      }
-      .social-telegram:hover {
-        border-color: var(--telegram-blue);
-        background: rgba(34, 158, 217, 0.2);
-        color: var(--telegram-blue);
-        box-shadow: 0 0 16px var(--telegram-glow), 0 0 6px var(--telegram-blue);
-        transform: translateY(-2px);
-      }
-      .social-telegram:hover svg {
-        transform: scale(1.1);
-        filter: drop-shadow(0 0 8px var(--telegram-blue));
-      }
     }
 
     .workspace {
       flex: 1;
       width: 100%;
-      height: calc(var(--app-height) - 52px);
+      height: calc(100% - clamp(44px, 6vh, 56px));
       min-height: 0;
       position: relative;
       display: flex;
@@ -240,29 +213,20 @@
     @media (min-width: 900px) {
       .workspace {
         display: grid;
-        grid-template-columns: minmax(320px, 400px) 1fr;
-        gap: 16px;
-        padding: 12px 20px 14px 20px;
-        height: calc(100vh - 54px);
+        grid-template-columns: minmax(280px, 26vw) 1fr;
+        gap: clamp(10px, 1.4vw, 20px);
+        padding: clamp(8px, 1.2vh, 16px) clamp(12px, 1.8vw, 28px);
         max-width: 1920px;
         margin: 0 auto;
         box-sizing: border-box;
       }
     }
 
-    @media (min-width: 1440px) {
-      .workspace {
-        grid-template-columns: 440px 1fr;
-        gap: 22px;
-        padding: 16px 32px 18px 32px;
-      }
-    }
-
     .player-deck {
       background: var(--surface-1);
       border-radius: 0;
-      padding: 12px 14px 14px 14px;
-      padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      padding: clamp(8px, 1.4vh, 16px) clamp(10px, 1.4vw, 18px);
+      padding-bottom: calc(clamp(8px, 1.4vh, 16px) + env(safe-area-inset-bottom, 0px));
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -278,8 +242,7 @@
     @media (min-width: 900px) {
       .player-deck {
         border: 1px solid var(--border-subtle);
-        border-radius: 20px;
-        padding: 14px 18px 12px 18px;
+        border-radius: clamp(14px, 2vh, 22px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
       }
     }
@@ -314,17 +277,15 @@
       justify-content: center;
     }
 
-    /* ----------------------------------------------------
-       CARÁTULA ADAPTABLE CON BORDE NEÓN EXACTO
-       ---------------------------------------------------- */
+    /* CARÁTULA FLUIDA QUE ESCALA EN ALTURA Y ANCHURA */
     .cover-wrapper {
       width: 100%;
-      max-width: min(80vw, 260px);
+      max-width: min(80vw, min(28vh, 280px));
       aspect-ratio: 1 / 1;
       height: auto;
-      max-height: min(260px, 32vh);
-      border-radius: 18px;
-      margin-bottom: 8px;
+      max-height: min(80vw, min(28vh, 280px));
+      border-radius: clamp(14px, 2vh, 20px);
+      margin-bottom: clamp(4px, 1vh, 10px);
       position: relative;
       background: #0d0e15;
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
@@ -336,24 +297,6 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       will-change: transform;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .cover-wrapper {
-        max-width: min(340px, 36vh);
-        max-height: min(340px, 36vh);
-        border-radius: 22px;
-        margin-bottom: 12px;
-      }
-    }
-
-    /* Ajuste para pantallas de 720p / 768p */
-    @media (min-width: 900px) and (max-height: 799px) {
-      .cover-wrapper {
-        max-width: min(230px, 28vh);
-        max-height: min(230px, 28vh);
-        margin-bottom: 6px;
-      }
     }
 
     .cover-wrapper::before {
@@ -387,18 +330,12 @@
       height: 100%;
       max-width: 100%;
       max-height: 100%;
-      border-radius: calc(18px - 3px);
+      border-radius: calc(clamp(14px, 2vh, 20px) - 3px);
       object-fit: contain;
       object-position: center;
       background: #08090d;
       position: relative;
       z-index: 2;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .cover-img {
-        border-radius: calc(22px - 3px);
-      }
     }
 
     .is-playing .cover-wrapper {
@@ -433,7 +370,7 @@
     }
 
     #display_title {
-      font-size: 16px;
+      font-size: clamp(14px, 1.8vh, 18px);
       font-weight: 800;
       white-space: nowrap;
       display: inline-block;
@@ -442,10 +379,6 @@
       text-align: center;
       will-change: transform;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      #display_title { font-size: 20px; }
     }
 
     .marquee-active {
@@ -458,7 +391,7 @@
     }
 
     .meta-artist {
-      font-size: 12px;
+      font-size: clamp(11px, 1.4vh, 13px);
       color: var(--text-secondary);
       font-weight: 600;
       white-space: nowrap;
@@ -466,29 +399,25 @@
       text-overflow: ellipsis;
       max-width: 100%;
       text-align: center;
-      margin-bottom: 4px;
+      margin-bottom: clamp(2px, 0.6vh, 5px);
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     }
 
-    @media (min-width: 900px) and (min-height: 800px) {
-      .meta-artist { font-size: 13px; margin-bottom: 6px; }
-    }
-
     .meta-dj-row {
-      margin-bottom: 4px;
+      margin-bottom: clamp(2px, 0.6vh, 4px);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       background: rgba(0, 0, 0, 0.35);
-      padding: 2px 12px;
+      padding: 2px 10px;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .emit-label {
       color: var(--neon-purple);
-      font-size: 13px;
+      font-size: clamp(11px, 1.5vh, 14px);
       font-weight: 800;
       letter-spacing: 0.5px;
       text-shadow: 0 0 10px var(--purple-glow);
@@ -497,15 +426,10 @@
     #display_dj {
       display: inline-block;
       color: var(--neon-green);
-      font-size: 13px;
+      font-size: clamp(11px, 1.5vh, 14px);
       font-weight: 800;
       letter-spacing: 0.5px;
       text-shadow: 0 0 10px var(--green-glow);
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .emit-label, #display_dj { font-size: 15px; }
-      .meta-dj-row { padding: 3px 14px; }
     }
 
     .dj-country-row {
@@ -513,21 +437,17 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-size: 11px;
+      font-size: clamp(10px, 1.3vh, 12px);
       font-weight: 700;
       letter-spacing: 0.5px;
       color: #e2e6f0;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
-      min-height: 16px;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .dj-country-row { font-size: 12px; min-height: 18px; }
+      min-height: 14px;
     }
 
     .dj-flag-img {
-      width: 16px;
-      height: 11px;
+      width: clamp(14px, 1.8vh, 18px);
+      height: clamp(9px, 1.2vh, 12px);
       border-radius: 2px;
       object-fit: cover;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
@@ -538,27 +458,19 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-top: 4px;
+      gap: clamp(4px, 0.8vh, 8px);
+      margin-top: 2px;
       flex-shrink: 0;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .deck-bottom { gap: 8px; margin-top: 6px; }
     }
 
     .equalizer-canvas-container {
       width: 100%;
-      height: 32px;
+      height: clamp(26px, 3.8vh, 38px);
       display: flex;
       align-items: flex-end;
       justify-content: center;
       overflow: hidden;
       contain: strict;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .equalizer-canvas-container { height: 42px; }
     }
 
     #equalizerCanvas {
@@ -574,15 +486,15 @@
       justify-content: center;
       gap: 10px;
       width: 100%;
-      padding: 2px 0;
+      padding: 1px 0;
     }
 
     .btn-play-hero {
       background: #b026ff !important;
       border: none;
       color: white;
-      width: 50px;
-      height: 50px;
+      width: clamp(42px, 5.8vh, 56px);
+      height: clamp(42px, 5.8vh, 56px);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -593,8 +505,9 @@
       flex-shrink: 0;
     }
 
-    @media (min-width: 900px) and (min-height: 800px) {
-      .btn-play-hero { width: 56px; height: 56px; }
+    .btn-play-hero svg {
+      width: clamp(18px, 2.8vh, 26px);
+      height: clamp(18px, 2.8vh, 26px);
     }
 
     .btn-play-hero:active {
@@ -606,10 +519,10 @@
       border: 1px solid rgba(0, 255, 102, 0.45);
       color: var(--neon-green);
       padding: 0 14px;
-      height: 38px;
+      height: clamp(32px, 4.2vh, 40px);
       border-radius: 20px;
       font-family: inherit;
-      font-size: 11px;
+      font-size: clamp(10px, 1.3vh, 11px);
       font-weight: 800;
       letter-spacing: 0.5px;
       cursor: pointer;
@@ -619,20 +532,6 @@
       transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
       flex-shrink: 0;
       outline: none;
-    }
-
-    @media (hover: hover) {
-      .btn-deck-action:hover {
-        background: rgba(0, 255, 102, 0.25);
-        color: #fff;
-      }
-    }
-
-    .btn-deck-action:active,
-    .btn-deck-action.active {
-      background: var(--neon-green) !important;
-      color: #08090d !important;
-      box-shadow: 0 0 14px var(--green-glow);
     }
 
     .btn-deck-staff {
@@ -648,36 +547,28 @@
     .volume-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 4px 12px;
+      gap: 8px;
+      padding: clamp(3px, 0.6vh, 5px) 12px;
       background: rgba(0, 0, 0, 0.45);
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      min-height: 30px;
+      min-height: clamp(26px, 3.5vh, 32px);
       width: 100%;
       flex-shrink: 0;
     }
 
-    @media (min-width: 900px) and (min-height: 800px) {
-      .volume-row { padding: 5px 12px; min-height: 34px; }
-    }
-
     .vol-icon {
-      width: 15px;
-      height: 15px;
+      width: clamp(13px, 1.8vh, 16px);
+      height: clamp(13px, 1.8vh, 16px);
       fill: var(--text-secondary);
       cursor: pointer;
       flex-shrink: 0;
     }
 
-    .vol-icon:hover {
-      fill: var(--text-primary);
-    }
-
     .volume-slider {
       flex: 1;
       width: 100%;
-      height: 5px;
+      height: 4px;
       -webkit-appearance: none;
       appearance: none;
       background: linear-gradient(to right, #b026ff 100%, rgba(255, 255, 255, 0.15) 100%);
@@ -688,8 +579,8 @@
 
     .volume-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
+      width: clamp(11px, 1.6vh, 14px);
+      height: clamp(11px, 1.6vh, 14px);
       border-radius: 50%;
       background: #fff;
       cursor: pointer;
@@ -725,20 +616,13 @@
         height: 100%;
         background: var(--surface-1);
         border: 1px solid var(--border-subtle);
-        border-radius: 20px;
-        padding: 12px 16px;
+        border-radius: clamp(14px, 2vh, 22px);
+        padding: clamp(8px, 1.4vh, 16px) clamp(10px, 1.4vw, 18px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         transform: none !important;
         visibility: visible !important;
         z-index: 1;
         overflow: hidden;
-      }
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .library-panel {
-        padding: 16px 20px;
-        border-radius: 24px;
       }
     }
 
@@ -784,12 +668,8 @@
 
     .panel-header {
       display: flex;
-      margin-bottom: 8px;
+      margin-bottom: clamp(6px, 1vh, 10px);
       flex-shrink: 0;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .panel-header { margin-bottom: 10px; }
     }
 
     .tabs-group {
@@ -800,7 +680,7 @@
       padding: 3px;
       gap: 4px;
       width: 100%;
-      max-width: 260px;
+      max-width: 240px;
     }
 
     .tab-item {
@@ -808,10 +688,10 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      padding: 6px 12px;
+      padding: clamp(4px, 0.8vh, 8px) 10px;
       font-family: inherit;
       font-weight: 700;
-      font-size: 12px;
+      font-size: clamp(10px, 1.3vh, 12px);
       letter-spacing: 0.5px;
       border-radius: 8px;
       cursor: pointer;
@@ -860,41 +740,30 @@
     }
 
     /* ----------------------------------------------------
-       ESTILOS STAFF (RESPONSIVE EN 720p / 768p / 1080p)
+       STAFF: 5 COLUMNAS Y 3 FILAS AJUSTADAS A CUALQUIER RESOLUCIÓN
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: 10px;
+      padding: clamp(6px, 1vh, 12px);
       overflow-y: auto;
       box-sizing: border-box;
       -webkit-overflow-scrolling: touch;
     }
 
-    @media (min-width: 900px) and (min-height: 800px) {
-      .staff-container { padding: 14px; }
-    }
-
     .staff-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 8px;
       list-style: none;
     }
 
-    /* En 1280x720 / 1366x768 se adapta en 3 a 4 columnas sin apretarse */
+    /* 5 COLUMNAS FIJAS EN TODAS LAS RESOLUCIONES DE ESCRITORIO */
     @media (min-width: 900px) {
       .staff-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 10px;
-      }
-    }
-
-    @media (min-width: 1300px) {
-      .staff-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: clamp(6px, 0.8vw, 10px);
       }
     }
 
@@ -905,23 +774,15 @@
       justify-content: center;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 12px 8px 30px 8px;
+      border-radius: clamp(10px, 1.4vh, 16px);
+      padding: clamp(6px, 1vh, 12px) 4px clamp(20px, 3vh, 28px) 4px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      min-height: 160px;
+      /* Altura calculada para mostrar exactamente 3 filas completas sin desbordar */
+      height: clamp(118px, 23.5vh, 215px);
       content-visibility: auto;
-      contain-intrinsic-size: 160px;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .staff-card {
-        min-height: 200px;
-        padding: 14px 8px 34px 8px;
-        contain-intrinsic-size: 200px;
-      }
     }
 
     .staff-card:hover {
@@ -932,25 +793,16 @@
     }
 
     .staff-avatar-img {
-      width: 78px;
-      height: 78px;
-      border-radius: 12px;
+      width: clamp(48px, 10.5vh, 96px);
+      height: clamp(48px, 10.5vh, 96px);
+      border-radius: clamp(8px, 1.2vh, 12px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
       flex-shrink: 0;
       background: #08090d;
-      box-shadow: 0 0 12px rgba(176, 38, 255, 0.3);
-      margin-bottom: 6px;
+      box-shadow: 0 0 10px rgba(176, 38, 255, 0.3);
+      margin-bottom: clamp(3px, 0.6vh, 6px);
       transition: transform 0.2s ease;
-    }
-
-    @media (min-width: 900px) and (min-height: 800px) {
-      .staff-avatar-img {
-        width: 105px;
-        height: 105px;
-        border-radius: 14px;
-        margin-bottom: 8px;
-      }
     }
 
     .staff-card:hover .staff-avatar-img {
@@ -960,10 +812,11 @@
     .staff-info {
       width: 100%;
       text-align: center;
+      padding: 0 2px;
     }
 
     .staff-name {
-      font-size: 13px;
+      font-size: clamp(10px, 1.4vh, 14px);
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
@@ -972,44 +825,40 @@
       max-width: 100%;
     }
 
-    @media (min-width: 900px) and (min-height: 800px) {
-      .staff-name { font-size: 15px; }
-    }
-
     .staff-country-badge {
       position: absolute;
-      bottom: 6px;
-      left: 8px;
+      bottom: clamp(4px, 0.6vh, 7px);
+      left: clamp(4px, 0.6vh, 8px);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      font-size: 9px;
+      gap: 3px;
+      font-size: clamp(8px, 1vh, 10px);
       font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.85);
-      padding: 2px 6px;
-      border-radius: 6px;
+      padding: 1px 4px;
+      border-radius: 4px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .staff-country-badge img {
-      width: 14px;
-      height: 9px;
+      width: clamp(11px, 1.4vh, 14px);
+      height: clamp(7px, 1vh, 10px);
       border-radius: 2px;
       object-fit: cover;
     }
 
     .staff-badge {
       position: absolute;
-      bottom: 6px;
-      right: 8px;
+      bottom: clamp(4px, 0.6vh, 7px);
+      right: clamp(4px, 0.6vh, 8px);
       background: rgba(0, 255, 102, 0.15);
       border: 1px solid rgba(0, 255, 102, 0.5);
       color: var(--neon-green);
-      font-size: 9px;
+      font-size: clamp(8px, 1vh, 10px);
       font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 6px;
+      padding: 1px 5px;
+      border-radius: 4px;
       letter-spacing: 0.3px;
       white-space: nowrap;
     }
@@ -1262,7 +1111,7 @@
 
         <div class="playback-controls">
           <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o detener">
-            <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
             </svg>
           </button>
@@ -1433,7 +1282,6 @@
     const coverMemoryCache = new Map();
 
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. CARGA DE STAFF
       function loadStaffMembers() {
         try {
           if (window.STAFF_MEMBERS && Array.isArray(window.STAFF_MEMBERS)) {
@@ -1509,7 +1357,6 @@
 
       loadStaffMembers();
 
-      // 2. TABS
       function activateTab(tabName) {
         if (tabName === "chat") {
           tabChat.style.display = "flex";
@@ -1570,7 +1417,6 @@
       tabChat.addEventListener("click", () => activateTab("chat"));
       tabStaff.addEventListener("click", () => activateTab("staff"));
 
-      // 3. MAPA DE DJS
       async function loadDjMap() {
         try {
           const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1731,7 +1577,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // 4. CANVAS ECUALIZADOR (100% FLUIDO Y ESTABLE)
+      // CANVAS ECUALIZADOR
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
@@ -1875,7 +1721,6 @@
       window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
       resizeCanvas();
 
-      // 5. TOGGLE PLAY ESTILO CASTLE: SIN GASTO DE RAM
       async function togglePlay() {
         if (isPlaying) {
           isPlaying = false;
@@ -1923,7 +1768,6 @@
         }
       });
 
-      // 6. VOLUMEN
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
@@ -1946,7 +1790,6 @@
 
       updateVolumeVisual(parseFloat(volumeControl.value));
 
-      // 7. MARQUESINA
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
         displayTitle.style.transform = "translateX(0)";
