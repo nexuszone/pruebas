@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.66"></script>
+  <script src="./staff.js?v=1.1.67"></script>
 
   <style>
     @property --border-angle {
@@ -511,8 +511,8 @@
       background: #b026ff !important;
       border: none;
       color: white;
-      width: clamp(48px, 6.2vh, 60px);
-      height: clamp(48px, 6.2vh, 60px);
+      width: clamp(54px, 7vh, 66px);
+      height: clamp(54px, 7vh, 66px);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -524,8 +524,8 @@
     }
 
     .btn-play-hero svg {
-      width: clamp(22px, 3vh, 28px);
-      height: clamp(22px, 3vh, 28px);
+      width: clamp(22px, 3.2vh, 30px);
+      height: clamp(22px, 3.2vh, 30px);
     }
 
     .btn-play-hero:active {
@@ -536,11 +536,11 @@
       background: rgba(0, 255, 102, 0.14);
       border: 1px solid rgba(0, 255, 102, 0.45);
       color: var(--neon-green);
-      padding: 0 14px;
-      height: clamp(32px, 4.2vh, 40px);
-      border-radius: 20px;
+      padding: 0 16px;
+      height: clamp(34px, 4.4vh, 42px);
+      border-radius: 21px;
       font-family: inherit;
-      font-size: clamp(10px, 1.25vh, 11px);
+      font-size: clamp(11px, 1.35vh, 12px);
       font-weight: 800;
       letter-spacing: 0.5px;
       cursor: pointer;
@@ -853,7 +853,6 @@
       box-shadow: 0 6px 18px rgba(176, 38, 255, 0.35);
     }
 
-    /* FOTO DEL STAFF LLENANDO EL MÁXIMO ESPACIO */
     .staff-avatar-img {
       width: min(150px, 48vw);
       height: min(150px, 48vw);
@@ -1217,7 +1216,7 @@
       </div>
 
       <div class="deck-bottom">
-        <!-- 1. CONTROLES CENTRADOS VERTICALMENTE -->
+        <!-- 1. BOTONES CENTRADOS VERTICALMENTE ENTRE EL PAÍS Y EL ECUALIZADOR -->
         <div class="playback-controls">
           <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o detener">
             <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
@@ -1240,7 +1239,7 @@
           </button>
         </div>
 
-        <!-- 2. ECUALIZADOR -->
+        <!-- 2. ECUALIZADOR ENCIMA DE LA BARRA DE VOLUMEN -->
         <div class="equalizer-canvas-container">
           <canvas id="equalizerCanvas"></canvas>
         </div>
