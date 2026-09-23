@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.69"></script>
+  <script src="./staff.js?v=1.1.70"></script>
 
   <style>
     @property --border-angle {
@@ -509,47 +509,29 @@
       display: inline-block;
     }
 
+    /* DECK BOTTOM: CONTENEDOR FLEXIBLE QUE CENTRA LOS BOTONES EXACTAMENTE ENTRE EL PAÍS Y EL ECUALIZADOR */
     .deck-bottom {
       width: 100%;
+      height: 160px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
       margin-top: 6px;
       flex-shrink: 0;
     }
 
-    /* ECUALIZADOR */
-    .equalizer-canvas-container {
-      width: 100%;
-      height: 38px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-      contain: strict;
-    }
-
     @media (min-width: 900px) {
-      .equalizer-canvas-container { height: 48px; }
+      .deck-bottom { height: 185px; }
     }
 
-    #equalizerCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      transform: translateZ(0);
-    }
-
-    /* BOTONES DE CONTROL CENTRADOS VERTICALMENTE ENTRE EL PAÍS Y EL ECUALIZADOR */
+    /* BOTONES DE CONTROL CENTRADOS VERTICALMENTE CON MARGEN AUTOMÁTICO */
     .playback-controls {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       width: 100%;
-      padding: 6px 0;
-      flex: 1;
-      min-height: 52px;
       margin: auto 0;
     }
 
@@ -616,6 +598,28 @@
       .btn-deck-staff {
         display: none !important;
       }
+    }
+
+    .equalizer-canvas-container {
+      width: 100%;
+      height: 38px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+      contain: strict;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 900px) {
+      .equalizer-canvas-container { height: 48px; }
+    }
+
+    #equalizerCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transform: translateZ(0);
     }
 
     .volume-row {
@@ -1208,7 +1212,7 @@
       </div>
 
       <div class="deck-bottom">
-        <!-- BOTONES DE CONTROL CENTRADOS VERTICALMENTE -->
+        <!-- BOTONES DE CONTROL CENTRADOS VERTICALMENTE ENTRE EL PAÍS Y EL ECUALIZADOR -->
         <div class="playback-controls">
           <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o detener">
             <svg id="playIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
