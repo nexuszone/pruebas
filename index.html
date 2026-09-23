@@ -228,6 +228,7 @@
       overflow: hidden;
     }
 
+    /* ANCHURA ORIGINAL DEL REPRODUCTOR */
     @media (min-width: 900px) {
       .workspace {
         display: grid;
@@ -1429,13 +1430,13 @@
           const imgSrc = dj.image ? `${dj.image}` : "djs/nexusdj.webp";
 
           li.innerHTML = `
-            <img src="${imgSrc}" class="staff-avatar-img" alt="${dj.name}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='djs/nexusdj.webp';">
+            <img src="${imgSrc}" class="staff-avatar-img" alt="${dj.name}" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null; this.src='djs/nexusdj.webp';">
             <div class="staff-info">
               <div class="staff-name">${dj.name}</div>
             </div>
             <div class="staff-bottom-row">
               <div class="staff-country-badge">
-                ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
+                ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}" loading="eager" decoding="async">` : ""}
                 <span>${dj.country || "Int."}</span>
               </div>
               <span class="staff-badge">${dj.badge || "Staff"}</span>
