@@ -11,7 +11,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "Amatista",
-    "image": "djs/nexusdj.webp",
+    "image": "djs/amatista.webp",
     "role": "Admin & Dj",
     "badge": "Admin",
     "country": "El Salvador",
@@ -31,7 +31,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "|lu5|0n",
-    "image": "djs/lusion.webp",
+    "image": "djs/ilusion.webp",
     "role": "Admin & Dj",
     "badge": "Admin",
     "country": "Bolivia",
@@ -41,7 +41,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "Cisne-Negro",
-    "image": "djs/cisne.webp",
+    "image": "djs/cisnenegro.webp",
     "role": "Dj",
     "badge": "Dj",
     "country": "Colombia",
@@ -51,7 +51,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "Caraxs",
-    "image": "djs/ca.webp",
+    "image": "djs/caraxs.webp",
     "role": "Dj",
     "badge": "Dj",
     "country": "El Salvador",
@@ -61,7 +61,7 @@ window.STAFF_MEMBERS = [
   },
   {
     "name": "NeXusDj",
-    "image": "djs/ca.webp",
+    "image": "djs/nexusdj.webp",
     "role": "Bot & Dj",
     "badge": "Bot",
     "country": "España",
