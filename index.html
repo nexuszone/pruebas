@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.50"></script>
+  <script src="./staff.js?v=1.1.51"></script>
 
   <style>
     @property --border-angle {
@@ -95,8 +95,8 @@
 
     @media (min-width: 900px) {
       .header-bar {
-        height: 58px;
-        padding: 0 28px;
+        height: 54px;
+        padding: 0 24px;
       }
     }
 
@@ -240,10 +240,10 @@
     @media (min-width: 900px) {
       .workspace {
         display: grid;
-        grid-template-columns: minmax(360px, 460px) 1fr;
-        gap: 20px;
-        padding: 14px 28px 18px 28px;
-        height: calc(100vh - 58px);
+        grid-template-columns: minmax(320px, 400px) 1fr;
+        gap: 16px;
+        padding: 12px 20px 14px 20px;
+        height: calc(100vh - 54px);
         max-width: 1920px;
         margin: 0 auto;
         box-sizing: border-box;
@@ -252,9 +252,9 @@
 
     @media (min-width: 1440px) {
       .workspace {
-        grid-template-columns: 460px 1fr;
-        gap: 24px;
-        padding: 18px 36px 22px 36px;
+        grid-template-columns: 440px 1fr;
+        gap: 22px;
+        padding: 16px 32px 18px 32px;
       }
     }
 
@@ -278,8 +278,8 @@
     @media (min-width: 900px) {
       .player-deck {
         border: 1px solid var(--border-subtle);
-        border-radius: 24px;
-        padding: 18px 22px 16px 22px;
+        border-radius: 20px;
+        padding: 14px 18px 12px 18px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
       }
     }
@@ -315,16 +315,16 @@
     }
 
     /* ----------------------------------------------------
-       CARÁTULA ESTABLE (CERO SATURACIÓN DE VRAM)
+       CARÁTULA ADAPTABLE CON BORDE NEÓN EXACTO
        ---------------------------------------------------- */
     .cover-wrapper {
       width: 100%;
-      max-width: min(84vw, 290px);
+      max-width: min(80vw, 260px);
       aspect-ratio: 1 / 1;
       height: auto;
-      max-height: min(290px, 34vh);
-      border-radius: 20px;
-      margin-bottom: 12px;
+      max-height: min(260px, 32vh);
+      border-radius: 18px;
+      margin-bottom: 8px;
       position: relative;
       background: #0d0e15;
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
@@ -338,16 +338,24 @@
       will-change: transform;
     }
 
-    @media (min-width: 900px) {
+    @media (min-width: 900px) and (min-height: 800px) {
       .cover-wrapper {
-        max-width: min(400px, 40vh);
-        max-height: min(400px, 40vh);
-        border-radius: 24px;
-        margin-bottom: 14px;
+        max-width: min(340px, 36vh);
+        max-height: min(340px, 36vh);
+        border-radius: 22px;
+        margin-bottom: 12px;
       }
     }
 
-    /* Borde de neón continuo usando gradiente cónico ligero sin capas sobredimensionadas */
+    /* Ajuste para pantallas de 720p / 768p */
+    @media (min-width: 900px) and (max-height: 799px) {
+      .cover-wrapper {
+        max-width: min(230px, 28vh);
+        max-height: min(230px, 28vh);
+        margin-bottom: 6px;
+      }
+    }
+
     .cover-wrapper::before {
       content: '';
       position: absolute;
@@ -379,7 +387,7 @@
       height: 100%;
       max-width: 100%;
       max-height: 100%;
-      border-radius: calc(20px - 3px);
+      border-radius: calc(18px - 3px);
       object-fit: contain;
       object-position: center;
       background: #08090d;
@@ -387,9 +395,9 @@
       z-index: 2;
     }
 
-    @media (min-width: 900px) {
+    @media (min-width: 900px) and (min-height: 800px) {
       .cover-img {
-        border-radius: calc(24px - 3px);
+        border-radius: calc(22px - 3px);
       }
     }
 
@@ -425,7 +433,7 @@
     }
 
     #display_title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       white-space: nowrap;
       display: inline-block;
@@ -436,8 +444,8 @@
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     }
 
-    @media (min-width: 900px) {
-      #display_title { font-size: 21px; }
+    @media (min-width: 900px) and (min-height: 800px) {
+      #display_title { font-size: 20px; }
     }
 
     .marquee-active {
@@ -450,7 +458,7 @@
     }
 
     .meta-artist {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-secondary);
       font-weight: 600;
       white-space: nowrap;
@@ -458,8 +466,12 @@
       text-overflow: ellipsis;
       max-width: 100%;
       text-align: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    @media (min-width: 900px) and (min-height: 800px) {
+      .meta-artist { font-size: 13px; margin-bottom: 6px; }
     }
 
     .meta-dj-row {
@@ -469,14 +481,14 @@
       justify-content: center;
       gap: 6px;
       background: rgba(0, 0, 0, 0.35);
-      padding: 3px 14px;
+      padding: 2px 12px;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .emit-label {
       color: var(--neon-purple);
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-shadow: 0 0 10px var(--purple-glow);
@@ -485,14 +497,15 @@
     #display_dj {
       display: inline-block;
       color: var(--neon-green);
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-shadow: 0 0 10px var(--green-glow);
     }
 
-    @media (min-width: 900px) {
-      .emit-label, #display_dj { font-size: 17px; }
+    @media (min-width: 900px) and (min-height: 800px) {
+      .emit-label, #display_dj { font-size: 15px; }
+      .meta-dj-row { padding: 3px 14px; }
     }
 
     .dj-country-row {
@@ -500,17 +513,21 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.5px;
       color: #e2e6f0;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
-      min-height: 18px;
+      min-height: 16px;
+    }
+
+    @media (min-width: 900px) and (min-height: 800px) {
+      .dj-country-row { font-size: 12px; min-height: 18px; }
     }
 
     .dj-flag-img {
-      width: 18px;
-      height: 12px;
+      width: 16px;
+      height: 11px;
       border-radius: 2px;
       object-fit: cover;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
@@ -521,14 +538,18 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-top: 6px;
+      gap: 6px;
+      margin-top: 4px;
       flex-shrink: 0;
+    }
+
+    @media (min-width: 900px) and (min-height: 800px) {
+      .deck-bottom { gap: 8px; margin-top: 6px; }
     }
 
     .equalizer-canvas-container {
       width: 100%;
-      height: 38px;
+      height: 32px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -536,8 +557,8 @@
       contain: strict;
     }
 
-    @media (min-width: 900px) {
-      .equalizer-canvas-container { height: 48px; }
+    @media (min-width: 900px) and (min-height: 800px) {
+      .equalizer-canvas-container { height: 42px; }
     }
 
     #equalizerCanvas {
@@ -553,15 +574,15 @@
       justify-content: center;
       gap: 10px;
       width: 100%;
-      padding: 4px 0;
+      padding: 2px 0;
     }
 
     .btn-play-hero {
       background: #b026ff !important;
       border: none;
       color: white;
-      width: 58px;
-      height: 58px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -570,6 +591,10 @@
       box-shadow: 0 6px 20px rgba(176, 38, 255, 0.6) !important;
       transition: transform 0.2s, box-shadow 0.2s;
       flex-shrink: 0;
+    }
+
+    @media (min-width: 900px) and (min-height: 800px) {
+      .btn-play-hero { width: 56px; height: 56px; }
     }
 
     .btn-play-hero:active {
@@ -581,8 +606,8 @@
       border: 1px solid rgba(0, 255, 102, 0.45);
       color: var(--neon-green);
       padding: 0 14px;
-      height: 42px;
-      border-radius: 21px;
+      height: 38px;
+      border-radius: 20px;
       font-family: inherit;
       font-size: 11px;
       font-weight: 800;
@@ -624,18 +649,22 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 5px 12px;
+      padding: 4px 12px;
       background: rgba(0, 0, 0, 0.45);
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      min-height: 34px;
+      min-height: 30px;
       width: 100%;
       flex-shrink: 0;
     }
 
+    @media (min-width: 900px) and (min-height: 800px) {
+      .volume-row { padding: 5px 12px; min-height: 34px; }
+    }
+
     .vol-icon {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       fill: var(--text-secondary);
       cursor: pointer;
       flex-shrink: 0;
@@ -696,13 +725,20 @@
         height: 100%;
         background: var(--surface-1);
         border: 1px solid var(--border-subtle);
-        border-radius: 24px;
-        padding: 16px 20px;
+        border-radius: 20px;
+        padding: 12px 16px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         transform: none !important;
         visibility: visible !important;
         z-index: 1;
         overflow: hidden;
+      }
+    }
+
+    @media (min-width: 900px) and (min-height: 800px) {
+      .library-panel {
+        padding: 16px 20px;
+        border-radius: 24px;
       }
     }
 
@@ -748,8 +784,12 @@
 
     .panel-header {
       display: flex;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       flex-shrink: 0;
+    }
+
+    @media (min-width: 900px) and (min-height: 800px) {
+      .panel-header { margin-bottom: 10px; }
     }
 
     .tabs-group {
@@ -760,7 +800,7 @@
       padding: 3px;
       gap: 4px;
       width: 100%;
-      max-width: 300px;
+      max-width: 260px;
     }
 
     .tab-item {
@@ -768,7 +808,7 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      padding: 8px 14px;
+      padding: 6px 12px;
       font-family: inherit;
       font-weight: 700;
       font-size: 12px;
@@ -820,29 +860,41 @@
     }
 
     /* ----------------------------------------------------
-       ESTILOS STAFF
+       ESTILOS STAFF (RESPONSIVE EN 720p / 768p / 1080p)
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: 14px;
+      padding: 10px;
       overflow-y: auto;
       box-sizing: border-box;
       -webkit-overflow-scrolling: touch;
     }
 
+    @media (min-width: 900px) and (min-height: 800px) {
+      .staff-container { padding: 14px; }
+    }
+
     .staff-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
       list-style: none;
     }
 
+    /* En 1280x720 / 1366x768 se adapta en 3 a 4 columnas sin apretarse */
     @media (min-width: 900px) {
       .staff-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 14px;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
+      }
+    }
+
+    @media (min-width: 1300px) {
+      .staff-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
       }
     }
 
@@ -853,22 +905,22 @@
       justify-content: center;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
-      border-radius: 18px;
-      padding: 16px 10px 36px 10px;
+      border-radius: 16px;
+      padding: 12px 8px 30px 8px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      min-height: 195px;
+      min-height: 160px;
       content-visibility: auto;
-      contain-intrinsic-size: 195px;
+      contain-intrinsic-size: 160px;
     }
 
-    @media (min-width: 900px) {
+    @media (min-width: 900px) and (min-height: 800px) {
       .staff-card {
-        min-height: 230px;
-        padding: 16px 8px 38px 8px;
-        contain-intrinsic-size: 230px;
+        min-height: 200px;
+        padding: 14px 8px 34px 8px;
+        contain-intrinsic-size: 200px;
       }
     }
 
@@ -880,22 +932,24 @@
     }
 
     .staff-avatar-img {
-      width: 92px;
-      height: 92px;
-      border-radius: 14px;
+      width: 78px;
+      height: 78px;
+      border-radius: 12px;
       object-fit: cover;
       border: 2px solid var(--neon-purple);
       flex-shrink: 0;
       background: #08090d;
-      box-shadow: 0 0 14px rgba(176, 38, 255, 0.35);
-      margin-bottom: 8px;
+      box-shadow: 0 0 12px rgba(176, 38, 255, 0.3);
+      margin-bottom: 6px;
       transition: transform 0.2s ease;
     }
 
-    @media (min-width: 900px) {
+    @media (min-width: 900px) and (min-height: 800px) {
       .staff-avatar-img {
-        width: 120px;
-        height: 120px;
+        width: 105px;
+        height: 105px;
+        border-radius: 14px;
+        margin-bottom: 8px;
       }
     }
 
@@ -909,7 +963,7 @@
     }
 
     .staff-name {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
@@ -918,45 +972,45 @@
       max-width: 100%;
     }
 
-    @media (min-width: 900px) {
-      .staff-name { font-size: 16px; }
+    @media (min-width: 900px) and (min-height: 800px) {
+      .staff-name { font-size: 15px; }
     }
 
     .staff-country-badge {
       position: absolute;
-      bottom: 8px;
-      left: 10px;
+      bottom: 6px;
+      left: 8px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.85);
-      padding: 2px 7px;
-      border-radius: 8px;
+      padding: 2px 6px;
+      border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .staff-country-badge img {
-      width: 15px;
-      height: 10px;
+      width: 14px;
+      height: 9px;
       border-radius: 2px;
       object-fit: cover;
     }
 
     .staff-badge {
       position: absolute;
-      bottom: 8px;
-      right: 10px;
+      bottom: 6px;
+      right: 8px;
       background: rgba(0, 255, 102, 0.15);
       border: 1px solid rgba(0, 255, 102, 0.5);
       color: var(--neon-green);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 8px;
-      letter-spacing: 0.4px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
       white-space: nowrap;
     }
 
@@ -982,12 +1036,12 @@
 
     .dj-modal-card {
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
       background: #0f1118;
       border: 1px solid var(--neon-purple);
       border-radius: 24px;
       box-shadow: 0 16px 45px rgba(176, 38, 255, 0.45), 0 0 25px rgba(0, 255, 102, 0.25);
-      padding: 22px;
+      padding: 20px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -1008,14 +1062,14 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-subtle);
       color: #ffffff;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
       transition: all 0.2s;
     }
 
@@ -1025,13 +1079,13 @@
     }
 
     .modal-dj-avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 20px;
+      width: 120px;
+      height: 120px;
+      border-radius: 18px;
       object-fit: cover;
       border: 3px solid var(--neon-purple);
       box-shadow: 0 8px 24px var(--purple-glow);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: #08090d;
     }
 
@@ -1043,6 +1097,7 @@
       align-items: center;
       gap: 8px;
       justify-content: center;
+      font-size: 20px;
     }
 
     .modal-dj-role-pill {
@@ -1050,13 +1105,13 @@
       background: rgba(0, 255, 102, 0.15);
       border: 1px solid rgba(0, 255, 102, 0.5);
       color: var(--neon-green);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 12px;
-      letter-spacing: 0.6px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-top: 6px;
+      margin-top: 4px;
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
@@ -1064,15 +1119,15 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-secondary);
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .modal-dj-country img {
-      width: 20px;
-      height: 14px;
+      width: 18px;
+      height: 12px;
       border-radius: 2px;
       object-fit: cover;
     }
@@ -1081,32 +1136,32 @@
       width: 100%;
       height: 1px;
       background: var(--border-subtle);
-      margin: 14px 0;
+      margin: 10px 0;
     }
 
     .modal-info-block {
       width: 100%;
       text-align: left;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 10px 14px;
-      border-radius: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
     }
 
     .modal-info-title {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       color: var(--neon-green);
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .modal-info-text {
-      font-size: 13px;
+      font-size: 12px;
       color: #e2e6f0;
-      line-height: 1.45;
+      line-height: 1.4;
     }
   </style>
 </head>
@@ -1207,7 +1262,7 @@
 
         <div class="playback-controls">
           <button class="btn-play-hero" id="btnPlay" title="Reproducir / Detener" aria-label="Reproducir o detener">
-            <svg id="playIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+            <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
             </svg>
           </button>
@@ -1311,7 +1366,6 @@
     </div>
   </div>
 
-  <!-- ESTRUCTURA IDÉNTICA A CASTLE: FIJA Y LIMPIA -->
   <audio id="audioSource" crossorigin="anonymous" preload="none"></audio>
 
   <script>
@@ -1603,6 +1657,12 @@
         const tempImg = new Image();
         tempImg.onload = () => {
           playerBgArt.style.backgroundImage = `url('${cleanUrl}')`;
+          tempImg.onload = null;
+          tempImg.onerror = null;
+        };
+        tempImg.onerror = () => {
+          tempImg.onload = null;
+          tempImg.onerror = null;
         };
         tempImg.src = cleanUrl;
       }
@@ -1671,7 +1731,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // 4. CANVAS ECUALIZADOR (GPU FRIENDLY)
+      // 4. CANVAS ECUALIZADOR (100% FLUIDO Y ESTABLE)
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
@@ -1725,7 +1785,6 @@
         }
       }
 
-      // 5. MOTOR DE AUDIO EXACTO DE CASTLE: SE CREA UNA SOLA VEZ
       async function setupAudioContext() {
         if (!audioCtx) {
           try {
@@ -1816,7 +1875,7 @@
       window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 150), { passive: true });
       resizeCanvas();
 
-      // 6. TOGGLE PLAY ESTILO CASTLE: SIN REASIGNAR AUDIO.SRC
+      // 5. TOGGLE PLAY ESTILO CASTLE: SIN GASTO DE RAM
       async function togglePlay() {
         if (isPlaying) {
           isPlaying = false;
@@ -1864,7 +1923,7 @@
         }
       });
 
-      // 7. VOLUMEN
+      // 6. VOLUMEN
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
@@ -1887,7 +1946,7 @@
 
       updateVolumeVisual(parseFloat(volumeControl.value));
 
-      // 8. MARQUESINA
+      // 7. MARQUESINA
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
         displayTitle.style.transform = "translateX(0)";
