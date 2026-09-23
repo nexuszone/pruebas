@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.57"></script>
+  <script src="./staff.js?v=1.1.58"></script>
 
   <style>
     @property --border-angle {
@@ -303,9 +303,7 @@
       justify-content: center;
     }
 
-    /* ----------------------------------------------------
-       CARÁTULA DEL DJ AMPLIADA PROPORCIONALMENTE
-       ---------------------------------------------------- */
+    /* CARÁTULA DEL DJ */
     .cover-wrapper {
       width: 100%;
       max-width: min(85vw, min(36vh, 320px));
@@ -508,6 +506,7 @@
       flex-shrink: 0;
     }
 
+    /* ECUALIZADOR */
     .equalizer-canvas-container {
       width: 100%;
       height: clamp(26px, 3.8vh, 38px);
@@ -786,33 +785,38 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: 5 COLUMNAS × 3 FILAS ADAPTADAS Y CENTRADAS
+       STAFF: ADAPTACIÓN TOTAL (MÓVILES FLUIDOS + PC 5x3)
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: clamp(3px, 0.6vh, 6px);
+      padding: 8px 6px;
       box-sizing: border-box;
+      /* Scroll natural en móviles para ver a Castle y Adhara Canis sin cortes */
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       display: flex;
       flex-direction: column;
-      justify-content: center;
     }
 
     .staff-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 6px;
+      /* 2 columnas en teléfonos móviles con scroll vertical limpio */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
       list-style: none;
       width: 100%;
+      margin: 0;
+      padding: 0;
     }
 
-    /* 5 COLUMNAS × 3 FILAS FIJAS EN TODAS LAS RESOLUCIONES DE ESCRITORIO */
+    /* En pantallas de PC: 5 columnas y 3 filas adaptadas exactamente sin scroll */
     @media (min-width: 900px) {
       .staff-container {
-        overflow: hidden; /* Encaje perfecto sin scroll en escritorio */
+        overflow: hidden;
+        padding: clamp(4px, 0.6vh, 6px);
+        justify-content: center;
       }
       .staff-grid {
         grid-template-columns: repeat(5, 1fr) !important;
@@ -831,14 +835,22 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
       border-radius: clamp(8px, 1.2vh, 14px);
-      padding: clamp(2px, 0.4vh, 4px) 2px clamp(18px, 2.5vh, 24px) 2px;
+      /* Reducción máxima de márgenes para que la foto llene el contenedor */
+      padding: 2px 2px 18px 2px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
       height: 100%;
-      min-height: 0;
+      min-height: 130px;
       content-visibility: auto;
+    }
+
+    @media (min-width: 900px) {
+      .staff-card {
+        min-height: 0;
+        padding: clamp(2px, 0.3vh, 4px) 2px clamp(16px, 2.2vh, 22px) 2px;
+      }
     }
 
     .staff-card:hover {
@@ -848,19 +860,19 @@
       box-shadow: 0 6px 18px rgba(176, 38, 255, 0.35);
     }
 
-    /* FOTO DEL STAFF MAXIMIZADA Y DINÁMICA */
+    /* FOTO DEL STAFF LLENANDO TODO EL CONTENEDOR */
     .staff-avatar-img {
-      width: clamp(65px, 14vh, 125px);
-      height: clamp(65px, 14vh, 125px);
-      max-width: 90%;
+      width: 92%;
+      max-width: 145px;
       aspect-ratio: 1 / 1;
+      height: auto;
       border-radius: clamp(6px, 1vh, 12px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
       flex-shrink: 1;
       background: #08090d;
       box-shadow: 0 0 10px rgba(176, 38, 255, 0.35);
-      margin-bottom: clamp(1px, 0.3vh, 3px);
+      margin-bottom: 2px;
       transition: transform 0.2s ease;
     }
 
@@ -876,7 +888,7 @@
     }
 
     .staff-name {
-      font-size: clamp(11px, 1.45vh, 14px);
+      font-size: clamp(11px, 1.4vh, 13.5px);
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
@@ -886,42 +898,42 @@
       line-height: 1.15;
     }
 
-    /* PAÍS Y BADGE: RESPETAN MAYÚSCULAS/MINÚSCULAS Y TAMAÑO */
+    /* PAÍS Y BADGE */
     .staff-country-badge {
       position: absolute;
-      bottom: clamp(2px, 0.4vh, 5px);
-      left: clamp(3px, 0.4vh, 6px);
+      bottom: 2px;
+      left: 3px;
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.9);
-      padding: 1px 5px;
-      border-radius: 5px;
+      padding: 1px 4px;
+      border-radius: 4px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       text-transform: none;
     }
 
     .staff-country-badge img {
-      width: clamp(12px, 1.6vh, 16px);
-      height: clamp(8px, 1.1vh, 11px);
+      width: clamp(12px, 1.5vh, 15px);
+      height: clamp(8px, 1vh, 10px);
       border-radius: 2px;
       object-fit: cover;
     }
 
     .staff-badge {
       position: absolute;
-      bottom: clamp(2px, 0.4vh, 5px);
-      right: clamp(3px, 0.4vh, 6px);
+      bottom: 2px;
+      right: 3px;
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 5px;
+      padding: 1px 5px;
+      border-radius: 4px;
       letter-spacing: 0.3px;
       white-space: nowrap;
       box-shadow: 0 0 8px rgba(0, 255, 102, 0.2);
@@ -950,12 +962,12 @@
 
     .dj-modal-card {
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
       background: #0f1118;
       border: 1px solid var(--neon-purple);
-      border-radius: 24px;
+      border-radius: 20px;
       box-shadow: 0 16px 45px rgba(176, 38, 255, 0.45), 0 0 25px rgba(0, 255, 102, 0.25);
-      padding: 20px;
+      padding: 18px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -971,13 +983,13 @@
 
     .btn-close-modal {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 12px;
+      right: 12px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-subtle);
       color: #ffffff;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -993,8 +1005,8 @@
     }
 
     .modal-dj-avatar {
-      width: clamp(80px, 16.5vh, 138px);
-      height: clamp(80px, 16.5vh, 138px);
+      width: clamp(80px, 16vh, 120px);
+      height: clamp(80px, 16vh, 120px);
       border-radius: clamp(8px, 1.2vh, 14px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
@@ -1011,7 +1023,7 @@
       align-items: center;
       gap: 8px;
       justify-content: center;
-      font-size: 20px;
+      font-size: 19px;
       text-transform: none;
     }
 
@@ -1020,30 +1032,30 @@
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 8px;
-      letter-spacing: 0.4px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
       text-transform: none;
-      margin-top: 4px;
+      margin-top: 3px;
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
     .modal-dj-country {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      gap: 5px;
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 700;
       color: #e2e6f0;
-      margin-top: 4px;
+      margin-top: 3px;
       text-transform: none;
     }
 
     .modal-dj-country img {
-      width: clamp(14px, 1.8vh, 18px);
-      height: clamp(9px, 1.2vh, 12px);
+      width: clamp(12px, 1.5vh, 15px);
+      height: clamp(8px, 1vh, 10px);
       border-radius: 2px;
       object-fit: cover;
     }
@@ -1052,32 +1064,32 @@
       width: 100%;
       height: 1px;
       background: var(--border-subtle);
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
     .modal-info-block {
       width: 100%;
       text-align: left;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 8px 12px;
-      border-radius: 10px;
+      padding: 6px 10px;
+      border-radius: 8px;
     }
 
     .modal-info-title {
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 800;
       color: var(--neon-green);
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
       text-transform: none;
       margin-bottom: 2px;
     }
 
     .modal-info-text {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #e2e6f0;
-      line-height: 1.4;
+      line-height: 1.35;
       text-transform: none;
     }
   </style>
@@ -1645,7 +1657,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ECUALIZADOR (CASTLE RADIO BASE + PALETA NEXUS)
+      // ECUALIZADOR
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
