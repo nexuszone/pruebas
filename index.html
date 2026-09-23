@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.63"></script>
+  <script src="./staff.js?v=1.1.64"></script>
 
   <style>
     @property --border-angle {
@@ -412,6 +412,7 @@
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
     }
 
+    /* TAMAÑO UNIFICADO DEL TÍTULO DE CANCIÓN */
     #display_title {
       font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
@@ -458,6 +459,7 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    /* TAMAÑO UNIFICADO: "Emitiendo:" */
     .emit-label {
       color: var(--neon-purple);
       font-size: clamp(15px, 2vh, 19px);
@@ -466,6 +468,7 @@
       text-shadow: 0 0 10px var(--purple-glow);
     }
 
+    /* TAMAÑO UNIFICADO: Nombre del DJ en reproductor */
     #display_dj {
       display: inline-block;
       color: var(--neon-green);
@@ -785,13 +788,13 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: 5 COLUMNAS × 3 FILAS ADAPTADAS Y CENTRADAS
+       STAFF: MÓVIL EN 1 COLUMNA CON SCROLL / PC EN 5 COL X 3 FILAS
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: 6px 4px;
+      padding: 10px 12px;
       box-sizing: border-box;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -799,16 +802,19 @@
       flex-direction: column;
     }
 
+    /* 1 COLUMNA EN TELÉFONOS MÓVILES (SCROLL FLUIDO TOTAL) */
     .staff-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 6px;
+      grid-template-columns: 1fr;
+      gap: 12px;
       list-style: none;
       width: 100%;
-      margin: 0;
-      padding: 0;
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 4px 0 18px 0;
     }
 
+    /* 5 COLUMNAS × 3 FILAS EN PC */
     @media (min-width: 900px) {
       .staff-container {
         overflow: hidden;
@@ -819,8 +825,10 @@
         grid-template-columns: repeat(5, 1fr) !important;
         grid-template-rows: repeat(3, 1fr) !important;
         height: 100%;
+        max-width: none;
         gap: clamp(4px, 0.6vw, 8px);
         align-content: stretch;
+        padding: 0;
       }
     }
 
@@ -831,21 +839,23 @@
       justify-content: space-evenly;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
-      border-radius: clamp(8px, 1.2vh, 14px);
-      padding: 3px 2px;
+      border-radius: clamp(10px, 1.4vh, 16px);
+      padding: 12px 10px 14px 10px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
       overflow: hidden;
-      height: 100%;
-      min-height: 130px;
+      width: 100%;
+      min-height: 230px;
       content-visibility: auto;
     }
 
     @media (min-width: 900px) {
       .staff-card {
         min-height: 0;
+        height: 100%;
         padding: 3px 2px;
+        border-radius: clamp(8px, 1.2vh, 14px);
       }
     }
 
@@ -858,18 +868,27 @@
 
     /* FOTO DEL STAFF LLENANDO EL MÁXIMO ESPACIO */
     .staff-avatar-img {
-      flex: 1;
-      min-height: 0;
-      max-height: 68%;
-      width: auto;
+      width: min(150px, 48vw);
+      height: min(150px, 48vw);
       aspect-ratio: 1 / 1;
-      border-radius: clamp(6px, 1vh, 12px);
+      border-radius: clamp(8px, 1.2vh, 14px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
       background: #08090d;
-      box-shadow: 0 0 10px rgba(176, 38, 255, 0.35);
-      margin: 0;
+      box-shadow: 0 0 12px rgba(176, 38, 255, 0.35);
+      margin: 0 auto;
       transition: transform 0.2s ease;
+    }
+
+    @media (min-width: 900px) {
+      .staff-avatar-img {
+        flex: 1;
+        min-height: 0;
+        max-height: 68%;
+        width: auto;
+        max-width: 92%;
+        margin: 0;
+      }
     }
 
     .staff-card:hover .staff-avatar-img {
@@ -881,10 +900,16 @@
       text-align: center;
       padding: 0 2px;
       flex-shrink: 0;
-      margin: 1px 0;
+      margin: 4px 0 2px 0;
     }
 
-    /* NOMBRE DEL DJ EN STAFF: EXACTAMENTE EL MISMO TAMAÑO QUE EL TÍTULO */
+    @media (min-width: 900px) {
+      .staff-info {
+        margin: 1px 0;
+      }
+    }
+
+    /* NOMBRE DEL DJ EN STAFF */
     .staff-name {
       font-size: clamp(15px, 2vh, 19px);
       font-weight: 800;
@@ -902,22 +927,29 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 0 4px;
+      padding: 0 8px;
       flex-shrink: 0;
       box-sizing: border-box;
+      margin-top: 4px;
+    }
+
+    @media (min-width: 900px) {
+      .staff-bottom-row {
+        padding: 0 4px;
+        margin-top: 0;
+      }
     }
 
     .staff-country-badge {
-      position: static;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      font-size: clamp(9px, 1.2vh, 11px);
+      gap: 4px;
+      font-size: clamp(10px, 1.25vh, 12px);
       font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.9);
-      padding: 1px 4px;
-      border-radius: 4px;
+      padding: 2px 6px;
+      border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       text-transform: none;
       white-space: nowrap;
@@ -927,22 +959,21 @@
     }
 
     .staff-country-badge img {
-      width: clamp(12px, 1.5vh, 15px);
-      height: clamp(8px, 1vh, 10px);
+      width: clamp(14px, 1.6vh, 18px);
+      height: clamp(9px, 1.1vh, 12px);
       border-radius: 2px;
       object-fit: cover;
       flex-shrink: 0;
     }
 
     .staff-badge {
-      position: static;
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9px, 1.2vh, 11px);
+      font-size: clamp(10px, 1.25vh, 12px);
       font-weight: 800;
-      padding: 1px 5px;
-      border-radius: 4px;
+      padding: 2px 8px;
+      border-radius: 6px;
       letter-spacing: 0.3px;
       white-space: nowrap;
       box-shadow: 0 0 8px rgba(0, 255, 102, 0.2);
@@ -1016,8 +1047,9 @@
       border-color: var(--neon-purple);
     }
 
-    /* FOTO DEL MODAL: REGLA BASE DINÁMICA (JS LE ASIGNA EL TAMAÑO EXACTO) */
     .modal-dj-avatar {
+      height: clamp(80px, 15vh, 130px);
+      width: clamp(80px, 15vh, 130px);
       aspect-ratio: 1 / 1;
       border-radius: clamp(6px, 1vh, 12px);
       object-fit: cover;
@@ -1028,7 +1060,6 @@
       flex-shrink: 0;
     }
 
-    /* NOMBRE DEL DJ EN EL MODAL UNIFICADO AL TAMAÑO DEL TÍTULO */
     .modal-dj-name {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
@@ -1414,7 +1445,7 @@
         });
       }
 
-      // MODAL CON CLONACIÓN EXACTA DE TAMAÑO EN PÍXELES DE LA TARJETA
+      // CLONACIÓN DIRECTA DE DIMENSIONES EXACTAS EN PÍXELES DE LA TARJETA
       function openDjModal(dj, cardElement) {
         const imgSrc = dj.image ? `${dj.image}` : "djs/nexusdj.webp";
         modalDjImg.src = imgSrc;
@@ -1423,7 +1454,6 @@
           modalDjImg.src = "djs/nexusdj.webp"; 
         };
 
-        // Medir la foto de la tarjeta para clonar el tamaño exacto al milímetro
         if (cardElement) {
           const cardImg = cardElement.querySelector(".staff-avatar-img");
           if (cardImg) {
@@ -1688,7 +1718,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ECUALIZADOR
+      // ECUALIZADOR (BASE CASTLE + PALETA NEXUS)
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
