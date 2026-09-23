@@ -1,7 +1,7 @@
 {
   "social": {
-    "tiktok": "https://www.tiktok.com/@tunombredeusuario",
-    "telegram": "https://t.me/tucanalogrupo"
+    "tiktok": "https://www.tiktok.com/@nexuszone2",
+    "telegram": "https://t.me/NeXusZoNe"
   },
   "no dj": {
     "display": "NeXusDj",
@@ -17,7 +17,7 @@
   },
   "|lu5|0n": {
     "display": "|lu5|0n",
-    "image": "djs/lu50n.webp",
+    "image": "djs/ilusion.webp",
     "country": "Bolivia",
     "flag": "bo"
   },
@@ -29,13 +29,19 @@
   }
   "Cisne-Negro": {
     "display": "Cisne-Negro",
-    "image": "djs/lu50n.webp",
+    "image": "djs/cisnenegro.webp",
     "country": "Colombia",
     "flag": "co"
   },
   "Caraxs": {
     "display": "|lu5|0n",
-    "image": "djs/lu50n.webp",
+    "image": "djs/caraxs.webp",
+    "country": "El Salvador",
+    "flag": "sv"
+  },
+  "Amatista": {
+    "display": "Amatista",
+    "image": "djs/amatista.webp",
     "country": "El Salvador",
     "flag": "sv"
   }
