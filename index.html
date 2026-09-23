@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Archivo externo de Staff -->
-  <script src="./staff.js?v=1.1.59"></script>
+  <script src="./staff.js?v=1.1.60"></script>
 
   <style>
     @property --border-angle {
@@ -506,6 +506,7 @@
       flex-shrink: 0;
     }
 
+    /* ECUALIZADOR */
     .equalizer-canvas-container {
       width: 100%;
       height: clamp(26px, 3.8vh, 38px);
@@ -784,13 +785,13 @@
     }
 
     /* ----------------------------------------------------
-       STAFF: 5 COLUMNAS × 3 FILAS ADAPTADAS Y CENTRADAS
+       STAFF: TARJETAS CON FOTOS MAXIMIZADAS Y CENTRADO COMPLETO
        ---------------------------------------------------- */
     .staff-container {
       width: 100%;
       height: 100%;
       background: var(--surface-1);
-      padding: 8px 6px;
+      padding: 6px 4px;
       box-sizing: border-box;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -801,7 +802,7 @@
     .staff-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+      gap: 6px;
       list-style: none;
       width: 100%;
       margin: 0;
@@ -827,11 +828,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-evenly;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
       border-radius: clamp(8px, 1.2vh, 14px);
-      padding: 2px 2px 18px 2px;
+      padding: 3px 2px;
       cursor: pointer;
       transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       position: relative;
@@ -844,7 +845,7 @@
     @media (min-width: 900px) {
       .staff-card {
         min-height: 0;
-        padding: clamp(2px, 0.3vh, 4px) 2px clamp(16px, 2.2vh, 22px) 2px;
+        padding: 3px 2px;
       }
     }
 
@@ -855,19 +856,19 @@
       box-shadow: 0 6px 18px rgba(176, 38, 255, 0.35);
     }
 
-    /* FOTO DEL STAFF MAXIMIZADA */
+    /* FOTO DEL STAFF LLENANDO EL MÁXIMO ESPACIO */
     .staff-avatar-img {
-      width: clamp(65px, 14vh, 125px);
-      height: clamp(65px, 14vh, 125px);
-      max-width: 92%;
+      flex: 1;
+      min-height: 0;
+      max-height: 68%;
+      width: auto;
       aspect-ratio: 1 / 1;
       border-radius: clamp(6px, 1vh, 12px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
-      flex-shrink: 1;
       background: #08090d;
       box-shadow: 0 0 10px rgba(176, 38, 255, 0.35);
-      margin-bottom: clamp(1px, 0.3vh, 3px);
+      margin: 0;
       transition: transform 0.2s ease;
     }
 
@@ -880,6 +881,7 @@
       text-align: center;
       padding: 0 2px;
       flex-shrink: 0;
+      margin: 1px 0;
     }
 
     .staff-name {
@@ -893,49 +895,63 @@
       line-height: 1.15;
     }
 
-    /* PAÍS Y BADGE */
+    /* CONTENEDOR INFERIOR CENTRADO: PAÍS Y BADGE */
+    .staff-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 100%;
+      padding: 0 2px;
+      flex-shrink: 0;
+    }
+
     .staff-country-badge {
-      position: absolute;
-      bottom: clamp(2px, 0.4vh, 5px);
-      left: clamp(3px, 0.4vh, 6px);
+      position: static;
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 700;
       color: #e2e6f0;
       background: rgba(8, 9, 13, 0.9);
-      padding: 1px 5px;
-      border-radius: 5px;
+      padding: 1px 4px;
+      border-radius: 4px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       text-transform: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
     }
 
     .staff-country-badge img {
-      width: clamp(12px, 1.6vh, 16px);
-      height: clamp(8px, 1.1vh, 11px);
+      width: clamp(12px, 1.5vh, 15px);
+      height: clamp(8px, 1vh, 10px);
       border-radius: 2px;
       object-fit: cover;
+      flex-shrink: 0;
     }
 
     .staff-badge {
-      position: absolute;
-      bottom: clamp(2px, 0.4vh, 5px);
-      right: clamp(3px, 0.4vh, 6px);
+      position: static;
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 5px;
+      padding: 1px 5px;
+      border-radius: 4px;
       letter-spacing: 0.3px;
       white-space: nowrap;
       box-shadow: 0 0 8px rgba(0, 255, 102, 0.2);
       text-transform: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
     }
 
-    /* MODAL: MISMO TAMAÑO DE FOTO Y SEPARACIÓN ÓPTIMA */
+    /* MODAL */
     .dj-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1001,14 +1017,14 @@
 
     /* MISMO TAMAÑO EXACTO QUE EN LA TARJETA PRINCIPAL */
     .modal-dj-avatar {
-      width: clamp(65px, 14vh, 125px);
-      height: clamp(65px, 14vh, 125px);
+      height: clamp(80px, 15vh, 130px);
+      width: auto;
       aspect-ratio: 1 / 1;
       border-radius: clamp(6px, 1vh, 12px);
       object-fit: cover;
       border: 2px solid var(--neon-purple);
       box-shadow: 0 8px 24px var(--purple-glow);
-      margin-bottom: 2px;
+      margin: 0 auto;
       background: #08090d;
       flex-shrink: 0;
     }
@@ -1033,7 +1049,7 @@
       background: rgba(0, 255, 102, 0.18);
       border: 1px solid rgba(0, 255, 102, 0.65);
       color: var(--neon-green);
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 800;
       padding: 2px 8px;
       border-radius: 6px;
@@ -1047,7 +1063,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 700;
       color: #e2e6f0;
       margin-top: 3px;
@@ -1079,7 +1095,7 @@
     }
 
     .modal-info-title {
-      font-size: clamp(9px, 1.2vh, 11.5px);
+      font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 800;
       color: var(--neon-green);
       letter-spacing: 0.3px;
@@ -1385,11 +1401,13 @@
             <div class="staff-info">
               <div class="staff-name">${dj.name}</div>
             </div>
-            <div class="staff-country-badge">
-              ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
-              <span>${dj.country || "Int."}</span>
+            <div class="staff-bottom-row">
+              <div class="staff-country-badge">
+                ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}">` : ""}
+                <span>${dj.country || "Int."}</span>
+              </div>
+              <span class="staff-badge">${dj.badge || "Staff"}</span>
             </div>
-            <span class="staff-badge">${dj.badge || "Staff"}</span>
           `;
 
           li.addEventListener("click", () => openDjModal(dj));
@@ -1658,7 +1676,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // ECUALIZADOR (BASE CASTLE + PALETA NEXUS)
+      // ECUALIZADOR
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
