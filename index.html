@@ -228,6 +228,7 @@
       overflow: hidden;
     }
 
+    /* ANCHURA ORIGINAL DEL REPRODUCTOR */
     @media (min-width: 900px) {
       .workspace {
         display: grid;
@@ -469,26 +470,29 @@
       text-shadow: 0 0 10px var(--green-glow);
     }
 
+    /* PAÍS Y BANDERA: PAÍS PRIMERO, BANDERA DESPUÉS */
     .dj-country-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      font-size: clamp(10px, 1.25vh, 12px);
-      font-weight: 700;
+      gap: 8px;
+      font-size: clamp(14px, 1.8vh, 18px);
+      font-weight: 800;
       letter-spacing: 0.5px;
       color: #e2e6f0;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
-      min-height: 14px;
+      min-height: 20px;
+      margin-top: 1px;
     }
 
     .dj-flag-img {
-      width: clamp(14px, 1.7vh, 18px);
-      height: clamp(9px, 1.1vh, 12px);
-      border-radius: 2px;
+      width: clamp(22px, 2.7vh, 28px);
+      height: clamp(15px, 1.9vh, 19px);
+      border-radius: 3px;
       object-fit: cover;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
       display: inline-block;
+      flex-shrink: 0;
     }
 
     /* CONTENEDOR BOTONES: CENTRADO VERTICAL */
@@ -566,7 +570,7 @@
       }
     }
 
-    /* 3. PARTE INFERIOR: ECUALIZADOR Y BARRA DE VOLUMEN */
+    /* 3. PARTE INFERIOR: ECUALIZADOR Y BARRA DE VOLUMEN ESTILO CASTLE RADIO (MORADA) */
     .deck-bottom {
       width: 100%;
       display: flex;
@@ -939,10 +943,11 @@
       }
     }
 
+    /* BADGE DE PAÍS EN STAFF: TEXTO PRIMERO, BANDERA DESPUÉS */
     .staff-country-badge {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       font-size: clamp(10px, 1.25vh, 12px);
       font-weight: 700;
       color: #e2e6f0;
@@ -1087,10 +1092,11 @@
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
+    /* PAÍS EN MODAL: NOMBRE PRIMERO, BANDERA DESPUÉS */
     .modal-dj-country {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       font-size: clamp(9px, 1.2vh, 11px);
       font-weight: 700;
       color: #e2e6f0;
@@ -1226,9 +1232,10 @@
             <span id='display_dj'>NeXusDj</span>
           </div>
 
+          <!-- PAÍS PRIMERO, BANDERA DESPUÉS -->
           <div class="dj-country-row" id="djCountryRow">
-            <img src="https://flagcdn.com/24x18/es.png" class="dj-flag-img" id="djFlagImg" alt="Bandera">
             <span id="djCountryName">España</span>
+            <img src="https://flagcdn.com/24x18/es.png" class="dj-flag-img" id="djFlagImg" alt="Bandera">
           </div>
         </div>
 
@@ -1324,9 +1331,11 @@
       <img src="djs/nexusdj.webp" class="modal-dj-avatar" id="modalDjImg" alt="DJ">
       <div class="modal-dj-name" id="modalDjName">Nombre del DJ</div>
       <div class="modal-dj-role-pill" id="modalDjRole">Rol / Rango</div>
+      
+      <!-- PAÍS PRIMERO, BANDERA DESPUÉS -->
       <div class="modal-dj-country" id="modalDjCountry">
-        <img src="" id="modalDjFlag" alt="Bandera">
         <span id="modalDjCountryName">País</span>
+        <img src="" id="modalDjFlag" alt="Bandera">
       </div>
 
       <div class="modal-divider"></div>
@@ -1431,6 +1440,7 @@
           const flagUrl = dj.flag ? `https://flagcdn.com/24x18/${dj.flag.toLowerCase()}.png` : "";
           const imgSrc = dj.image ? `${dj.image}` : "djs/nexusdj.webp";
 
+          /* PAÍS PRIMERO, BANDERA DESPUÉS */
           li.innerHTML = `
             <img src="${imgSrc}" class="staff-avatar-img" alt="${dj.name}" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null; this.src='djs/nexusdj.webp';">
             <div class="staff-info">
@@ -1438,8 +1448,8 @@
             </div>
             <div class="staff-bottom-row">
               <div class="staff-country-badge">
-                ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}" loading="eager" decoding="async">` : ""}
                 <span>${dj.country || "Int."}</span>
+                ${flagUrl ? `<img src="${flagUrl}" alt="${dj.country}" loading="eager" decoding="async">` : ""}
               </div>
               <span class="staff-badge">${dj.badge || "Staff"}</span>
             </div>
