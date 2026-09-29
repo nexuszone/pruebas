@@ -594,6 +594,15 @@
       outline: none;
     }
 
+    /* ESTILO ILUMINADO ACTIVO PARA EL BOTÓN DE CHAT (FORZADO) */
+    .btn-deck-action.chat-active-glow,
+    #btnDeckChat.chat-active-glow {
+      background: rgba(0, 255, 102, 0.45) !important;
+      border-color: #00ff66 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 22px rgba(0, 255, 102, 0.95), 0 0 10px #00ff66 !important;
+    }
+
     .btn-deck-staff {
       display: flex;
     }
@@ -819,7 +828,7 @@
       border-radius: 14px;
       overflow: hidden;
       border: 1px solid var(--border-subtle);
-      background: #1e1e1e;
+      background: #08090d;
     }
 
     .view-content {
@@ -837,7 +846,8 @@
       height: 100%;
       border: none;
       display: block;
-      background: #1e1e1e;
+      background: #08090d;
+      filter: invert(0.92) hue-rotate(180deg) contrast(1.12) brightness(0.92);
     }
 
     .staff-container {
@@ -1103,7 +1113,7 @@
       text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
     }
 
-    /* DEDICATORIA/AUTOR A LA DERECHA: MORADO NEÓN */
+    /* DEDICATORIA/AUTOR A LA DERECHA (NEXUS ZONE): MORADO NEÓN */
     .poema-date-tag {
       color: var(--neon-purple);
       text-shadow: 0 0 10px var(--purple-glow), 0 0 18px rgba(176, 38, 255, 0.4);
@@ -1337,12 +1347,12 @@
     <section class="player-deck" id="playerDeck">
       <div class="player-bg-art" id="playerBgArt"></div>
 
-      <!-- 1. ARRIBA: CARÁTULA CUADRADA MAXIMIZADA -->
+      <!-- 1. CARÁTULA -->
       <div class="cover-wrapper">
         <img src="djs/nexusdj.webp" id="coverImg" class="cover-img" alt="Foto del DJ">
       </div>
       
-      <!-- 2. ZONA INTERMEDIA: INFORMACIÓN Y BOTONES CENTRADOS -->
+      <!-- 2. ZONA INTERMEDIA -->
       <div class="deck-mid-section">
         <div class="deck-info-container">
           <div class="title-marquee-container" id="marqueeContainer">
@@ -1358,7 +1368,6 @@
             <span id='display_dj'>NeXusDj</span>
           </div>
 
-          <!-- PAÍS PRIMERO, BANDERA DESPUÉS -->
           <div class="dj-country-row" id="djCountryRow">
             <span id="djCountryName">España</span>
             <img src="https://flagcdn.com/24x18/es.png" class="dj-flag-img" id="djFlagImg" alt="Bandera">
@@ -1373,6 +1382,7 @@
               </svg>
             </button>
 
+            <!-- BOTÓN DE CHAT -->
             <button class="btn-deck-action" id="btnDeckChat" title="Abrir Chat" aria-label="Abrir Chat">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
@@ -1380,7 +1390,6 @@
               <span>Chat</span>
             </button>
 
-            <!-- BOTÓN STAFF & + -->
             <button class="btn-deck-action btn-deck-staff" id="btnDeckStaff" title="Ver Staff y Poema" aria-label="Ver Staff y Poema">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
@@ -1391,7 +1400,7 @@
         </div>
       </div>
 
-      <!-- 3. ABAJO: ECUALIZADOR Y BARRA DE VOLUMEN ESTILO CASTLE RADIO (MORADA) -->
+      <!-- 3. PARTE INFERIOR -->
       <div class="deck-bottom">
         <div class="equalizer-canvas-container">
           <canvas id="equalizerCanvas"></canvas>
@@ -1433,7 +1442,8 @@
         <!-- Vista Chat -->
         <div class="view-content" id="viewChat">
           <iframe 
-            src="https://chat.chatzona.org/index.html?theme=night#channel=Nexus_Zone" 
+            id="chatIframe"
+            src="" 
             class="chat-iframe"
             title="ChatZona IRC"
             loading="lazy">
@@ -1457,9 +1467,7 @@
                 <img src="" id="poemaImgEl" class="poema-img" alt="Poema de la semana" loading="eager" decoding="async">
               </div>
               <div class="poema-footer-row">
-                <!-- TÍTULO EN VERDE NEÓN -->
                 <span class="poema-title-tag" id="poemaTitleEl">Poema de la semana</span>
-                <!-- DEDICATORIA/AUTOR A LA DERECHA (NEXUS ZONE) EN MORADO NEÓN -->
                 <span class="poema-date-tag" id="poemaDateEl">NeXus ZonE</span>
               </div>
             </div>
@@ -1477,7 +1485,6 @@
       <div class="modal-dj-name" id="modalDjName">Nombre del DJ</div>
       <div class="modal-dj-role-pill" id="modalDjRole">Rol / Rango</div>
       
-      <!-- PAÍS PRIMERO, BANDERA DESPUÉS -->
       <div class="modal-dj-country" id="modalDjCountry">
         <span id="modalDjCountryName">País</span>
         <img src="" id="modalDjFlag" alt="Bandera">
@@ -1523,6 +1530,7 @@
     const btnDeckChat = document.getElementById("btnDeckChat");
     const btnDeckStaff = document.getElementById("btnDeckStaff");
     const btnCloseDrawer = document.getElementById("btnCloseDrawer");
+    const chatIframe = document.getElementById("chatIframe");
     const sonicTitle = document.getElementById("sonic_title");
     const displayTitle = document.getElementById("display_title");
     const marqueeContainer = document.getElementById("marqueeContainer");
@@ -1573,36 +1581,13 @@
     let djMap = {};
     const coverMemoryCache = new Map();
 
-    // DETECTOR DE DISPOSITIVO TÁCTIL REAL PARA PANTALLA COMPLETA MÓVIL
-    function isRealMobileDevice() {
-      return (window.innerWidth < 900) && (navigator.maxTouchPoints > 0 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    }
-
-    function enterFullscreenMobile() {
-      if (isRealMobileDevice()) {
-        const elem = document.documentElement;
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen().catch(() => {});
-        } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        }
-      }
-    }
-
-    function exitFullscreenMobile() {
-      if (isRealMobileDevice()) {
-        if (document.fullscreenElement || document.webkitFullscreenElement) {
-          if (document.exitFullscreen) {
-            document.exitFullscreen().catch(() => {});
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          }
-        }
-      }
-    }
-
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. CARGA DEL STAFF
+      // 1. NICK AUTOMÁTICO NeXus_User (1 al 100) Y CONFIGURAR EL CHAT (COMPATIBLE CON GITHUB PAGES)
+      const randomNum = Math.floor(Math.random() * 100) + 1;
+      const generatedNick = `NeXus_User${randomNum}`;
+      chatIframe.src = `https://chat.chatzona.org/index.html?nick=${encodeURIComponent(generatedNick)}&channel=Nexus_Zone#nick=${encodeURIComponent(generatedNick)}&channel=Nexus_Zone`;
+
+      // 2. CARGA DEL STAFF
       function loadStaffMembers() {
         try {
           if (window.STAFF_MEMBERS && Array.isArray(window.STAFF_MEMBERS)) {
@@ -1691,7 +1676,7 @@
 
       loadStaffMembers();
 
-      // 2. CARGA DEL POEMA DE LA SEMANA
+      // 3. CARGA DEL POEMA DE LA SEMANA
       function loadPoemaSemana() {
         if (window.POEMA_SEMANA) {
           if (window.POEMA_SEMANA.image) {
@@ -1707,7 +1692,7 @@
       }
       loadPoemaSemana();
 
-      // 3. PESTAÑAS Y NAVEGACIÓN
+      // 4. PESTAÑAS Y NAVEGACIÓN (CONTROL DE ILUMINACIÓN DE CHAT)
       function activateTab(tabName) {
         tabChat.classList.remove("active");
         tabStaff.classList.remove("active");
@@ -1717,59 +1702,60 @@
         viewStaff.classList.remove("active");
         viewPoema.classList.remove("active");
 
-        btnDeckChat.classList.remove("active");
-
         if (tabName === "chat") {
           libraryPanel.classList.add("chat-mode-active");
           tabChat.style.display = "flex";
           tabChat.classList.add("active");
           viewChat.classList.add("active");
-          btnDeckChat.classList.add("active");
-          enterFullscreenMobile();
+          btnDeckChat.classList.add("chat-active-glow");
         } else if (tabName === "poema") {
           libraryPanel.classList.remove("chat-mode-active");
           tabChat.style.display = "none";
           tabPoema.classList.add("active");
           viewPoema.classList.add("active");
+          btnDeckChat.classList.remove("chat-active-glow");
           btnDeckChat.blur();
-          exitFullscreenMobile();
         } else {
           libraryPanel.classList.remove("chat-mode-active");
           tabChat.style.display = "none";
           tabStaff.classList.add("active");
           viewStaff.classList.add("active");
+          btnDeckChat.classList.remove("chat-active-glow");
           btnDeckChat.blur();
-          exitFullscreenMobile();
         }
       }
 
       btnDeckChat.addEventListener("click", () => {
         const isMobile = window.innerWidth < 900;
+        const isDrawerOpen = libraryPanel.classList.contains("drawer-open");
+        const isChatVisible = viewChat.classList.contains("active");
+
         if (isMobile) {
-          if (libraryPanel.classList.contains("drawer-open") && viewChat.classList.contains("active")) {
+          if (isDrawerOpen && isChatVisible) {
             libraryPanel.classList.remove("drawer-open");
             libraryPanel.classList.remove("chat-mode-active");
-            btnDeckChat.classList.remove("active");
+            btnDeckChat.classList.remove("chat-active-glow");
             btnDeckChat.blur();
-            exitFullscreenMobile();
           } else {
             activateTab("chat");
             libraryPanel.classList.add("drawer-open");
           }
         } else {
-          if (viewChat.classList.contains("active")) {
+          if (isDrawerOpen && isChatVisible) {
             activateTab("staff");
+            libraryPanel.classList.remove("drawer-open");
+            btnDeckChat.classList.remove("chat-active-glow");
           } else {
             activateTab("chat");
+            libraryPanel.classList.add("drawer-open");
+            btnDeckChat.classList.add("chat-active-glow");
           }
         }
       });
 
-      // El botón Staff & + abre el drawer permitiendo alternar entre Staff y Poema
       btnDeckStaff.addEventListener("click", () => {
-        btnDeckChat.classList.remove("active");
+        btnDeckChat.classList.remove("chat-active-glow");
         btnDeckChat.blur();
-        exitFullscreenMobile();
         libraryPanel.classList.remove("chat-mode-active");
         if (libraryPanel.classList.contains("drawer-open") && (viewStaff.classList.contains("active") || viewPoema.classList.contains("active"))) {
           libraryPanel.classList.remove("drawer-open");
@@ -1782,17 +1768,22 @@
       btnCloseDrawer.addEventListener("click", () => {
         libraryPanel.classList.remove("drawer-open");
         libraryPanel.classList.remove("chat-mode-active");
-        btnDeckChat.classList.remove("active");
+        btnDeckChat.classList.remove("chat-active-glow");
         btnDeckChat.blur();
         activateTab("staff");
-        exitFullscreenMobile();
       });
 
       tabChat.addEventListener("click", () => activateTab("chat"));
-      tabStaff.addEventListener("click", () => activateTab("staff"));
-      tabPoema.addEventListener("click", () => activateTab("poema"));
+      tabStaff.addEventListener("click", () => {
+        activateTab("staff");
+        btnDeckChat.classList.remove("chat-active-glow");
+      });
+      tabPoema.addEventListener("click", () => {
+        activateTab("poema");
+        btnDeckChat.classList.remove("chat-active-glow");
+      });
 
-      // 4. SOPORTE DE DESLIZAMIENTO TÁCTIL (SWIPE GESTURES)
+      // 5. SOPORTE DE DESLIZAMIENTO TÁCTIL (SWIPE GESTURES)
       let touchStartX = 0;
       let touchStartY = 0;
 
@@ -1807,16 +1798,13 @@
         const diffX = touchEndX - touchStartX;
         const diffY = touchEndY - touchStartY;
 
-        // Solo permitir deslizamiento si no estamos dentro del chat
         if (!viewChat.classList.contains("active")) {
           if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
             if (diffX > 0) {
-              // Deslizar a la derecha: Ir a Poema
               if (viewStaff.classList.contains("active")) {
                 activateTab("poema");
               }
             } else {
-              // Deslizar a la izquierda: Regresar a Staff
               if (viewPoema.classList.contains("active")) {
                 activateTab("staff");
               }
@@ -1825,7 +1813,7 @@
         }
       }, { passive: true });
 
-      // 5. MAPA DE DJS Y METADATOS
+      // 6. MAPA DE DJS Y METADATOS
       async function loadDjMap() {
         try {
           const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1986,7 +1974,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
-      // 6. ECUALIZADOR VISUAL
+      // 7. ECUALIZADOR VISUAL
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
@@ -2162,7 +2150,7 @@
         }
       });
 
-      // 7. CONTROL DE VOLUMEN
+      // 8. CONTROL DE VOLUMEN
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
@@ -2185,7 +2173,7 @@
 
       updateVolumeVisual(parseFloat(volumeControl.value));
 
-      // 8. MARQUESINA DE TÍTULO
+      // 9. MARQUESINA DE TÍTULO
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
         displayTitle.style.transform = "translateX(0)";

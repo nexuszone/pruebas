@@ -6,7 +6,7 @@ window.STAFF_MEMBERS = [
     "badge": "Fundador",
     "country": "España",
     "flag": "es",
-    "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
+    "schedule": "Siempre que puede",
     "description": "Sesiones de música electrónica de los 2000s, dance, techno y eurodance."
   },
   {
@@ -16,8 +16,8 @@ window.STAFF_MEMBERS = [
     "badge": "Admin",
     "country": "El Salvador",
     "flag": "sv",
-    "schedule": "Siempre que puede xD",
-    "description": "Música variada sobre todo sandungueo del sucio."
+    "schedule": "Siempre que puede",
+    "description": "Música variada. Covers, remix y más"
   },
   {
     "name": "YaHiRMaNiaCa",
@@ -26,7 +26,7 @@ window.STAFF_MEMBERS = [
     "badge": "Admin",
     "country": "México",
     "flag": "mx",
-    "schedule": "Miércoles y Domingos 20:00 (Hora México)",
+    "schedule": "Fines de semana durante el dia",
     "description": "Especialista en música romántica, banda, baladas entre otros."
   },
   {
@@ -36,7 +36,7 @@ window.STAFF_MEMBERS = [
     "badge": "Admin",
     "country": "Bolivia",
     "flag": "bo",
-    "schedule": "Jueves 19:00 a 22:00 (Hora Bolivia)",
+    "schedule": "Siempre que puede por las tardes/noches",
     "description": "Programación variada con algunos especiales de bandas y grupos."
   },
   {
@@ -46,7 +46,7 @@ window.STAFF_MEMBERS = [
     "badge": "Dj",
     "country": "Colombia",
     "flag": "co",
-    "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
+    "schedule": "Siempre que puede",
     "description": "Sesiones de música Rap y ritmos no tan sonados."
   },
   {
@@ -56,7 +56,7 @@ window.STAFF_MEMBERS = [
     "badge": "Dj",
     "country": "El Salvador",
     "flag": "sv",
-    "schedule": "Viernes y Sábados 22:00 a 02:00 (Hora España)",
+    "schedule": "Siempre que puede",
     "description": "Programa generos Urbanos y música de actualidad"
   },
   {
