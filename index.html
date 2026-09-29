@@ -20,8 +20,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Archivo externo de Staff -->
+  <!-- Archivos externos de configuración -->
   <script src="./staff.js?v=1.1.65"></script>
+  <script src="./poema.js?v=1.0.4"></script>
 
   <style>
     @property --border-angle {
@@ -313,7 +314,7 @@
       transition: opacity 0.5s ease;
     }
 
-    /* 1. CARÁTULA: MÁXIMA ESCALA EN MÓVIL Y PC SIN DESBORDAR */
+    /* 1. CARÁTULA */
     .cover-wrapper {
       width: min(90vw, calc(100dvh - 310px));
       max-width: 90vw;
@@ -437,6 +438,7 @@
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
     }
 
+    /* TÍTULO DE CANCIÓN */
     #display_title {
       font-size: clamp(17px, 2.3vh, 23px);
       font-weight: 900;
@@ -502,6 +504,7 @@
       text-shadow: 0 0 10px var(--green-glow);
     }
 
+    /* PAÍS Y BANDERA */
     .dj-country-row {
       display: flex;
       align-items: center;
@@ -541,8 +544,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
+      gap: clamp(10px, 2vw, 16px);
       width: 100%;
+      flex-wrap: nowrap;
     }
 
     .btn-play-hero {
@@ -575,12 +579,12 @@
       border: 1px solid rgba(0, 255, 102, 0.45);
       color: var(--neon-green);
       padding: 0 14px;
-      height: clamp(32px, 4vh, 38px);
+      height: clamp(34px, 4.2vh, 40px);
       border-radius: 22px;
       font-family: inherit;
       font-size: clamp(10.5px, 1.3vh, 12px);
       font-weight: 800;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -761,6 +765,13 @@
       flex-shrink: 0;
     }
 
+    /* OCULTAR LA BARRA DE PESTAÑAS EN MÓVIL SI ESTÁ ACTIVO EL CHAT */
+    @media (max-width: 899px) {
+      .library-panel.chat-mode-active .panel-header {
+        display: none !important;
+      }
+    }
+
     .tabs-group {
       display: flex;
       background: var(--surface-2);
@@ -769,7 +780,7 @@
       padding: 2px;
       gap: 4px;
       width: 100%;
-      max-width: 220px;
+      max-width: 320px;
     }
 
     .tab-item {
@@ -777,18 +788,19 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      padding: clamp(3px, 0.6vh, 6px) 10px;
+      padding: clamp(3px, 0.6vh, 6px) 8px;
       font-family: inherit;
       font-weight: 700;
       font-size: clamp(10px, 1.25vh, 12px);
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
       border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     #tabChat { display: none; }
@@ -973,6 +985,7 @@
       }
     }
 
+    /* BADGE DE PAÍS EN STAFF */
     .staff-country-badge {
       display: inline-flex;
       align-items: center;
@@ -1014,6 +1027,87 @@
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 48%;
+    }
+
+    /* VISTA MAXIMIZADA PARA EL POEMA */
+    .poema-container {
+      width: 100%;
+      height: 100%;
+      background: var(--surface-1);
+      padding: clamp(6px, 1vh, 12px);
+      box-sizing: border-box;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .poema-card-wrapper {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: clamp(12px, 1.8vh, 18px);
+      padding: clamp(6px, 1vh, 10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      box-sizing: border-box;
+    }
+
+    .poema-img-frame {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1.5px solid var(--neon-purple);
+      box-shadow: 0 0 18px rgba(176, 38, 255, 0.35);
+      background: #08090d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .poema-img {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      border-radius: inherit;
+    }
+
+    .poema-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 2px 6px;
+      font-size: clamp(11px, 1.3vh, 13px);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* TÍTULO A LA IZQUIERDA: VERDE NEÓN */
+    .poema-title-tag {
+      color: var(--neon-green);
+      text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+    }
+
+    /* DEDICATORIA/AUTOR A LA DERECHA: MORADO NEÓN */
+    .poema-date-tag {
+      color: var(--neon-purple);
+      text-shadow: 0 0 10px var(--purple-glow), 0 0 18px rgba(176, 38, 255, 0.4);
+      letter-spacing: 0.3px;
     }
 
     .dj-modal-overlay {
@@ -1121,6 +1215,7 @@
       box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
     }
 
+    /* PAÍS EN MODAL */
     .modal-dj-country {
       display: flex;
       align-items: center;
@@ -1279,17 +1374,18 @@
             </button>
 
             <button class="btn-deck-action" id="btnDeckChat" title="Abrir Chat" aria-label="Abrir Chat">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
               </svg>
               <span>Chat</span>
             </button>
 
-            <button class="btn-deck-action btn-deck-staff" id="btnDeckStaff" title="Ver Staff" aria-label="Ver Staff">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <!-- BOTÓN STAFF & + -->
+            <button class="btn-deck-action btn-deck-staff" id="btnDeckStaff" title="Ver Staff y Poema" aria-label="Ver Staff y Poema">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
-              <span>Staff</span>
+              <span>Staff & +</span>
             </button>
           </div>
         </div>
@@ -1329,6 +1425,7 @@
         <div class="tabs-group">
           <button class="tab-item" id="tabChat">Chat</button>
           <button class="tab-item active" id="tabStaff">Staff</button>
+          <button class="tab-item" id="tabPoema">Poema</button>
         </div>
       </div>
 
@@ -1351,11 +1448,28 @@
             </ul>
           </div>
         </div>
+
+        <!-- Vista Poema de la semana -->
+        <div class="view-content" id="viewPoema">
+          <div class="poema-container">
+            <div class="poema-card-wrapper">
+              <div class="poema-img-frame">
+                <img src="" id="poemaImgEl" class="poema-img" alt="Poema de la semana" loading="eager" decoding="async">
+              </div>
+              <div class="poema-footer-row">
+                <!-- TÍTULO EN VERDE NEÓN -->
+                <span class="poema-title-tag" id="poemaTitleEl">Poema de la semana</span>
+                <!-- DEDICATORIA/AUTOR A LA DERECHA (NEXUS ZONE) EN MORADO NEÓN -->
+                <span class="poema-date-tag" id="poemaDateEl">NeXus ZonE</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- MODAL AMPLIADO -->
+  <!-- MODAL AMPLIADO DJ -->
   <div class="dj-modal-overlay" id="djModalOverlay">
     <div class="dj-modal-card">
       <button class="btn-close-modal" id="btn-close-modal" title="Cerrar">✕</button>
@@ -1427,8 +1541,14 @@
 
     const tabChat = document.getElementById("tabChat");
     const tabStaff = document.getElementById("tabStaff");
+    const tabPoema = document.getElementById("tabPoema");
     const viewChat = document.getElementById("viewChat");
     const viewStaff = document.getElementById("viewStaff");
+    const viewPoema = document.getElementById("viewPoema");
+
+    const poemaImgEl = document.getElementById("poemaImgEl");
+    const poemaTitleEl = document.getElementById("poemaTitleEl");
+    const poemaDateEl = document.getElementById("poemaDateEl");
 
     const staffListGrid = document.getElementById("staffListGrid");
     const djModalOverlay = document.getElementById("djModalOverlay");
@@ -1453,7 +1573,36 @@
     let djMap = {};
     const coverMemoryCache = new Map();
 
+    // DETECTOR DE DISPOSITIVO TÁCTIL REAL PARA PANTALLA COMPLETA MÓVIL
+    function isRealMobileDevice() {
+      return (window.innerWidth < 900) && (navigator.maxTouchPoints > 0 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    }
+
+    function enterFullscreenMobile() {
+      if (isRealMobileDevice()) {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen().catch(() => {});
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      }
+    }
+
+    function exitFullscreenMobile() {
+      if (isRealMobileDevice()) {
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        }
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
+      // 1. CARGA DEL STAFF
       function loadStaffMembers() {
         try {
           if (window.STAFF_MEMBERS && Array.isArray(window.STAFF_MEMBERS)) {
@@ -1542,22 +1691,55 @@
 
       loadStaffMembers();
 
+      // 2. CARGA DEL POEMA DE LA SEMANA
+      function loadPoemaSemana() {
+        if (window.POEMA_SEMANA) {
+          if (window.POEMA_SEMANA.image) {
+            poemaImgEl.src = window.POEMA_SEMANA.image;
+          }
+          if (window.POEMA_SEMANA.author) {
+            poemaTitleEl.textContent = window.POEMA_SEMANA.author;
+          }
+          if (window.POEMA_SEMANA.date) {
+            poemaDateEl.textContent = window.POEMA_SEMANA.date;
+          }
+        }
+      }
+      loadPoemaSemana();
+
+      // 3. PESTAÑAS Y NAVEGACIÓN
       function activateTab(tabName) {
+        tabChat.classList.remove("active");
+        tabStaff.classList.remove("active");
+        tabPoema.classList.remove("active");
+
+        viewChat.classList.remove("active");
+        viewStaff.classList.remove("active");
+        viewPoema.classList.remove("active");
+
+        btnDeckChat.classList.remove("active");
+
         if (tabName === "chat") {
+          libraryPanel.classList.add("chat-mode-active");
           tabChat.style.display = "flex";
           tabChat.classList.add("active");
-          tabStaff.classList.remove("active");
           viewChat.classList.add("active");
-          viewStaff.classList.remove("active");
           btnDeckChat.classList.add("active");
-        } else {
+          enterFullscreenMobile();
+        } else if (tabName === "poema") {
+          libraryPanel.classList.remove("chat-mode-active");
           tabChat.style.display = "none";
-          tabChat.classList.remove("active");
+          tabPoema.classList.add("active");
+          viewPoema.classList.add("active");
+          btnDeckChat.blur();
+          exitFullscreenMobile();
+        } else {
+          libraryPanel.classList.remove("chat-mode-active");
+          tabChat.style.display = "none";
           tabStaff.classList.add("active");
           viewStaff.classList.add("active");
-          viewChat.classList.remove("active");
-          btnDeckChat.classList.remove("active");
           btnDeckChat.blur();
+          exitFullscreenMobile();
         }
       }
 
@@ -1566,8 +1748,10 @@
         if (isMobile) {
           if (libraryPanel.classList.contains("drawer-open") && viewChat.classList.contains("active")) {
             libraryPanel.classList.remove("drawer-open");
+            libraryPanel.classList.remove("chat-mode-active");
             btnDeckChat.classList.remove("active");
             btnDeckChat.blur();
+            exitFullscreenMobile();
           } else {
             activateTab("chat");
             libraryPanel.classList.add("drawer-open");
@@ -1581,10 +1765,13 @@
         }
       });
 
+      // El botón Staff & + abre el drawer permitiendo alternar entre Staff y Poema
       btnDeckStaff.addEventListener("click", () => {
         btnDeckChat.classList.remove("active");
         btnDeckChat.blur();
-        if (libraryPanel.classList.contains("drawer-open") && viewStaff.classList.contains("active")) {
+        exitFullscreenMobile();
+        libraryPanel.classList.remove("chat-mode-active");
+        if (libraryPanel.classList.contains("drawer-open") && (viewStaff.classList.contains("active") || viewPoema.classList.contains("active"))) {
           libraryPanel.classList.remove("drawer-open");
         } else {
           activateTab("staff");
@@ -1594,14 +1781,51 @@
 
       btnCloseDrawer.addEventListener("click", () => {
         libraryPanel.classList.remove("drawer-open");
+        libraryPanel.classList.remove("chat-mode-active");
         btnDeckChat.classList.remove("active");
         btnDeckChat.blur();
         activateTab("staff");
+        exitFullscreenMobile();
       });
 
       tabChat.addEventListener("click", () => activateTab("chat"));
       tabStaff.addEventListener("click", () => activateTab("staff"));
+      tabPoema.addEventListener("click", () => activateTab("poema"));
 
+      // 4. SOPORTE DE DESLIZAMIENTO TÁCTIL (SWIPE GESTURES)
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      libraryPanel.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      libraryPanel.addEventListener("touchend", (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+
+        // Solo permitir deslizamiento si no estamos dentro del chat
+        if (!viewChat.classList.contains("active")) {
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+              // Deslizar a la derecha: Ir a Poema
+              if (viewStaff.classList.contains("active")) {
+                activateTab("poema");
+              }
+            } else {
+              // Deslizar a la izquierda: Regresar a Staff
+              if (viewPoema.classList.contains("active")) {
+                activateTab("staff");
+              }
+            }
+          }
+        }
+      }, { passive: true });
+
+      // 5. MAPA DE DJS Y METADATOS
       async function loadDjMap() {
         try {
           const res = await fetch("djs.json?nocache=" + Date.now());
@@ -1762,6 +1986,7 @@
       setInterval(syncMetadataAPI, 8000);
       syncMetadataAPI();
 
+      // 6. ECUALIZADOR VISUAL
       const canvas = document.getElementById("equalizerCanvas");
       const ctx = canvas ? canvas.getContext("2d", { alpha: true }) : null;
 
@@ -1937,6 +2162,7 @@
         }
       });
 
+      // 7. CONTROL DE VOLUMEN
       function updateVolumeVisual(val) {
         audio.volume = val;
         const pct = Math.round(val * 100);
@@ -1959,6 +2185,7 @@
 
       updateVolumeVisual(parseFloat(volumeControl.value));
 
+      // 8. MARQUESINA DE TÍTULO
       function recalculateMarquee() {
         displayTitle.classList.remove("marquee-active");
         displayTitle.style.transform = "translateX(0)";
